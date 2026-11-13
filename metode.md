@@ -29,3 +29,10 @@ Der samme oppgave er gitt både på 4N- og 4D-eksamen, står det «Samme oppgave
 - TMA4215 høst 2024 (Bergmann) er ikke publisert.
 - Noen gamle TMA4122/4123-lenker er døde.
 - F12 (minste kvadrater) har ingen TMA4432-øving, og F2 (tensorer) har nesten ingen gamle eksamensoppgaver.
+
+## Hvordan PDF-ene er laget
+
+- Hver oppgave er klippet ut av original-PDF-en (vektorgrafikk, ikke skjermbilde), med løpende topp- og bunntekst fjernet. Hver PDF har lenke til originalen øverst.
+- Noen oppgaver kommer fra skannede eksamener uten tekstlag. Der er hele sidene med oppgaven tatt med.
+- Noen løsningsforslag er håndskrevne og skannet. Der er oppgaven funnet med tekstgjenkjenning, og sidene der den står (eller trolig står) er tatt med. Står det «hele løsningsforslaget» i PDF-en, fant ikke tekstgjenkjenningen oppgaven, og hele LF-et er tatt med.
+- En oppgave som hører til flere forelesninger, ligger i mappen til hver av dem.
