@@ -4,12 +4,13 @@
 
 **Ikke pensum (finnes i gamle eksamener):** Polar dekomposisjon, normale operatorer, LU.
 
-29 oppgaver: 25 helt i pensum, 4 delvis og 0 grensetilfeller.
+35 oppgaver: 29 helt i pensum, 4 delvis og 2 grensetilfeller.
 
 Hver oppgave er to PDF-er ved siden av hverandre: `…-oppgave.pdf` og løsningsforslaget `…-svar.pdf`. Filnavnet sier nummer, emne, år, semester og oppgavenummer, for eksempel `006-TMA4145-2026-aug-oppg1-oppgave.pdf`. Undermappene kommer i anbefalt rekkefølge:
 
 - [`1-TMA4432-ovinger-og-proveeksamen/`](1-TMA4432-ovinger-og-proveeksamen/): Fra TMA4432 (øvinger og prøveeksamen) (5)
 - [`3-hele-oppgaven-i-pensum/`](3-hele-oppgaven-i-pensum/): Andre eksamener: hele oppgaven er pensum (20)
+- [`3b-ovingsark-andre-universiteter/`](3b-ovingsark-andre-universiteter/): Øvingsark fra andre universiteter (ikke eksamen, med løsningsforslag) (6)
 - [`4-delvis-i-pensum/`](4-delvis-i-pensum/): Andre eksamener: bare deler er pensum (4)
 
 ## Fra TMA4432 (øvinger og prøveeksamen)
@@ -47,11 +48,22 @@ Hver oppgave er to PDF-er ved siden av hverandre: `…-oppgave.pdf` og løsnings
 | 24 | [TMA4145 Lineære metoder høst 2006, oppg. 2](3-hele-oppgaven-i-pensum/024-TMA4145-2006-host-oppg2-oppgave.pdf) | [LF](3-hele-oppgaven-i-pensum/024-TMA4145-2006-host-oppg2-svar.pdf) | Ja | SVD, pseudoinvers, minste kvadrater | F12 |  |
 | 25 | [TMA4145 Lineære metoder høst 2004, oppg. 3](3-hele-oppgaven-i-pensum/025-TMA4145-2004-host-oppg3-oppgave.pdf) | [LF](3-hele-oppgaven-i-pensum/025-TMA4145-2004-host-oppg3-svar.pdf) | Ja | SVD, minste kvadraters løsning | F12 |  |
 
+## Øvingsark fra andre universiteter (ikke eksamen, med løsningsforslag)
+
+| Nr. | Oppgave | LF | Status | Tema | Også i | Merknad |
+|---|---|---|---|---|---|---|
+| 26 | [MPI Informatik, Tensors in Data Analysis 2017, ark 2, oppg. 2](3b-ovingsark-andre-universiteter/026-MPI-2017-ark2-oppg2-oppgave.pdf) | [LF](3b-ovingsark-andre-universiteter/026-MPI-2017-ark2-oppg2-svar.pdf) | Ja | (A⊙B)ᵀ(A⊙B) = AᵀA ∗ BᵀB og pseudoinversen i ALS | F2 | Øvingsark (ikke eksamen) med offisielt løsningsforslag. Notasjon: ∘ er ytre produkt (⊚ i forelesningen), ∗ er Hadamard-produkt. |
+| 27 | [EPFL, Low-rank approximation techniques 2018, øving 1, oppg. 3](3b-ovingsark-andre-universiteter/027-EPFL-2018-oving1-oppg3-oppgave.pdf) | [LF](3b-ovingsark-andre-universiteter/027-EPFL-2018-oving1-oppg3-svar.pdf) | Ja | Trace(BᵀA) = vec(B)ᵀ vec(A) | F2 | Øvingsark (ikke eksamen). Notasjon: U ∘µ X er µ-modusproduktet, X ×µ U i forelesningen. LF er håndskrevet. |
+| 28 | [EPFL, Low-rank approximation techniques 2018, øving 1, oppg. 6](3b-ovingsark-andre-universiteter/028-EPFL-2018-oving1-oppg6-oppgave.pdf) | [LF](3b-ovingsark-andre-universiteter/028-EPFL-2018-oving1-oppg6-svar.pdf) | Ja | Rangen til Hadamard-produktet (programmering og bevis) | F2 | Øvingsark (ikke eksamen). Notasjon: U ∘µ X er µ-modusproduktet, X ×µ U i forelesningen. LF er håndskrevet. |
+| 29 | [EPFL, Low-rank approximation techniques 2018, øving 6, oppg. 6](3b-ovingsark-andre-universiteter/029-EPFL-2018-oving6-oppg6-oppgave.pdf) | [LF](3b-ovingsark-andre-universiteter/029-EPFL-2018-oving6-oppg6-svar.pdf) | Ja | SVD skrevet som modusprodukter, Σ ×1 U ×2 V | F2 | Øvingsark (ikke eksamen). Notasjon: U ∘µ X er µ-modusproduktet, X ×µ U i forelesningen. LF er håndskrevet. |
+| 30 | [EPFL, Low-rank approximation techniques 2018, øving 6, oppg. 1](3b-ovingsark-andre-universiteter/030-EPFL-2018-oving6-oppg1-oppgave.pdf) | [LF](3b-ovingsark-andre-universiteter/030-EPFL-2018-oving6-oppg1-svar.pdf) | Grense | QR og SVD av A⊗B | F2 | Krever regneregelen (A⊗B)(C⊗D) = AC⊗BD, som ikke er gjennomgått. Øvingsark (ikke eksamen). Notasjon: U ∘µ X er µ-modusproduktet, X ×µ U i forelesningen. LF er håndskrevet. |
+| 31 | [EPFL, Low-rank approximation techniques 2018, øving 6, oppg. 4](3b-ovingsark-andre-universiteter/031-EPFL-2018-oving6-oppg4-oppgave.pdf) | [LF](3b-ovingsark-andre-universiteter/031-EPFL-2018-oving6-oppg4-svar.pdf) | Grense | Beste approksimasjon med sum av Kronecker-produkter | F2 | Van Loans metode er ikke pensum. Øvingsark (ikke eksamen). Notasjon: U ∘µ X er µ-modusproduktet, X ×µ U i forelesningen. LF er håndskrevet. |
+
 ## Andre eksamener: bare deler er pensum
 
 | Nr. | Oppgave | LF | Status | Tema | Også i | Merknad |
 |---|---|---|---|---|---|---|
-| 26 | [TMA4145 Lineære metoder høst 2021, oppg. 8](4-delvis-i-pensum/026-TMA4145-2021-host-oppg8-oppgave.pdf) | [LF](4-delvis-i-pensum/026-TMA4145-2021-host-oppg8-svar.pdf) | Delvis | SVD av 2×2-matrise |  | Polar dekomposisjon er ikke pensum |
-| 27 | [TMA4145 Lineære metoder høst 2020, oppg. 6](4-delvis-i-pensum/027-TMA4145-2020-host-oppg6-oppgave.pdf) | [LF](4-delvis-i-pensum/027-TMA4145-2020-host-oppg6-svar.pdf) | Delvis | Singulærverdier, operatornorm, SVD |  | C) polar dekomposisjon og «normal» er ikke pensum |
-| 28 | [TMA4145 Lineære metoder høst 2005, oppg. 2](4-delvis-i-pensum/028-TMA4145-2005-host-oppg2-oppgave.pdf) | [LF](4-delvis-i-pensum/028-TMA4145-2005-host-oppg2-svar.pdf) | Delvis | B) minste kvadrater, c) SVD | F12 | A) LU-faktorisering er ikke pensum |
-| 29 | [TMA4145 Lineære metoder høst 2002, oppg. 1](4-delvis-i-pensum/029-TMA4145-2002-host-oppg1-oppgave.pdf) | [LF](4-delvis-i-pensum/029-TMA4145-2002-host-oppg1-svar.pdf) | Delvis | C) SVD, d) minste kvadrater | F12 | A) ortogonal diagonalisering (forkunnskap), b) ODE er ikke pensum |
+| 32 | [TMA4145 Lineære metoder høst 2021, oppg. 8](4-delvis-i-pensum/032-TMA4145-2021-host-oppg8-oppgave.pdf) | [LF](4-delvis-i-pensum/032-TMA4145-2021-host-oppg8-svar.pdf) | Delvis | SVD av 2×2-matrise |  | Polar dekomposisjon er ikke pensum |
+| 33 | [TMA4145 Lineære metoder høst 2020, oppg. 6](4-delvis-i-pensum/033-TMA4145-2020-host-oppg6-oppgave.pdf) | [LF](4-delvis-i-pensum/033-TMA4145-2020-host-oppg6-svar.pdf) | Delvis | Singulærverdier, operatornorm, SVD |  | C) polar dekomposisjon og «normal» er ikke pensum |
+| 34 | [TMA4145 Lineære metoder høst 2005, oppg. 2](4-delvis-i-pensum/034-TMA4145-2005-host-oppg2-oppgave.pdf) | [LF](4-delvis-i-pensum/034-TMA4145-2005-host-oppg2-svar.pdf) | Delvis | B) minste kvadrater, c) SVD | F12 | A) LU-faktorisering er ikke pensum |
+| 35 | [TMA4145 Lineære metoder høst 2002, oppg. 1](4-delvis-i-pensum/035-TMA4145-2002-host-oppg1-oppgave.pdf) | [LF](4-delvis-i-pensum/035-TMA4145-2002-host-oppg1-svar.pdf) | Delvis | C) SVD, d) minste kvadrater | F12 | A) ortogonal diagonalisering (forkunnskap), b) ODE er ikke pensum |

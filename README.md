@@ -1,8 +1,8 @@
 # Matte 4C (TMA4432) – oppgavebank til eksamen
 
-Oppgaver fra gamle eksamener på wiki.math.ntnu.no, sortert etter forelesningene i TMA4432 Matematikk 4C, høst 2026 (eksamen 24.11.2026). Hver oppgave er vurdert mot pensum og klippet ut av original-PDF-en.
+Oppgaver fra gamle eksamener på wiki.math.ntnu.no, sortert etter forelesningene i TMA4432 Matematikk 4C, høst 2026 (eksamen 24.11.2026). Hver oppgave er vurdert mot pensum og klippet ut av original-PDF-en. Tensorer (F2) finnes ikke i gamle NTNU-eksamener, så der er det i tillegg hentet oppgaver og øvingsark med løsningsforslag fra andre universiteter.
 
-Totalt 882 oppgaver: 637 **Ja** (hele oppgaven er pensum), 147 **Delvis** (bare noen deloppgaver) og 98 **Grense** (bare repetert eller like utenfor).
+Totalt 914 oppgaver: 660 **Ja** (hele oppgaven er pensum), 151 **Delvis** (bare noen deloppgaver) og 103 **Grense** (bare repetert eller like utenfor).
 
 ## Slik er det organisert
 
@@ -15,6 +15,7 @@ oppgavesett/
       011-TMA4125-2025-var-oppg4-oppgave.pdf    oppgaven
       011-TMA4125-2025-var-oppg4-svar.pdf       løsningsforslaget
     3-hele-oppgaven-i-pensum/
+    3b-ovingsark-andre-universiteter/           bare i F1 og F2
     4-delvis-i-pensum/
     5-grensetilfeller/
 ```
@@ -27,8 +28,8 @@ oppgavesett/
 
 | Forelesning | Oppgaver | Ja | Delvis | Grense |
 |---|---|---|---|---|
-| [F1 SVD og Moore–Penrose](oppgavesett/F01-svd-og-moore-penrose/) | 29 | 25 | 4 | 0 |
-| [F2 Tensorer](oppgavesett/F02-tensorer/) | 3 | 3 | 0 | 0 |
+| [F1 SVD og Moore–Penrose](oppgavesett/F01-svd-og-moore-penrose/) | 35 | 29 | 4 | 2 |
+| [F2 Tensorer](oppgavesett/F02-tensorer/) | 35 | 26 | 4 | 5 |
 | [F3 Kurver og flater](oppgavesett/F03-kurver-og-flater/) | 113 | 78 | 26 | 9 |
 | [F4 Jacobi og flervariabel Newton](oppgavesett/F04-jacobi-og-newton/) | 92 | 79 | 11 | 2 |
 | [F5 Kjerneregel, gradient og optimering](oppgavesett/F05-gradient-og-optimering/) | 216 | 121 | 87 | 8 |
