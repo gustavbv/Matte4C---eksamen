@@ -2,7 +2,7 @@
 
 Oppgaver fra gamle eksamener på wiki.math.ntnu.no, sortert etter forelesningene i TMA4432 Matematikk 4C, høst 2026 (eksamen 24.11.2026). Hver oppgave er vurdert mot pensum og klippet ut av original-PDF-en. Tensorer (F2) finnes ikke i gamle NTNU-eksamener, så der er det i tillegg hentet oppgaver og øvingsark med løsningsforslag fra andre universiteter.
 
-Totalt 914 oppgaver: 660 **Ja** (hele oppgaven er pensum), 151 **Delvis** (bare noen deloppgaver) og 103 **Grense** (bare repetert eller like utenfor).
+Totalt 938 oppgaver: 672 **Ja** (hele oppgaven er pensum), 155 **Delvis** (bare noen deloppgaver) og 111 **Grense** (bare repetert eller like utenfor).
 
 ## Slik er det organisert
 
@@ -28,8 +28,8 @@ oppgavesett/
 
 | Forelesning | Oppgaver | Ja | Delvis | Grense |
 |---|---|---|---|---|
-| [F1 SVD og Moore–Penrose](oppgavesett/F01-svd-og-moore-penrose/) | 35 | 29 | 4 | 2 |
-| [F2 Tensorer](oppgavesett/F02-tensorer/) | 35 | 26 | 4 | 5 |
+| [F1 SVD og Moore–Penrose](oppgavesett/F01-svd-og-moore-penrose/) | 55 | 41 | 8 | 6 |
+| [F2 Tensorer](oppgavesett/F02-tensorer/) | 36 | 26 | 4 | 6 |
 | [F3 Kurver og flater](oppgavesett/F03-kurver-og-flater/) | 113 | 78 | 26 | 9 |
 | [F4 Jacobi og flervariabel Newton](oppgavesett/F04-jacobi-og-newton/) | 92 | 79 | 11 | 2 |
 | [F5 Kjerneregel, gradient og optimering](oppgavesett/F05-gradient-og-optimering/) | 216 | 121 | 87 | 8 |
@@ -39,7 +39,7 @@ oppgavesett/
 | [F9 PDE og bølgelikningen](oppgavesett/F09-pde-og-bolgelikning/) | 103 | 102 | 1 | 0 |
 | [F10 Varmelikning, d'Alembert og differansemetoder](oppgavesett/F10-varmelikning-og-differanser/) | 178 | 139 | 35 | 4 |
 | [F11 Splines og Bézier](oppgavesett/F11-splines-og-bezier/) | 87 | 19 | 2 | 66 |
-| [F12 Minste kvadrater](oppgavesett/F12-minste-kvadrater/) | 60 | 48 | 4 | 8 |
+| [F12 Minste kvadrater](oppgavesett/F12-minste-kvadrater/) | 65 | 50 | 4 | 11 |
 
 Se også [alle eksamenssett](eksamenssett.md) og [metode og pensumregler](metode.md). Hele tabellen ligger i [data/oppgaver.csv](data/oppgaver.csv) og [data/oppgavebank-tma4432.xlsx](data/oppgavebank-tma4432.xlsx).
 

@@ -4,7 +4,7 @@
 
 **Ikke pensum (finnes i gamle eksamener):** Regneregler for Kronecker-produktet (blandet produkt, egenverdier), entydighet av CP (Kruskal), tensor-tog (TT).
 
-35 oppgaver: 26 helt i pensum, 4 delvis og 5 grensetilfeller.
+36 oppgaver: 26 helt i pensum, 4 delvis og 6 grensetilfeller.
 
 Tensorer er nytt i 4C og finnes ikke i gamle NTNU-eksamener; Bergmann skriver selv på [overgangssiden](https://wiki.math.ntnu.no/tma4432/2026h/transition) at tensordekomposisjon ikke har noen forgjenger. Utenom øving 2 og prøveeksamen er oppgavene her derfor hentet fra andre universiteter: én eksamensoppgave fra BITS Pilani, én Kronecker-oppgave fra en UiO-eksamen, og øvingsark med løsningsforslag fra MPI Informatik (Tensors in Data Analysis) og EPFL (Low-rank approximation techniques). MPI-arkene bruker samme notasjon som forelesningen (Kolda & Bader) og er best å starte med.
 
@@ -12,7 +12,7 @@ Hver oppgave er to PDF-er ved siden av hverandre: `…-oppgave.pdf` og løsnings
 
 - [`1-TMA4432-ovinger-og-proveeksamen/`](1-TMA4432-ovinger-og-proveeksamen/): Fra TMA4432 (øvinger og prøveeksamen) (3)
 - [`3-hele-oppgaven-i-pensum/`](3-hele-oppgaven-i-pensum/): Andre eksamener: hele oppgaven er pensum (1)
-- [`3b-ovingsark-andre-universiteter/`](3b-ovingsark-andre-universiteter/): Øvingsark fra andre universiteter (ikke eksamen, med løsningsforslag) (30)
+- [`3b-ovingsark-andre-universiteter/`](3b-ovingsark-andre-universiteter/): Øvingsark fra andre universiteter (ikke eksamen, med løsningsforslag) (31)
 - [`5-grensetilfeller/`](5-grensetilfeller/): Grensetilfeller (repetisjon eller like utenfor) (1)
 
 ## Fra TMA4432 (øvinger og prøveeksamen)
@@ -62,10 +62,11 @@ Hver oppgave er to PDF-er ved siden av hverandre: `…-oppgave.pdf` og løsnings
 | 31 | [MPI Informatik, Tensors in Data Analysis 2017, ark 2, oppg. 4](3b-ovingsark-andre-universiteter/031-MPI-2017-ark2-oppg4-oppgave.pdf) | [LF](3b-ovingsark-andre-universiteter/031-MPI-2017-ark2-oppg4-svar.pdf) | Grense | Entydighet av CP-dekomposisjon |  | Bruker Kruskals betingelse, som ikke er pensum. Øvingsark (ikke eksamen) med offisielt løsningsforslag. Notasjon: ∘ er ytre produkt (⊚ i forelesningen), ∗ er Hadamard-produkt. |
 | 32 | [EPFL, Low-rank approximation techniques 2018, øving 6, oppg. 1](3b-ovingsark-andre-universiteter/032-EPFL-2018-oving6-oppg1-oppgave.pdf) | [LF](3b-ovingsark-andre-universiteter/032-EPFL-2018-oving6-oppg1-svar.pdf) | Grense | QR og SVD av A⊗B | F1 | Krever regneregelen (A⊗B)(C⊗D) = AC⊗BD, som ikke er gjennomgått. Øvingsark (ikke eksamen). Notasjon: U ∘µ X er µ-modusproduktet, X ×µ U i forelesningen. LF er håndskrevet. |
 | 33 | [EPFL, Low-rank approximation techniques 2018, øving 6, oppg. 4](3b-ovingsark-andre-universiteter/033-EPFL-2018-oving6-oppg4-oppgave.pdf) | [LF](3b-ovingsark-andre-universiteter/033-EPFL-2018-oving6-oppg4-svar.pdf) | Grense | Beste approksimasjon med sum av Kronecker-produkter | F1 | Van Loans metode er ikke pensum. Øvingsark (ikke eksamen). Notasjon: U ∘µ X er µ-modusproduktet, X ×µ U i forelesningen. LF er håndskrevet. |
-| 34 | [Uni Heidelberg, Lineare Algebra 2026, øving II-3, oppg. 3.5](3b-ovingsark-andre-universiteter/034-Heidelberg-2026-oving-II-3-oppg3.5-oppgave.pdf) | [LF](3b-ovingsark-andre-universiteter/034-Heidelberg-2026-oving-II-3-oppg3.5-svar.pdf) | Grense | Regneregler for Kronecker-produktet (⊠ betyr ⊗) |  | Øvingsark på tysk med løsning. Regnereglene er ikke gjennomgått i F2, men gjør det lettere å regne med ⊗ |
+| 34 | [EPFL, Low-rank approximation techniques 2018, øving 7, oppg. 6](3b-ovingsark-andre-universiteter/034-EPFL-2018-oving7-oppg6-oppgave.pdf) | [LF](3b-ovingsark-andre-universiteter/034-EPFL-2018-oving7-oppg6-svar.pdf) | Grense | Multilineær rang til en symmetrisk tensor |  | Multilineær rang er ikke definert i forelesningen. Øvingsark (ikke eksamen). Notasjon: U ∘µ X er µ-modusproduktet, X ×µ U i forelesningen. LF er håndskrevet. |
+| 35 | [Uni Heidelberg, Lineare Algebra 2026, øving II-3, oppg. 3.5](3b-ovingsark-andre-universiteter/035-Heidelberg-2026-oving-II-3-oppg3.5-oppgave.pdf) | [LF](3b-ovingsark-andre-universiteter/035-Heidelberg-2026-oving-II-3-oppg3.5-svar.pdf) | Grense | Regneregler for Kronecker-produktet (⊠ betyr ⊗) |  | Øvingsark på tysk med løsning. Regnereglene er ikke gjennomgått i F2, men gjør det lettere å regne med ⊗ |
 
 ## Grensetilfeller (repetisjon eller like utenfor)
 
 | Nr. | Oppgave | LF | Status | Tema | Også i | Merknad |
 |---|---|---|---|---|---|---|
-| 35 | [UiO INF-MAT4350 Numerisk lineær algebra høst 2008, oppg. 3](5-grensetilfeller/035-UiO-INF-MAT4350-2008-host-oppg3-oppgave.pdf) | [LF](5-grensetilfeller/035-UiO-INF-MAT4350-2008-host-oppg3-svar.pdf) | Grense | Egenverdier og egenvektorer til A⊗B |  | Eksamensoppgave. Bruker bare definisjonen av ⊗, men egenverdier av Kronecker-produkter er ikke gjennomgått |
+| 36 | [UiO INF-MAT4350 Numerisk lineær algebra høst 2008, oppg. 3](5-grensetilfeller/036-UiO-INF-MAT4350-2008-host-oppg3-oppgave.pdf) | [LF](5-grensetilfeller/036-UiO-INF-MAT4350-2008-host-oppg3-svar.pdf) | Grense | Egenverdier og egenvektorer til A⊗B |  | Eksamensoppgave. Bruker bare definisjonen av ⊗, men egenverdier av Kronecker-produkter er ikke gjennomgått |
