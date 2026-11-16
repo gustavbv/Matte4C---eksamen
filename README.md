@@ -4,6 +4,8 @@ Oppgaver fra gamle eksamener på wiki.math.ntnu.no, sortert etter forelesningene
 
 Totalt 938 oppgaver: 672 **Ja** (hele oppgaven er pensum), 155 **Delvis** (bare noen deloppgaver) og 111 **Grense** (bare repetert eller like utenfor).
 
+Hele prøveeksamener med løsningsforslag ligger i [proveeksamener/](proveeksamener/).
+
 ## Slik er det organisert
 
 ```
@@ -40,6 +42,19 @@ oppgavesett/
 | [F10 Varmelikning, d'Alembert og differansemetoder](oppgavesett/F10-varmelikning-og-differanser/) | 178 | 139 | 35 | 4 |
 | [F11 Splines og Bézier](oppgavesett/F11-splines-og-bezier/) | 87 | 19 | 2 | 66 |
 | [F12 Minste kvadrater](oppgavesett/F12-minste-kvadrater/) | 65 | 50 | 4 | 11 |
+
+## Prøveeksamener
+
+[proveeksamener/](proveeksamener/) har seks hele sett i eksamensformatet (10 oppgaver, 100 poeng, 4 timer): den offisielle prøveeksamenen og de uoffisielle settene A–E, med løsningsforslag og en tabell over hvilke forelesninger hvert sett dekker.
+
+| Sett | Oppgaver | Løsningsforslag |
+|---|---|---|
+| Offisiell prøveeksamen | [PDF](https://wiki.math.ntnu.no/_media/tma4432/2026h/test-exam-math4c_web.pdf) | i samme fil |
+| A | [PDF](proveeksamener/proveeksamen-A.pdf) | [LF](proveeksamener/proveeksamen-A-lf.pdf) |
+| B | [PDF](proveeksamener/proveeksamen-B.pdf) | [LF](proveeksamener/proveeksamen-B-lf.pdf) |
+| C | [PDF](proveeksamener/proveeksamen-C.pdf) | [LF](proveeksamener/proveeksamen-C-lf.pdf) |
+| D | [PDF](proveeksamener/proveeksamen-D.pdf) | [LF](proveeksamener/proveeksamen-D-lf.pdf) |
+| E | [PDF](proveeksamener/proveeksamen-E.pdf) | [LF](proveeksamener/proveeksamen-E-lf.pdf) |
 
 Se også [alle eksamenssett](eksamenssett.md) og [metode og pensumregler](metode.md). Hele tabellen ligger i [data/oppgaver.csv](data/oppgaver.csv) og [data/oppgavebank-tma4432.xlsx](data/oppgavebank-tma4432.xlsx).
 

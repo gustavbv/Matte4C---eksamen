@@ -1,0 +1,432 @@
+\input{preamble}
+\renewcommand{\examletter}{D}
+\begin{document}
+\makeheader
+
+% =====================================================================
+\problem{Rank-deficient least squares}{10}
+Consider
+\[
+A=\begin{pmatrix}1&1\\2&2\\2&2\end{pmatrix}\in\R^{3\times2},\qquad \vb b=\begin{pmatrix}3\\0\\3\end{pmatrix}.
+\]
+\begin{enumerate}
+\item Determine the rank of $A$ and a reduced singular value decomposition of $A$ (only nonzero singular values).
+\item Compute the Moore--Penrose inverse $A^\dagger$.
+\item Set up the normal equations for $\min_{\vb x}\norm{A\vb x-\vb b}_2$. Why do they not have a unique solution? Describe all least-squares solutions and state their error $\norm{A\vb x-\vb b}_2$.
+\item Compute $\vb x^\dagger=A^\dagger\vb b$ and show that it is the least-squares solution of smallest norm.
+\end{enumerate}
+
+\begin{solution}
+\sol{a} All rows are multiples of $(1,1)$, so $\rank A=1$. \pts{1}
+$A\T A=\begin{psmallmatrix}9&9\\9&9\end{psmallmatrix}$ has the eigenvalues $18$ and $0$, so $\sigma_1=\sqrt{18}=3\sqrt2$ and $\sigma_2=0$. With $\vb v_1=\frac1{\sqrt2}(1,1)\T$ we get $\vb u_1=A\vb v_1/\sigma_1=\frac{1}{3\sqrt2}\cdot\frac{1}{\sqrt2}(2,4,4)\T=\frac13(1,2,2)\T$. \pts{1}
+The reduced SVD consists of one term:
+\[
+A=\sigma_1\vb u_1\vb v_1\T=3\sqrt2\cdot\frac13\begin{pmatrix}1\\2\\2\end{pmatrix}\cdot\frac1{\sqrt2}\begin{pmatrix}1&1\end{pmatrix}.\ptd{1}
+\]
+
+\sol{b} Only the nonzero singular value is inverted:
+\[
+A^\dagger=\frac1{\sigma_1}\vb v_1\vb u_1\T=\frac1{3\sqrt2}\cdot\frac1{\sqrt2}\begin{pmatrix}1\\1\end{pmatrix}\cdot\frac13\begin{pmatrix}1&2&2\end{pmatrix}=\frac1{18}\begin{pmatrix}1&2&2\\1&2&2\end{pmatrix}.\ptd{2}
+\]
+
+\sol{c} $A\T A\vb x=A\T\vb b$ reads $\begin{psmallmatrix}9&9\\9&9\end{psmallmatrix}\vb x=\begin{psmallmatrix}9\\9\end{psmallmatrix}$, i.e.\ $x_1+x_2=1$. \pts{1}
+$A\T A$ is singular (rank 1), so there are infinitely many least-squares solutions $\vb x=(1-\tau,\tau)\T$, $\tau\in\R$. For all of them $A\vb x=(x_1+x_2)(1,2,2)\T=(1,2,2)\T$, so $A\vb x-\vb b=(-2,2,-1)\T$ and $\norm{A\vb x-\vb b}_2=3$. \pts{1}
+
+\sol{d} $\vb x^\dagger=A^\dagger\vb b=\frac1{18}(3+0+6)(1,1)\T=(\frac12,\frac12)\T$. It satisfies $x_1+x_2=1$, so it is a least-squares solution. \pts{1}
+$\ker A=\spn\{(1,-1)\T\}$ and every least-squares solution can be written as $\vb x=\vb x^\dagger+\rho\,(1,-1)\T$ ($\rho=\frac12-\tau$). Since $\ip{\vb x^\dagger}{(1,-1)\T}=0$,
+\[
+\norm{\vb x}_2^2=\norm{\vb x^\dagger}_2^2+2\rho^2\ \ge\ \tfrac12,
+\]
+with equality only for $\rho=0$. So $\vb x^\dagger$ is the smallest-norm vector among all vectors with the smallest error: ``smallest norm among those closest''. \pts{2}
+
+\begin{trap}
+\begin{itemize}
+\item For rank-deficient $A$ the formula $(A\T A)^{-1}A\T$ does not exist. Use the SVD and invert only $\sigma_j>0$.
+\item The least-squares solution is not unique here, but the residual is the same for all of them.
+\end{itemize}
+\end{trap}
+\begin{heart}
+$A^\dagger=\sum_{\sigma_j>0}\frac1{\sigma_j}\vb v_j\vb u_j\T$. $\vb x^\dagger=A^\dagger\vb b$ minimizes $\norm{\vb x}_2$ among all minimizers of $\norm{A\vb x-\vb b}_2$. Normal equations: $A\T A\vb x=A\T\vb b$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Rank-1 tensors and the Khatri--Rao product}{8}
+Let $\vb a=(1,1)\T$, $\vb b=(1,-1)\T$ and
+\[
+\ten X=\vb a\op\vb a\op\vb a+\vb b\op\vb b\op\vb b\in\R^{2\times2\times2}.
+\]
+\begin{enumerate}
+\item Compute the frontal slices $X_{::1}$ and $X_{::2}$.
+\item Write $\ten X=[\![A,B,C]\!]$ with $A=B=C=(\vb a\ \vb b)$. Compute $C\kr B$ and verify $X_{(1)}=A(C\kr B)\T$.
+\item Determine the rank of $\ten X$.
+\item Compute the 3-mode products $\ten X\times_3\vb w$ for $\vb w=(1,1)\T$ and $\vb w=(1,-1)\T$, and explain the result.
+\end{enumerate}
+
+\begin{solution}
+\sol{a} $x_{ijk}=a_ia_ja_k+b_ib_jb_k=1+b_ib_jb_k$. For $k=1$ ($b_1=1$): $x_{ij1}=1+b_ib_j$; for $k=2$ ($b_2=-1$): $x_{ij2}=1-b_ib_j$. Hence
+\[
+X_{::1}=\begin{pmatrix}2&0\\0&2\end{pmatrix},\qquad X_{::2}=\begin{pmatrix}0&2\\2&0\end{pmatrix}.\ptd{2}
+\]
+
+\sol{b} The Khatri--Rao product is the columnwise Kronecker product:
+\[
+C\kr B=\big(\vb a\otimes\vb a\ \ \vb b\otimes\vb b\big)=\begin{pmatrix}1&1\\1&-1\\1&-1\\1&1\end{pmatrix}.\ptd{1}
+\]
+\[
+A(C\kr B)\T=\begin{pmatrix}1&1\\1&-1\end{pmatrix}\begin{pmatrix}1&1&1&1\\1&-1&-1&1\end{pmatrix}=\begin{pmatrix}2&0&0&2\\0&2&2&0\end{pmatrix}=\big(X_{::1}\ X_{::2}\big)=X_{(1)}.\ptd{1}
+\]
+
+\sol{c} By construction $\rank\ten X\le2$. A sum of $r$ rank-1 tensors has $\rank X_{(1)}\le r$, and the two rows of $X_{(1)}$ are linearly independent. So $\rank X_{(1)}=2$ and $\rank\ten X=2$. \pts{2}
+
+\sol{d} $\ten X\times_3\vb w=\sum_kx_{ijk}w_k=w_1X_{::1}+w_2X_{::2}$:
+\[
+\ten X\times_3\begin{pmatrix}1\\1\end{pmatrix}=\begin{pmatrix}2&2\\2&2\end{pmatrix}=2\,\vb a\vb a\T,\qquad
+\ten X\times_3\begin{pmatrix}1\\-1\end{pmatrix}=\begin{pmatrix}2&-2\\-2&2\end{pmatrix}=2\,\vb b\vb b\T.\ptd{1}
+\]
+For a rank-1 tensor, $(\vb a\op\vb a\op\vb a)\times_3\vb w=\ip{\vb a}{\vb w}\vb a\vb a\T$. Hence $\ten X\times_3\vb w=\ip{\vb a}{\vb w}\vb a\vb a\T+\ip{\vb b}{\vb w}\vb b\vb b\T$. Since $\ip{\vb a}{(1,1)\T}=2$ and $\ip{\vb b}{(1,1)\T}=0$, only the first term survives, and vice versa for $(1,-1)\T$. The product with a vector reduces the order by one: the result is a matrix. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item Every entry of $\vb a\op\vb b\op\vb c$ is a product of \emph{three} numbers, $a_ib_jc_k$.
+\item In $X_{(1)}=A(C\kr B)\T$ the order is $C\kr B$, not $B\kr C$.
+\end{itemize}
+\end{trap}
+\begin{heart}
+$A\kr B=(\vb a_1\otimes\vb b_1\ \cdots\ \vb a_n\otimes\vb b_n)$; $X_{(1)}=A(C\kr B)\T$. Mode product with a vector: $(\ten X\times_k\vb a)=\sum_{i_k}x_{\dots i_k\dots}a_{i_k}$. $\rank\ten X\ge\rank X_{(k)}$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{A parametrized surface}{8}
+Consider the surface $S$ parametrized by
+\[
+\vb s(u,v)=\begin{pmatrix}u\cos v\\u\sin v\\u\end{pmatrix},\qquad (u,v)\in D=[0,\infty)\times[0,2\pi).
+\]
+\begin{enumerate}
+\item Show that $S$ lies on the cone $x^2+y^2=z^2$, $z\ge0$. Compute the velocity vectors $\vb s_u,\vb s_v$ and the normal vector $\vb s_u\times\vb s_v$.
+\item In which points is the parametrization not smooth?
+\item Show that $\vb p=(3,4,5)\T\in S$ and determine the tangent plane in $\vb p$, both in parametric form and as an equation.
+\item Compare with the gradient of $F(x,y,z)=x^2+y^2-z^2$. Is there a tangent plane in the apex $(0,0,0)\T$?
+\end{enumerate}
+
+\begin{solution}
+\sol{a} $(u\cos v)^2+(u\sin v)^2=u^2=z^2$ with $z=u\ge0$. \pts{1}
+\[
+\vb s_u=\begin{pmatrix}\cos v\\\sin v\\1\end{pmatrix},\qquad \vb s_v=\begin{pmatrix}-u\sin v\\u\cos v\\0\end{pmatrix},
+\]
+\[
+\vb s_u\times\vb s_v=\begin{pmatrix}\sin v\cdot0-1\cdot u\cos v\\1\cdot(-u\sin v)-\cos v\cdot0\\\cos v\cdot u\cos v+\sin v\cdot u\sin v\end{pmatrix}=\begin{pmatrix}-u\cos v\\-u\sin v\\u\end{pmatrix}.\ptd{1}
+\]
+
+\sol{b} The total derivative $\vb s'(u,v)=(\vb s_u\ \vb s_v)\in\R^{3\times2}$ has rank 2 iff $\vb s_u\times\vb s_v\neq\vb 0$. Here $\norm{\vb s_u\times\vb s_v}_2=\sqrt2\,u$, which is zero only for $u=0$, where $\vb s_v=\vb 0$. \pts{1}
+So $\vb s$ is not smooth at $u=0$, the apex. There it is not injective either: every $v$ is mapped to the origin. \pts{1}
+
+\sol{c} $u=z=5$, $\cos v_0=\frac35$, $\sin v_0=\frac45$ give $\vb s(5,v_0)=(3,4,5)\T$, so $\vb p\in S$. \pts{1}
+There $\vb s_u=(\frac35,\frac45,1)\T$ and $\vb s_v=(-4,3,0)\T$, and the tangent plane is $\{\vb p+\sigma\vb s_u+\tau\vb s_v:\sigma,\tau\in\R\}$. \pts{1}
+The normal is $\vb n=\vb s_u\times\vb s_v=(-3,-4,5)\T$. The equation is $-3(x-3)-4(y-4)+5(z-5)=0$, i.e.\ $3x+4y-5z=0$. \pts{1}
+
+\sol{d} $\nabla F=(2x,2y,-2z)\T$ and $\nabla F(\vb p)=(6,8,-10)\T=-2\vb n$: the gradient is orthogonal to the level set $F=0$ and gives the same plane. At the apex $\nabla F(\vb 0)=\vb 0$, which gives no normal. The cone has a tip there and no tangent plane: it is only piecewise smooth. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item To find the tangent plane in $\vb p$ you first need the parameters $(u,v)$ with $\vb s(u,v)=\vb p$.
+\item The normal is a cross product of the two velocity vectors; the plane passes through $\vb p$.
+\end{itemize}
+\end{trap}
+\begin{heart}
+Tangent plane $\vb p+\sigma\vb s_u+\tau\vb s_v$, normal $\vb s_u\times\vb s_v$. Smooth parametrization: injective and $\vb s_u\times\vb s_v\neq\vb 0$ (total derivative of rank 2). $\nabla F$ is orthogonal to the level set $F=c$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Jacobi matrix and Newton's method}{7}
+\begin{enumerate}
+\item Let $\vb G\colon\R^3\to\R^2$, $\vb G(x,y,z)=\big(xy^2-z,\ \sin(xz)+y\big)\T$. Compute the Jacobi matrix $\vb G'(x,y,z)$ and the linearization $\vb L$ of $\vb G$ in $\vb a=(0,1,2)\T$.
+\item Let $\vb F(x,y)=\big(x^2-y^2-3,\ xy-2\big)\T$. Perform one step of Newton's method starting from $(x_0,y_0)=(1,1)$.
+\item Where is $\vb F'$ singular? Which zero of $\vb F$ do you expect the iteration from b) to approach?
+\end{enumerate}
+
+\begin{solution}
+\sol{a} One row per component, one column per variable:
+\[
+\vb G'(x,y,z)=\begin{pmatrix}y^2&2xy&-1\\z\cos(xz)&1&x\cos(xz)\end{pmatrix}\in\R^{2\times3}.\ptd{1}
+\]
+$\vb G(\vb a)=(-2,1)\T$ and $\vb G'(\vb a)=\begin{psmallmatrix}1&0&-1\\2&1&0\end{psmallmatrix}$, so
+\[
+\vb L(x,y,z)=\vb G(\vb a)+\vb G'(\vb a)\begin{pmatrix}x\\y-1\\z-2\end{pmatrix}=\begin{pmatrix}-2+x-(z-2)\\1+2x+(y-1)\end{pmatrix}=\begin{pmatrix}x-z\\2x+y\end{pmatrix}.\ptd{2}
+\]
+
+\sol{b} $\vb F(1,1)=(-3,-1)\T$, $\vb F'(x,y)=\begin{psmallmatrix}2x&-2y\\y&x\end{psmallmatrix}$ and $\vb F'(1,1)=\begin{psmallmatrix}2&-2\\1&1\end{psmallmatrix}$ with determinant $4$. \pts{1}
+\[
+\Delta=-\vb F'(1,1)^{-1}\vb F(1,1)=-\frac14\begin{pmatrix}1&2\\-1&2\end{pmatrix}\begin{pmatrix}-3\\-1\end{pmatrix}=\begin{pmatrix}5/4\\-1/4\end{pmatrix},\qquad (x_1,y_1)=\big(\tfrac94,\tfrac34\big).\ptd{2}
+\]
+
+\sol{c} $\det\vb F'(x,y)=2x^2+2y^2=0$ only at $(0,0)$, so Newton can be started anywhere else. The zeros satisfy $x^2-y^2=3$, $xy=2$, i.e.\ $(2,1)$ and $(-2,-1)$. The iteration approaches $(2,1)$: $\vb x^{(2)}\approx(1.992,\,0.975)$, $\vb x^{(3)}\approx(1.99993,\,1.00014)$. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item The Jacobi matrix of $\vb G\colon\R^3\to\R^2$ is $2\times3$: rows are components, columns are variables.
+\item The linearization uses $\vb x-\vb a$, not $\vb x$.
+\end{itemize}
+\end{trap}
+\end{solution}
+
+% =====================================================================
+\problem{Constrained optimization}{10}
+Consider $f(x,y)=xy$ on the ellipse $E=\{(x,y)\T:g(x,y)=0\}$ with $g(x,y)=x^2+4y^2-8$.
+\begin{enumerate}
+\item Compute $\nabla f$ and $\nabla g$. Compute the directional derivative of $f$ in $\vb p=(2,1)\T$ in the direction of the tangent to $E$ in $\vb p$, and interpret the result.
+\item Use Lagrange multipliers to find all candidates for extrema of $f$ on $E$. Determine the maximum and the minimum.
+\item Show that the level curve $\{f=2\}$ and the ellipse $E$ have a common tangent line in $\vb p$.
+\item State the Lagrangian $\mathcal L(x,y,\lambda)$. Why can we not simply minimize $\mathcal L$ to find the constrained minimum?
+\end{enumerate}
+
+\begin{solution}
+\sol{a} $\nabla f=(y,x)\T$ and $\nabla g=(2x,8y)\T$. \pts{1}
+At $\vb p$ we have $\nabla g(\vb p)=(4,8)\T$, so the tangent direction of $E$ is $\vb t=\frac1{\sqrt5}(2,-1)\T\perp\nabla g(\vb p)$. With $\nabla f(\vb p)=(1,2)\T$:
+$D_{\vb t}f(\vb p)=\ip{\nabla f(\vb p)}{\vb t}=\frac{2-2}{\sqrt5}=0$. Moving along the ellipse does not change $f$ to first order in $\vb p$, which is necessary for an extremum under the constraint. \pts{1}
+
+\sol{b} The conditions $\nabla f=\lambda\nabla g$, $g=0$ read
+\[
+y=2\lambda x,\qquad x=8\lambda y,\qquad x^2+4y^2=8.\ptd{1}
+\]
+Inserting gives $y=2\lambda\cdot8\lambda y=16\lambda^2y$. If $y=0$, then $x=8\lambda y=0$, but $(0,0)\notin E$. So $16\lambda^2=1$, i.e.\ $\lambda=\pm\frac14$. \pts{1}
+$\lambda=\frac14$: $y=\frac x2$, so $x^2+x^2=8$ and $x=\pm2$: the points $(2,1)$, $(-2,-1)$ with $f=2$.
+$\lambda=-\frac14$: $y=-\frac x2$: the points $(2,-1)$, $(-2,1)$ with $f=-2$. \pts{2}
+$E$ is closed and bounded and $f$ is continuous, so the maximum and the minimum exist; since $\nabla g\neq\vb 0$ on $E$, they are among the candidates. Maximum $f=2$ in $\pm(2,1)$, minimum $f=-2$ in $\pm(2,-1)$. \pts{1}
+
+\sol{c} The level curve $xy=2$ is $y=2/x$ with slope $-2/x^2=-\frac12$ at $x=2$, i.e.\ direction $(2,-1)\T$. This is the tangent direction of $E$ from a). Equivalently, $\nabla f(\vb p)=(1,2)\T=\frac14(4,8)\T=\frac14\nabla g(\vb p)$: the normals are parallel, so the curves touch in $\vb p$. \pts{2}
+
+\sol{d} $\mathcal L(x,y,\lambda)=f(x,y)+\lambda g(x,y)$. $\nabla\mathcal L=\vb 0$ gives $\nabla f+\lambda\nabla g=\vb 0$ and $g=0$: the same points as in b), with $\lambda$ of opposite sign. These points are in general saddle points of $\mathcal L$ (it is linear in $\lambda$), so a minimization method like gradient descent applied to $\mathcal L$ does not find them. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item Do not divide by $y$ (or $x$) without treating the case $y=0$ separately.
+\item With $\mathcal L=f+\lambda g$ one gets $\nabla f=-\lambda\nabla g$, the theorem is stated as $\nabla f=\lambda\nabla g$. The sign of $\lambda$ changes, the points do not.
+\end{itemize}
+\end{trap}
+\begin{heart}
+If $\vb x^*$ is an extremum of $f$ under $g=0$ and $\nabla g(\vb x^*)\neq\vb 0$, then $\nabla f(\vb x^*)=\lambda\nabla g(\vb x^*)$. Lagrangian $\mathcal L=f+\lambda g$. Directional derivative $D_{\vb v}f=\ip{\nabla f}{\vb v}$, $\norm{\vb v}_2=1$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Fourier transform}{12}
+Let $f(x)=1$ for $\abs x<1$ and $f(x)=0$ otherwise.
+\begin{enumerate}
+\item State the Fourier transform $\hat f(\omega)$. What is $\hat f(0)$?
+\item Compute the convolution $g=f\ast f$, $(f\ast f)(x)=\int_{-\infty}^\infty f(y)f(x-y)\dd y$.
+\item Use the convolution theorem to compute $\hat g$. Check the value $\hat g(0)$ directly from $g$.
+\item Use the rule $\F(h')=\iu\omega\F(h)$ and the formula sheet to compute the Fourier transform of $k(x)=x\,\e^{-x^2}$.
+\end{enumerate}
+
+\begin{solution}
+\sol{a} The formula sheet with $a=1$ gives $\hat f(\omega)=\sqrt{\frac2\pi}\,\frac{\sin\omega}{\omega}$ for $\omega\neq0$. \pts{1}
+$\hat f(0)=\frac1{\sqrt{2\pi}}\int_{-1}^1 1\dd x=\frac2{\sqrt{2\pi}}=\sqrt{\frac2\pi}$, which is also the limit for $\omega\to0$ since $\frac{\sin\omega}\omega\to1$. \pts{1}
+
+\sol{b} $f(x-y)=1$ iff $\abs{x-y}<1$ iff $y\in(x-1,x+1)$. So $g(x)$ is the length of $(-1,1)\cap(x-1,x+1)$. \pts{1}
+For $0\le x\le2$ the intersection is $(x-1,1)$, of length $2-x$. For $-2\le x\le0$ it is $(-1,x+1)$, of length $2+x$. For $\abs x\ge2$ it is empty. \pts{2}
+Hence $g(x)=2-\abs x$ for $\abs x\le2$ and $g(x)=0$ otherwise, a triangle (hat function). \pts{1}
+
+\sol{c} With $\F(f\ast g)=\sqrt{2\pi}\,\F(f)\F(g)$:
+\[
+\hat g(\omega)=\sqrt{2\pi}\,\hat f(\omega)^2=\sqrt{2\pi}\cdot\frac2\pi\cdot\frac{\sin^2\omega}{\omega^2}=2\sqrt{\frac2\pi}\,\frac{\sin^2\omega}{\omega^2}.\ptd{2}
+\]
+Check: $\hat g(0)=\frac1{\sqrt{2\pi}}\int g\dd x=\frac{4}{\sqrt{2\pi}}=2\sqrt{\frac2\pi}$ (the triangle has base $4$ and height $2$, area $4$), the same as the limit of the formula. \pts{1}
+
+\sol{d} Let $h(x)=\e^{-x^2}$. The table gives $\hat h(\omega)=\frac1{\sqrt2}\e^{-\omega^2/4}$, and $h'(x)=-2x\e^{-x^2}=-2k(x)$. \pts{1}
+So $-2\hat k(\omega)=\iu\omega\hat h(\omega)$ and
+\[
+\hat k(\omega)=-\frac{\iu\omega}{2\sqrt2}\,\e^{-\omega^2/4}.\ptd{2}
+\]
+$k$ is real and odd, so $\hat k$ is purely imaginary and odd, as expected.
+
+\begin{trap}
+\begin{itemize}
+\item With the normalization of the formula sheet the convolution theorem has the factor $\sqrt{2\pi}$.
+\item $\hat f(0)$ has to be taken as a limit (or computed directly), not by inserting $\omega=0$ into $\frac{\sin\omega}{\omega}$.
+\end{itemize}
+\end{trap}
+\begin{heart}
+$\F(f\ast g)=\sqrt{2\pi}\,\F(f)\F(g)$, $\F(f')=\iu\omega\F(f)$, $\hat f(0)=\frac1{\sqrt{2\pi}}\int f\dd x$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{DFT and aliasing}{10}
+Let $f(x)=2\cos x+\e^{3\iu x}$, sampled at $x_j=\frac{2\pi j}4$, $j=0,\dots,3$.
+\begin{enumerate}
+\item Compute the samples $f_j=f(x_j)$ and the DFT $\hat{\vb f}$ ($N=4$).
+\item Explain the result with the aliasing formula. Why is $\hat f_3\neq\overline{\hat f_1}$ here?
+\item Which trigonometric polynomial $p(x)=\sum_{k=-1}^{2}\hat f_k\e^{\iu kx}$ (with $\hat f_{-1}=\hat f_3$) is reconstructed from the samples? Compare it with $f$.
+\item What is the smallest even $N$ such that the Fourier coefficients of $f$ can be read off from the DFT? Which $N$ would you choose for the FFT?
+\end{enumerate}
+
+\begin{solution}
+\sol{a} $f_0=2+1=3$, $f_1=2\cos\frac\pi2+\e^{3\pi\iu/2}=-\iu$, $f_2=2\cos\pi+\e^{3\pi\iu}=-3$, $f_3=2\cos\frac{3\pi}2+\e^{9\pi\iu/2}=\iu$. So $\vb f=(3,-\iu,-3,\iu)\T$. \pts{1}
+With $w_4=-\iu$ and $\hat f_k=\frac14\sum_jf_j(-\iu)^{jk}$:
+\begin{align*}
+\hat f_0&=\tfrac14(3-\iu-3+\iu)=0, & \hat f_1&=\tfrac14\big(3+(-\iu)(-\iu)+(-3)(-1)+\iu\cdot\iu\big)=\tfrac14(3-1+3-1)=1,\\
+\hat f_2&=\tfrac14(3+\iu-3-\iu)=0, & \hat f_3&=\tfrac14\big(3+(-\iu)\iu+(-3)(-1)+\iu(-\iu)\big)=\tfrac14(3+1+3+1)=2.\ptd{2}
+\end{align*}
+
+\sol{b} $f$ has the coefficients $c_1=c_{-1}=1$ (from $2\cos x=\e^{\iu x}+\e^{-\iu x}$) and $c_3=1$. The aliasing formula $\hat f_k=\sum_\ell c_{k+4\ell}$ gives $\hat f_1=c_1=1$ and $\hat f_3=c_3+c_{-1}=2$: the frequency $3$ is aliased onto $-1\equiv3\pmod 4$. Furthermore $\hat f_0=\hat f_2=0$. \pts{2}
+$f$ is complex-valued ($\e^{3\iu x}$ is not real), so the symmetry $\hat f_{N-k}=\overline{\hat f_k}$ of real signals does not hold. \pts{1}
+
+\sol{c} $p(x)=\e^{\iu x}+2\e^{-\iu x}$. Since $\e^{3\iu x_j}=\e^{-\iu x_j}$ at all sample points, $p(x_j)=f_j$, but $p\neq f$: with four samples $\e^{3\iu x}$ and $\e^{-\iu x}$ cannot be distinguished. \pts{2}
+
+\sol{d} $f$ contains the frequencies $-1,1,3$. For even $N$ the DFT gives $\hat f_k=c_k$, $k=-\frac N2+1,\dots,\frac N2-1$, if $f$ only contains these frequencies. We need $\frac N2-1\ge3$, i.e.\ $N\ge8$. \pts{1}
+$N=8$ is a power of $2$, good for the FFT. Then $\hat f_1=1$, $\hat f_7=\hat f_{-1}=1$, $\hat f_3=1$, exactly $c_1,c_{-1},c_3$. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item Compute the powers $(-\iu)^{jk}$ carefully: $(-\iu)^2=-1$, $(-\iu)^3=\iu$.
+\item The conjugate symmetry $\hat f_{N-k}=\overline{\hat f_k}$ only holds for real signals.
+\end{itemize}
+\end{trap}
+\begin{heart}
+Aliasing formula $\hat f_k=\sum_{\ell\in\Z}c_{k+\ell N}(f)$. A trigonometric polynomial with highest frequency $m$ needs at least $2m+1$ samples (Nyquist rate).
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Heat equation with mixed boundary conditions}{14}
+Consider
+\[
+u_t=u_{xx},\quad 0<x<\pi,\ t>0,\qquad u(0,t)=0,\quad u_x(\pi,t)=0,\qquad u(x,0)=3\sin\tfrac x2-\sin\tfrac{5x}2.
+\]
+\begin{enumerate}
+\item Interpret the boundary conditions physically.
+\item Use separation of variables $u(x,t)=F(x)G(t)$. Derive the ODEs for $F$ and $G$, and show by treating all three cases of the separation constant that nontrivial solutions satisfying the boundary conditions exist only for $F_n(x)=\sin\big((n-\frac12)x\big)$, $n\in\N$.
+\item Determine the solution $u(x,t)$ satisfying the initial condition.
+\item What is the temperature at the insulated end $x=\pi$? Which term dominates for large $t$?
+\end{enumerate}
+
+\begin{solution}
+\sol{a} The left end is kept at temperature $0$ (Dirichlet condition), the right end is insulated: no heat flows through it (Neumann condition). \pts{1}
+
+\sol{b} Inserting gives $F(x)G'(t)=F''(x)G(t)$, i.e.\ $\frac{G'(t)}{G(t)}=\frac{F''(x)}{F(x)}=k$. The left side depends only on $t$, the right side only on $x$, so both are constant. \pts{1}
+This gives $F''=kF$ and $G'=kG$. From $u(0,t)=F(0)G(t)=0$ and $u_x(\pi,t)=F'(\pi)G(t)=0$ for all $t$, with $G\not\equiv0$, we get $F(0)=0$ and $F'(\pi)=0$. \pts{1}
+
+$k=0$: $F=A+Bx$, $F(0)=A=0$, $F'(\pi)=B=0$, so $F\equiv0$. \pts{1}
+
+$k=\mu^2>0$: $F=A\e^{\mu x}+B\e^{-\mu x}$, $F(0)=A+B=0$ gives $F=2A\sinh(\mu x)$, and $F'(\pi)=2A\mu\cosh(\mu\pi)=0$ gives $A=0$ (as $\cosh>0$). So $F\equiv0$. \pts{1}
+
+$k=-p^2<0$, $p>0$: $F=A\cos(px)+B\sin(px)$, $F(0)=A=0$, $F'(\pi)=Bp\cos(p\pi)=0$. A nontrivial solution needs $\cos(p\pi)=0$, i.e.\ $p=n-\frac12$, $n\in\N$, and $F_n(x)=\sin\big((n-\frac12)x\big)$. \pts{2}
+Then $G_n'=-(n-\frac12)^2G_n$, so $G_n(t)=\e^{-(n-\frac12)^2t}$. \pts{1}
+
+\sol{c} By superposition $u(x,t)=\sum_{n\ge1}B_n\e^{-(n-\frac12)^2t}\sin\big((n-\frac12)x\big)$. At $t=0$ we need $\sum_nB_n\sin\big((n-\frac12)x\big)=3\sin\frac x2-\sin\frac{5x}2$: $n=1$ ($p=\frac12$) gives $B_1=3$, $n=3$ ($p=\frac52$) gives $B_3=-1$, all other $B_n=0$. \pts{2}
+\[
+u(x,t)=3\,\e^{-t/4}\sin\frac x2-\e^{-25t/4}\sin\frac{5x}2.\ptd{2}
+\]
+
+\sol{d} $u(\pi,t)=3\e^{-t/4}\sin\frac\pi2-\e^{-25t/4}\sin\frac{5\pi}2=3\e^{-t/4}-\e^{-25t/4}$. \pts{1}
+For large $t$ the first term dominates, since it decays slowest ($\e^{-t/4}$). Everywhere $u\to0$: the heat leaves through the left end. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item The boundary conditions for $F$ follow from $u=FG$ only because $G\not\equiv0$.
+\item The Neumann condition leads to $\cos(p\pi)=0$, so the eigenvalues are $(n-\frac12)^2$, not $n^2$.
+\item Treat $k=0$ and $k>0$ explicitly; they are part of the points.
+\end{itemize}
+\end{trap}
+\begin{heart}
+General solutions of $F''=kF$: $A\e^{\mu x}+B\e^{-\mu x}$ ($k=\mu^2>0$), $A+Bx$ ($k=0$), $A\cos px+B\sin px$ ($k=-p^2<0$). Heat equation: $G'=c^2kG$. Superposition of the product solutions.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Finite differences for a boundary value problem}{10}
+Consider the stationary heat equation with a constant heat source
+\[
+-u''(x)=2,\quad 0<x<1,\qquad u'(0)=0,\quad u(1)=0.
+\]
+Use the grid $x_i=ih$, $h=\frac13$, and approximations $U_i\approx u(x_i)$, $i=0,\dots,3$.
+\begin{enumerate}
+\item Show with Taylor expansions that $\frac{u(x-h)-2u(x)+u(x+h)}{h^2}=u''(x)+\mathcal O(h^2)$.
+\item Set up the finite difference scheme. Use a ghost node $x_{-1}=-h$ and a central difference for the boundary condition $u'(0)=0$. Write the system as $A\vb U=\vb b$ for $\vb U=(U_0,U_1,U_2)\T$.
+\item Solve the system.
+\item Compare with the exact solution $u(x)=1-x^2$ and explain the result.
+\end{enumerate}
+
+\begin{solution}
+\sol{a} $u(x\pm h)=u\pm hu'+\frac{h^2}2u''\pm\frac{h^3}6u'''+\frac{h^4}{24}u''''(\xi_\pm)$. Adding both expansions, the odd terms cancel: \pts{1}
+\[
+\frac{u(x-h)-2u(x)+u(x+h)}{h^2}=u''(x)+\frac{h^2}{24}\big(u''''(\xi_+)+u''''(\xi_-)\big)=u''(x)+\mathcal O(h^2).\ptd{1}
+\]
+
+\sol{b} At the nodes $i=0,1,2$ (with $U_3=u(1)=0$): $-\frac{U_{i-1}-2U_i+U_{i+1}}{h^2}=2$. \pts{1}
+Boundary condition: $\frac{U_1-U_{-1}}{2h}=u'(0)=0$, so $U_{-1}=U_1$, and the equation at $i=0$ becomes $\frac{2U_0-2U_1}{h^2}=2$. \pts{1}
+With $\frac1{h^2}=9$:
+\[
+9\begin{pmatrix}2&-2&0\\-1&2&-1\\0&-1&2\end{pmatrix}\begin{pmatrix}U_0\\U_1\\U_2\end{pmatrix}=\begin{pmatrix}2\\2\\2\end{pmatrix}.\ptd{1}
+\]
+
+\sol{c} The equations are $U_0-U_1=\frac19$, $-U_0+2U_1-U_2=\frac29$, $-U_1+2U_2=\frac29$. \pts{1}
+The last gives $U_1=2U_2-\frac29$, the second $U_0=2U_1-U_2-\frac29=3U_2-\frac69$, and the first $3U_2-\frac69-2U_2+\frac29=\frac19$. Hence
+\[
+U_2=\tfrac59,\qquad U_1=\tfrac89,\qquad U_0=1.\ptd{2}
+\]
+
+\sol{d} The exact values are $u(0)=1$, $u(\frac13)=\frac89$, $u(\frac23)=\frac59$: the numerical solution is exact. \pts{1}
+The reason: $u$ is a quadratic polynomial, so $u'''=u''''=0$. The remainder of the second difference vanishes, and so does the error $\frac{h^2}6u'''$ of the central difference for $u'(0)$. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item In general the ghost node gives $U_{-1}=U_1-2h\,u'(0)$. Keep the equation in $x_0$: $U_0$ is unknown for a Neumann condition.
+\item The Dirichlet value $U_3$ is known and moves to the right-hand side (here it is $0$).
+\end{itemize}
+\end{trap}
+\begin{heart}
+Central difference $u'(x)\approx\frac{u(x+h)-u(x-h)}{2h}$, error $\mathcal O(h^2)$; second difference $\frac{u(x-h)-2u(x)+u(x+h)}{h^2}$, error $\mathcal O(h^2)$; ghost nodes for Neumann and Robin conditions.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{B-splines}{11}
+Consider the uniform knots $t_i=i$, $i\in\Z$, the B-splines of order 1, $B_{i,1}(x)=1$ for $x\in[t_i,t_{i+1})$ and $0$ otherwise, and the Cox--de Boor recursion
+\[
+B_{i,k+1}(x)=\frac{x-t_i}{t_{i+k}-t_i}B_{i,k}(x)+\frac{t_{i+k+1}-x}{t_{i+k+1}-t_{i+1}}B_{i+1,k}(x).
+\]
+\begin{enumerate}
+\item Compute $B_{0,2}$, $B_{1,2}$ and the quadratic B-spline $B_{0,3}$ piecewise.
+\item Show that $B_{0,3}\in C^1(\R)$ and verify the partition of unity $B_{-2,3}+B_{-1,3}+B_{0,3}=1$ on $[0,1)$. You may use $B_{i,3}(x)=B_{0,3}(x-i)$.
+\item Let $\Delta=[0,1,2]$. Determine $\alpha,\beta,\gamma$ such that
+\[
+f(x)=\begin{cases}x^3,&x\in[0,1),\\-x^3+\alpha x^2+\beta x+\gamma,&x\in[1,2],\end{cases}
+\]
+is in $S_{3,\Delta}$.
+\item State $\dim S_{3,\Delta}$ for $\Delta=[0,1,2]$ and a basis of polynomials and truncated powers.
+\end{enumerate}
+
+\begin{solution}
+\sol{a} $B_{0,2}(x)=x$ on $[0,1)$, $2-x$ on $[1,2)$; $B_{1,2}(x)=x-1$ on $[1,2)$, $3-x$ on $[2,3)$; both $0$ otherwise. \pts{1}
+$B_{0,3}(x)=\frac x2B_{0,2}(x)+\frac{3-x}2B_{1,2}(x)$, so
+\[
+B_{0,3}(x)=\begin{cases}\frac{x^2}2,&x\in[0,1),\\[2pt]\frac{x(2-x)+(3-x)(x-1)}2=\frac{-2x^2+6x-3}2,&x\in[1,2),\\[2pt]\frac{(3-x)^2}2,&x\in[2,3),\\[2pt]0&\text{otherwise.}\end{cases}\ptd{3}
+\]
+
+\sol{b} Values: $\frac12$ from both sides at $x=1$ and $x=2$, $0$ at $x=0$ and $x=3$. Derivatives: at $x=1$, $x\to1$ and $-2x+3\to1$; at $x=2$, $-2x+3\to-1$ and $-(3-x)\to-1$; at $x=0$ and $x=3$ both sides are $0$. So $B_{0,3}\in C^1(\R)$. \pts{1}
+On $[0,1)$: $B_{0,3}(x)=\frac{x^2}2$, $B_{-1,3}(x)=B_{0,3}(x+1)=\frac{-2x^2+2x+1}2$ (middle piece) and $B_{-2,3}(x)=B_{0,3}(x+2)=\frac{(1-x)^2}2$ (last piece). The sum is $\frac{x^2-2x^2+2x+1+1-2x+x^2}2=1$. \pts{1}
+
+\sol{c} Both pieces are cubic polynomials. $f\in C^2$ requires equal value, first and second derivative at $x=1$:
+\[
+-1+\alpha+\beta+\gamma=1,\qquad -3+2\alpha+\beta=3,\qquad -6+2\alpha=6,\ptd{1}
+\]
+so $\alpha=6$, $\beta=-6$, $\gamma=2$. \pts{2}
+
+\sol{d} $\dim S_{3,\Delta}=n+k=2+3=5$, with the basis $1,\ x,\ x^2,\ x^3,\ (x-1)_+^3$. \pts{2}
+
+\begin{trap}
+\begin{itemize}
+\item Cox--de Boor uses the \emph{current} order $k$ in $t_{i+k}-t_i$ and $t_{i+k+1}-t_{i+1}$; $B_{i,k+1}$ has degree $k$ and support $[t_i,t_{i+k+1}]$.
+\item In c) the cubic coefficient is fixed, so the three conditions determine $\alpha,\beta,\gamma$ uniquely; a general cubic on $[1,2]$ would leave the $x^3$ coefficient free.
+\end{itemize}
+\end{trap}
+\begin{heart}
+Cox--de Boor recursion; $\operatorname{supp}B_{i,k+1}=[x_i,x_{i+k+1}]$; partition of unity $\sum_iB_{i,k+1}=1$; $\dim S_{k,\Delta}=n+k$.
+\end{heart}
+\end{solution}
+
+\end{document}

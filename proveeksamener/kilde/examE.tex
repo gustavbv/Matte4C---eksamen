@@ -1,0 +1,461 @@
+\input{preamble}
+\renewcommand{\examletter}{E}
+\begin{document}
+\makeheader
+
+% =====================================================================
+\problem{Linear least squares}{10}
+We want to fit the model $m(t)=x_1+x_2t$ to the data
+\[
+\begin{array}{c|cccc}
+t_i&0&1&2&3\\\hline
+y_i&1&2&2&4
+\end{array}
+\]
+in the least-squares sense.
+\begin{enumerate}
+\item Set up the overdetermined system $A\vb x\approx\vb b$.
+\item Solve the normal equations and state the error $\norm{A\vb x^*-\vb b}_2$.
+\item One can show that $A=\tilde Q\tilde R$ with
+\[
+\tilde Q=\big(\vb q_1\ \vb q_2\big),\quad \vb q_1=\tfrac12(1,1,1,1)\T,\quad \vb q_2=\tfrac1{2\sqrt5}(-3,-1,1,3)\T,\qquad \tilde R=\begin{pmatrix}2&3\\0&\sqrt5\end{pmatrix}.
+\]
+Use this to compute $\vb x^*$ again. Why is the QR approach preferred to the normal equations in practice?
+\item Now minimize $\frac12\norm{A\vb x-\vb b}_2^2+\frac\mu2\norm{\vb x}_2^2$ with $\mu>0$ (Tikhonov regularization). Derive the corresponding normal equations, solve them for $\mu=1$ and compare $\norm{\vb x}_2$ with b).
+\end{enumerate}
+
+\begin{solution}
+\sol{a} Each data point gives one row $x_1+x_2t_i=y_i$:
+\[
+A=\begin{pmatrix}1&0\\1&1\\1&2\\1&3\end{pmatrix},\qquad \vb b=\begin{pmatrix}1\\2\\2\\4\end{pmatrix},\qquad \min_{\vb x\in\R^2}\norm{A\vb x-\vb b}_2^2.\ptd{1}
+\]
+
+\sol{b} $A\T A=\begin{psmallmatrix}4&6\\6&14\end{psmallmatrix}$ and $A\T\vb b=(9,18)\T$. \pts{1}
+With $\det A\T A=20$:
+\[
+\vb x^*=\frac1{20}\begin{pmatrix}14&-6\\-6&4\end{pmatrix}\begin{pmatrix}9\\18\end{pmatrix}=\frac1{20}\begin{pmatrix}18\\18\end{pmatrix}=\begin{pmatrix}0.9\\0.9\end{pmatrix}.\ptd{1}
+\]
+$A\vb x^*-\vb b=(-0.1,-0.2,0.7,-0.4)\T$, so $\norm{A\vb x^*-\vb b}_2^2=0.7$ and $\norm{A\vb x^*-\vb b}_2=\sqrt{0.7}\approx0.837$. \pts{1}
+
+\sol{c} $\tilde{\vb d}=\tilde Q\T\vb b=\big(\frac{1+2+2+4}2,\ \frac{-3-2+2+12}{2\sqrt5}\big)\T=\big(\frac92,\ \frac9{2\sqrt5}\big)\T$. \pts{1}
+Back substitution in $\tilde R\vb x=\tilde{\vb d}$: $\sqrt5\,x_2=\frac9{2\sqrt5}$ gives $x_2=\frac9{10}$, and $2x_1+3x_2=\frac92$ gives $x_1=\frac9{10}$, as in b). The error is $\norm{\vb b}_2^2-\norm{\tilde{\vb d}}_2^2=25-\frac{81}4-\frac{81}{20}=0.7$. \pts{1}
+QR avoids forming $A\T A$, whose condition number is the square of that of $A$. Rounding errors are amplified much less, which matters e.g.\ for ill-conditioned Vandermonde matrices. \pts{1}
+
+\sol{d} The gradient of $E(\vb x)=\frac12\norm{A\vb x-\vb b}_2^2+\frac\mu2\norm{\vb x}_2^2$ is $A\T(A\vb x-\vb b)+\mu\vb x$. Setting it to zero:
+\[
+(A\T A+\mu I)\vb x=A\T\vb b.\ptd{1}
+\]
+For $\mu=1$: $\begin{psmallmatrix}5&6\\6&15\end{psmallmatrix}\vb x=\begin{psmallmatrix}9\\18\end{psmallmatrix}$, determinant $39$:
+\[
+\vb x_\mu=\frac1{39}\begin{pmatrix}15&-6\\-6&5\end{pmatrix}\begin{pmatrix}9\\18\end{pmatrix}=\frac1{39}\begin{pmatrix}27\\36\end{pmatrix}=\begin{pmatrix}9/13\\12/13\end{pmatrix}.\ptd{1}
+\]
+$\norm{\vb x_\mu}_2=\frac{15}{13}\approx1.154<\norm{\vb x^*}_2=0.9\sqrt2\approx1.273$: the regularization shrinks the solution, at the price of a larger residual ($\norm{A\vb x_\mu-\vb b}_2^2=\frac{139}{169}\approx0.82$). \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item Normal equations: $A\T A\vb x=A\T\vb b$, not $AA\T$.
+\item With QR only the first $n$ components of $Q\T\vb b$ enter $\tilde R\vb x=\tilde{\vb d}$; the remaining ones give the error.
+\item The factor in front of $I$ depends on how the penalty is scaled: $\frac\mu2\norm{\vb x}^2$ gives $\mu I$, $\mu\norm{\vb x}^2$ with $\frac12\norm{A\vb x-\vb b}^2$ gives $2\mu I$.
+\end{itemize}
+\end{trap}
+\begin{heart}
+Normal equations $A\T A\vb x=A\T\vb b$; QR: $\tilde R\vb x=\tilde Q\T\vb b$, error $=\sum_{i>n}d_i^2$; $\nabla\frac12\norm{A\vb x-\vb b}_2^2=A\T(A\vb x-\vb b)$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{CP decomposition and ALS}{8}
+Let $\ten X\in\R^{2\times2\times2}$ be given by its frontal slices
+\[
+X_{::1}=\begin{pmatrix}1&2\\3&4\end{pmatrix},\qquad X_{::2}=\begin{pmatrix}0&1\\1&0\end{pmatrix}.
+\]
+\begin{enumerate}
+\item State the matricizations $X_{(1)}$, $X_{(2)}$ and $X_{(3)}$.
+\item For a rank-1 approximation $\vb a\op\vb b\op\vb c$, the ALS update of the first factor is $\vb a=X_{(1)}\big((\vb c\kr\vb b)\T\big)^\dagger$. Show that
+\[
+\vb a=\frac{X_{(1)}(\vb c\otimes\vb b)}{\norm{\vb b}_2^2\norm{\vb c}_2^2},\qquad\text{i.e.}\qquad a_i=\frac{1}{\norm{\vb b}_2^2\norm{\vb c}_2^2}\sum_{j,k}x_{ijk}b_jc_k.
+\]
+\item Compute this update for $\vb b=(1,1)\T$ and $\vb c=(1,0)\T$.
+\item State the ALS algorithm for a rank-$r$ CP decomposition and a stopping criterion. Why is it called \emph{alternating} least squares?
+\end{enumerate}
+
+\begin{solution}
+\sol{a}
+\[
+X_{(1)}=\begin{pmatrix}1&2&0&1\\3&4&1&0\end{pmatrix},\qquad
+X_{(2)}=\begin{pmatrix}1&3&0&1\\2&4&1&0\end{pmatrix},\qquad
+X_{(3)}=\begin{pmatrix}1&3&2&4\\0&1&1&0\end{pmatrix}.\ptd{2}
+\]
+
+\sol{b} For $r=1$ the Khatri--Rao product is a single Kronecker column, $\vb c\kr\vb b=\vb c\otimes\vb b=:\vb w\in\R^4$, so $(\vb c\kr\vb b)\T=\vb w\T$ is a row vector. Its SVD is $\vb w\T=1\cdot\norm{\vb w}_2\cdot(\vb w/\norm{\vb w}_2)\T$, hence $(\vb w\T)^\dagger=\vb w/\norm{\vb w}_2^2$. \pts{1}
+Furthermore $\norm{\vb c\otimes\vb b}_2^2=\sum_{j,k}c_k^2b_j^2=\norm{\vb b}_2^2\norm{\vb c}_2^2$, and the entry of $\vb c\otimes\vb b$ belonging to column $(j,k)$ of $X_{(1)}$ is $c_kb_j$. This gives both formulas; the second one is $\vb a=\ten X\times_2\vb b\times_3\vb c$ divided by $\norm{\vb b}_2^2\norm{\vb c}_2^2$. \pts{1}
+
+\sol{c} $\vb c\otimes\vb b=(1\cdot\vb b,\,0\cdot\vb b)=(1,1,0,0)\T$ and $\norm{\vb b}_2^2\norm{\vb c}_2^2=2$. \pts{1}
+$X_{(1)}(1,1,0,0)\T=(3,7)\T$, so $\vb a=(\frac32,\frac72)\T$. \pts{1}
+
+\sol{d} Start with $A^{(0)},B^{(0)},C^{(0)}\in\R^{n_k\times r}$ and repeat for $k=0,1,\dots$
+\begin{align*}
+A^{(k+1)}&=X_{(1)}\big((C^{(k)}\kr B^{(k)})\T\big)^\dagger,\\
+B^{(k+1)}&=X_{(2)}\big((C^{(k)}\kr A^{(k+1)})\T\big)^\dagger,\\
+C^{(k+1)}&=X_{(3)}\big((B^{(k+1)}\kr A^{(k+1)})\T\big)^\dagger,
+\end{align*}
+until a maximal number of iterations is reached or the relative change of $\norm{\ten X-[\![A,B,C]\!]}_{\mathrm F}$ is below a tolerance. \pts{1}
+Each update solves a \emph{linear} least-squares problem in one factor while the other two are fixed, and the three factors take turns. The full problem is nonlinear; ALS decreases the error in every step but is not guaranteed to find the global optimum. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item The pseudo-inverse of a row vector $\vb w\T$ is the column $\vb w/\norm{\vb w}_2^2$, not $\vb w$.
+\item Use the newest factors in each update ($A^{(k+1)}$ in the update of $B$).
+\end{itemize}
+\end{trap}
+\begin{heart}
+$X_{(1)}=A(C\kr B)\T$, $X_{(2)}=B(C\kr A)\T$, $X_{(3)}=C(B\kr A)\T$, and the ALS updates above.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{The sphere and the chain rule}{8}
+The unit sphere is parametrized by
+\[
+\vb s(u,v)=\begin{pmatrix}\cos u\sin v\\\sin u\sin v\\\cos v\end{pmatrix},\qquad (u,v)\in[0,2\pi)\times[0,\pi].
+\]
+\begin{enumerate}
+\item Compute $\vb s_u$, $\vb s_v$ and show that $\vb s_u\times\vb s_v=-\sin v\;\vb s(u,v)$. Where is the parametrization not smooth?
+\item Determine the tangent plane in $\vb p=\vb s(\frac\pi4,\frac\pi4)$.
+\item Use $F(x,y,z)=x^2+y^2+z^2-1$ to determine the tangent plane in the north pole $(0,0,1)\T$. Is the sphere smooth there?
+\item Let $\boldsymbol\gamma(t)=\vb s(t,t)$, $t\in(0,\pi)$. Compute $\boldsymbol\gamma'(\frac\pi2)$ with the chain rule and check that it is orthogonal to $\boldsymbol\gamma(\frac\pi2)$.
+\end{enumerate}
+
+\begin{solution}
+\sol{a}
+\[
+\vb s_u=\begin{pmatrix}-\sin u\sin v\\\cos u\sin v\\0\end{pmatrix},\qquad \vb s_v=\begin{pmatrix}\cos u\cos v\\\sin u\cos v\\-\sin v\end{pmatrix}.\ptd{1}
+\]
+The components of the cross product are
+\begin{align*}
+(\vb s_u\times\vb s_v)_1&=\cos u\sin v\cdot(-\sin v)-0=-\cos u\sin^2v,\\
+(\vb s_u\times\vb s_v)_2&=0-(-\sin u\sin v)(-\sin v)=-\sin u\sin^2v,\\
+(\vb s_u\times\vb s_v)_3&=(-\sin u\sin v)\sin u\cos v-\cos u\sin v\cos u\cos v=-\sin v\cos v.
+\end{align*}
+Hence $\vb s_u\times\vb s_v=-\sin v\,(\cos u\sin v,\sin u\sin v,\cos v)\T=-\sin v\;\vb s$. \pts{1}
+It vanishes for $v\in\{0,\pi\}$, the poles, where $\vb s_u=\vb 0$ (and all $u$ give the same point). There the parametrization is not smooth. \pts{1}
+
+\sol{b} $\vb p=(\frac12,\frac12,\frac{\sqrt2}2)\T$, and by a) the normal is parallel to $\vb s(u,v)=\vb p$. \pts{1}
+The tangent plane is $\ip{\vb p}{\vb x-\vb p}=0$, i.e.\ $\frac x2+\frac y2+\frac{\sqrt2}2z=\norm{\vb p}_2^2=1$. \pts{1}
+
+\sol{c} $\nabla F=(2x,2y,2z)\T$, so $\nabla F(0,0,1)=(0,0,2)\T\neq\vb 0$ and the tangent plane is $z=1$. The sphere is smooth in the pole; only this parametrization fails there. \pts{1}
+
+\sol{d} By the chain rule $\boldsymbol\gamma'(t)=\vb s'(t,t)\begin{psmallmatrix}1\\1\end{psmallmatrix}=\vb s_u(t,t)+\vb s_v(t,t)$. At $t=\frac\pi2$: $\vb s_u=(-1,0,0)\T$ and $\vb s_v=(0,0,-1)\T$, so $\boldsymbol\gamma'(\frac\pi2)=(-1,0,-1)\T$. \pts{1}
+$\boldsymbol\gamma(\frac\pi2)=(0,1,0)\T$ and $\ip{\boldsymbol\gamma'(\frac\pi2)}{\boldsymbol\gamma(\frac\pi2)}=0$. This must hold: $\norm{\boldsymbol\gamma(t)}_2^2=1$ gives $\frac{\mathrm d}{\mathrm dt}\norm{\boldsymbol\gamma}_2^2=2\ip{\boldsymbol\gamma}{\boldsymbol\gamma'}=0$, so the curve stays on the sphere and its velocity is tangent to it. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item A parametrization that is not smooth in a point does not mean that the surface is not smooth there (poles of the sphere).
+\item In the chain rule $\vb s'(u,v)$ is the $3\times2$ matrix $(\vb s_u\ \vb s_v)$, multiplied by $(u'(t),v'(t))\T$.
+\end{itemize}
+\end{trap}
+\begin{heart}
+Chain rule $\vb F'(\vb a)=\vb G'(\vb U(\vb a))\,\vb U'(\vb a)$; total derivative $\vb s'=(\vb s_u\ \vb s_v)$; normal $\vb s_u\times\vb s_v$; $\nabla F\perp$ level set $F=c$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Gauss--Newton}{7}
+We fit the model $m(t;\vb x)=x_1\e^{x_2t}$ to the data $(t_i,y_i)=(0,1),(1,2),(2,4)$ with the residuals $r_i(\vb x)=x_1\e^{x_2t_i}-y_i$ and $E(\vb x)=\frac12\norm{\vb R(\vb x)}_2^2$.
+\begin{enumerate}
+\item Compute $\vb R(\vb x)$ and its Jacobi matrix $\vb R'(\vb x)$, and evaluate both at $\vb x^{(0)}=(1,0)\T$.
+\item Perform one Gauss--Newton step starting from $\vb x^{(0)}$.
+\item One finds $E(\vb x^{(0)})=5$ and $E(\vb x^{(1)})\approx82.6$. Interpret this. How does the Levenberg--Marquardt method change the step, and what happens for a large parameter $\lambda$?
+\end{enumerate}
+
+\begin{solution}
+\sol{a}
+\[
+\vb R(\vb x)=\begin{pmatrix}x_1-1\\x_1\e^{x_2}-2\\x_1\e^{2x_2}-4\end{pmatrix},\qquad
+\vb R'(\vb x)=\begin{pmatrix}1&0\\\e^{x_2}&x_1\e^{x_2}\\\e^{2x_2}&2x_1\e^{2x_2}\end{pmatrix}.\ptd{1}
+\]
+At $\vb x^{(0)}=(1,0)\T$: $\vb R=(0,-1,-3)\T$ and $J=\vb R'(\vb x^{(0)})=\begin{psmallmatrix}1&0\\1&1\\1&2\end{psmallmatrix}$. \pts{1}
+
+\sol{b} $J\T J=\begin{psmallmatrix}3&3\\3&5\end{psmallmatrix}$ and $J\T\vb R=(-4,-7)\T$. \pts{1}
+Solve $J\T J\Delta=-J\T\vb R$ (determinant $6$):
+\[
+\Delta=\frac16\begin{pmatrix}5&-3\\-3&3\end{pmatrix}\begin{pmatrix}4\\7\end{pmatrix}=\frac16\begin{pmatrix}-1\\9\end{pmatrix},\qquad \vb x^{(1)}=\vb x^{(0)}+\Delta=\begin{pmatrix}5/6\\3/2\end{pmatrix}.\ptd{2}
+\]
+
+\sol{c} The error increased. Gauss--Newton uses the linearization $\vb R(\vb x+\Delta)\approx\vb R(\vb x)+J\Delta$, which is only accurate for small $\Delta$. Here the step is too large ($x_2$ jumps from $0$ to $1.5$, the minimizer is $(1,\ln2)$): Gauss--Newton only converges locally. \pts{1}
+Levenberg--Marquardt adds the penalty $\frac\lambda2\norm\Delta_2^2$ and solves $(J\T J+\lambda I)\Delta=-J\T\vb R$ ($\frac1\lambda$ acts like a trust radius). For large $\lambda$, $\Delta\approx-\frac1\lambda J\T\vb R=-\frac1\lambda\nabla E$, a short gradient descent step that decreases $E$; for small $\lambda$ it is the Gauss--Newton step. With $\lambda=10$ one gets $\Delta=(\frac{13}{62},\frac{79}{186})\T\approx(0.21,0.42)\T$ and $E\approx0.72<5$. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item The Jacobi matrix contains the derivatives with respect to the \emph{parameters} $x_1,x_2$, one row per data point.
+\item The right-hand side is $-J\T\vb R$, with a minus sign.
+\end{itemize}
+\end{trap}
+\begin{heart}
+$\nabla E=J\T\vb R$; Gauss--Newton $(J\T J)\Delta=-J\T\vb R$; Levenberg--Marquardt $(J\T J+\lambda I)\Delta=-J\T\vb R$. The $\ln$ trick ($\ln y=\ln x_1+x_2t$) gives a linear problem, but minimizes a different error.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Gradient descent and step sizes}{10}
+Consider $f(x,y)=x^2+5y^2$.
+\begin{enumerate}
+\item Compute $\nabla f$, $\Hess f$ and the minimizer of $f$. Show that $\nabla f(1,1)$ is orthogonal to the level curve of $f$ through $(1,1)$.
+\item Gradient descent with constant step size $s$ from $(x_0,y_0)$: show that $x_k=(1-2s)^kx_0$ and $y_k=(1-10s)^ky_0$. For which $s$ does the method converge for every starting point? What happens for $s=\frac14$?
+\item Exact line search: starting from $\vb x^{(0)}=(1,1)\T$, determine $s^*=\arg\min_{s>0}\varphi(s)$ with $\varphi(s)=f\big(\vb x^{(0)}-s\nabla f(\vb x^{(0)})\big)$, using the chain rule, and compute $\vb x^{(1)}$. Show that $\nabla f(\vb x^{(1)})\perp\nabla f(\vb x^{(0)})$.
+\item Perform one Newton step for the minimization of $f$ from $(1,1)\T$. Why does it reach the minimizer?
+\end{enumerate}
+
+\begin{solution}
+\sol{a} $\nabla f=(2x,10y)\T$ and $\Hess f=\begin{psmallmatrix}2&0\\0&10\end{psmallmatrix}$ is positive definite, so $(0,0)$ is the unique (global) minimizer. \pts{1}
+The level curve $x^2+5y^2=6$ through $(1,1)$ satisfies $2x\dd x+10y\dd y=0$, so its tangent direction is $(10y,-2x)\T\propto(5,-1)\T$ at $(1,1)$. Then $\ip{\nabla f(1,1)}{(5,-1)\T}=\ip{(2,10)\T}{(5,-1)\T}=10-10=0$. \pts{1}
+
+\sol{b} $x_{k+1}=x_k-s\cdot2x_k=(1-2s)x_k$ and $y_{k+1}=y_k-s\cdot10y_k=(1-10s)y_k$, which gives the formulas by induction. \pts{1}
+Convergence for every starting point requires $\abs{1-2s}<1$ and $\abs{1-10s}<1$, i.e.\ $0<s<\frac15$ (the limit is $\frac2{\lambda_{\max}}$ with $\lambda_{\max}=10$). \pts{1}
+For $s=\frac14$: $1-10s=-\frac32$, so $y_k$ changes sign and grows. The method diverges, although the $x$-component converges ($1-2s=\frac12$). \pts{1}
+
+\sol{c} With $\vb g=\nabla f(1,1)=(2,10)\T$: $\varphi(s)=(1-2s)^2+5(1-10s)^2$. The chain rule gives $\varphi'(s)=\ip{\nabla f(\vb x^{(0)}-s\vb g)}{-\vb g}=-2\cdot2(1-2s)-10\cdot10(1-10s)=1008s-104$. \pts{1}
+$\varphi'(s)=0$ gives $s^*=\frac{104}{1008}=\frac{13}{126}$, a minimum since $\varphi''=1008>0$. \pts{1}
+$\vb x^{(1)}=\big(1-\frac{26}{126},\,1-\frac{130}{126}\big)\T=\big(\frac{50}{63},-\frac2{63}\big)\T$ with $f(\vb x^{(1)})=\frac{40}{63}\approx0.63$ (down from $6$). $\nabla f(\vb x^{(1)})=\frac1{63}(100,-20)\T$ and $\ip{\nabla f(\vb x^{(1)})}{\vb g}=\frac{200-200}{63}=0$: consecutive search directions are orthogonal, which causes the zigzag in narrow valleys. \pts{1}
+
+\sol{d} $\Hess f\,\Delta=-\nabla f(1,1)$: $\begin{psmallmatrix}2&0\\0&10\end{psmallmatrix}\Delta=-\begin{psmallmatrix}2\\10\end{psmallmatrix}$ gives $\Delta=(-1,-1)\T$ and $\vb x^{(1)}=(0,0)\T$. \pts{1}
+$f$ is quadratic, so its second-order Taylor expansion, which Newton's method minimizes, is exact. One step reaches the minimizer from every starting point. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item The step size limit is set by the \emph{largest} curvature (eigenvalue of the Hessian); convergence in one component is not enough.
+\item $\varphi'(s)$ needs the inner derivative $-\nabla f(\vb x^{(0)})$ from the chain rule.
+\end{itemize}
+\end{trap}
+\begin{heart}
+Gradient descent $\vb x^{(k+1)}=\vb x^{(k)}-s_k\nabla f(\vb x^{(k)})$; exact line search $s^*=\arg\min_s f(\vb x-s\nabla f(\vb x))$; Newton for optimization $\Hess f\,\Delta=-\nabla f$; $\nabla f$ is orthogonal to the level sets.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Fourier series and best approximation}{12}
+Let $f$ be the $2\pi$-periodic function with $f(x)=1$ for $\abs x<\frac\pi2$ and $f(x)=0$ for $\frac\pi2<\abs x\le\pi$.
+\begin{enumerate}
+\item Compute the complex Fourier coefficients $c_k$ and the real coefficients $a_0,a_n,b_n$.
+\item To which values does the Fourier series converge at $x=0$ and at $x=\frac\pi2$? Use $x=0$ to evaluate $1-\frac13+\frac15-\frac17\pm\cdots$.
+\item Use Parseval's identity to compute $\sum_{k\ \mathrm{odd}}\frac1{k^2}=1+\frac1{9}+\frac1{25}+\cdots$.
+\item Which trigonometric polynomial of degree at most $2$ approximates $f$ best in the norm $\norm g^2=\int_{-\pi}^\pi\abs{g(x)}^2\dd x$? Compute $\frac1{2\pi}\norm{f-S_2f}^2$.
+\item Describe the behaviour of the partial sums $S_Nf$ close to $x=\frac\pi2$ for large $N$. Does $\max_xS_Nf(x)$ converge to $1$?
+\end{enumerate}
+
+\begin{solution}
+\sol{a} $c_0=\frac1{2\pi}\int_{-\pi/2}^{\pi/2}1\dd x=\frac12$. \pts{1}
+For $k\neq0$:
+\[
+c_k=\frac1{2\pi}\int_{-\pi/2}^{\pi/2}\e^{-\iu kx}\dd x=\frac1{2\pi}\cdot\frac{\e^{-\iu k\pi/2}-\e^{\iu k\pi/2}}{-\iu k}=\frac{\sin(k\pi/2)}{k\pi}.\ptd{1}
+\]
+$a_0=\frac12$, $a_n=c_n+c_{-n}=\frac{2\sin(n\pi/2)}{n\pi}$ ($=\frac2\pi,0,-\frac2{3\pi},0,\frac2{5\pi},\dots$) and $b_n=0$, since $f$ is even. \pts{1}
+
+\sol{b} $f$ is piecewise continuously differentiable. At $x=0$ it is continuous, so the series converges to $f(0)=1$; at the jump $x=\frac\pi2$ it converges to the midpoint $\frac12(1+0)=\frac12$. \pts{1}
+At $x=0$: $1=\frac12+\frac2\pi\big(1-\frac13+\frac15-\cdots\big)$, hence $1-\frac13+\frac15-\cdots=\frac\pi4$. \pts{1}
+
+\sol{c} $\frac1{2\pi}\int_{-\pi}^\pi\abs f^2\dd x=\frac1{2\pi}\cdot\pi=\frac12$ and $\sum_k\abs{c_k}^2=\frac14+2\sum_{k\ \mathrm{odd}\ge1}\frac1{k^2\pi^2}$. \pts{1}
+So
+\[
+\sum_{k\ \mathrm{odd}}\frac1{k^2}=\frac{\pi^2}2\Big(\frac12-\frac14\Big)=\frac{\pi^2}8.\ptd{2}
+\]
+
+\sol{d} The best approximation in $V_2=\spn\{\e^{\iu kx}:\abs k\le2\}$ is the orthogonal projection $\Pi_2f=S_2f=\sum_{\abs k\le2}c_k\e^{\iu kx}=\frac12+\frac2\pi\cos x$ (since $a_2=0$). \pts{1}
+By Parseval, the error consists of the remaining coefficients:
+$\frac1{2\pi}\norm{f-S_2f}^2=\sum_{\abs k>2}\abs{c_k}^2=\frac12-\big(\frac14+\frac2{\pi^2}\big)=\frac14-\frac2{\pi^2}\approx0.047$. \pts{1}
+
+\sol{e} Close to the jump the partial sums overshoot (Gibbs phenomenon): $\max_xS_Nf(x)\approx1.09$, about $9\,\%$ of the jump height above $1$. The overshoot does not vanish for $N\to\infty$, it only moves closer to the jump, so $\max_xS_Nf(x)$ does not converge to $1$: the convergence is pointwise, but not uniform close to the jump. \pts{2}
+
+\begin{trap}
+\begin{itemize}
+\item At a jump the series converges to the midpoint, not to either one-sided value.
+\item In Parseval the coefficients for $k$ and $-k$ both count; the left-hand side has the factor $\frac1{2\pi}$.
+\end{itemize}
+\end{trap}
+\begin{heart}
+Best approximation: $\norm{f-\Pi_Nf}=\min_{g\in V_N}\norm{f-g}$, with $\Pi_Nf=S_Nf$. Parseval $\frac1{2\pi}\int\abs f^2=\sum\abs{c_k}^2$; the Fourier series converges to $\frac12(f(x^-)+f(x^+))$; Gibbs overshoot $\approx9\,\%$ of the jump.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{FFT and filtering}{10}
+Consider the signal $\vb f=(1,2,3,4)\T$ ($N=4$).
+\begin{enumerate}
+\item Compute $\hat{\vb f}=\frac14\F_4\vb f$.
+\item For even $N$ let $g_j=f_j+f_{j+N/2}$ and $h_j=(f_j-f_{j+N/2})\,w_N^j$, $j=0,\dots,\frac N2-1$. Show that $\hat f_{2m}=\frac12\hat g_m$ and $\hat f_{2m+1}=\frac12\hat h_m$, where $\hat{\vb g},\hat{\vb h}$ are DFTs of length $\frac N2$. Verify a) with this.
+\item Which frequencies do $\hat f_0,\dots,\hat f_3$ belong to? State the amplitudes $\abs{\hat f_k}$.
+\item Filter out the frequencies $\pm1$: set $\hat f_1=\hat f_3=0$ and compute the filtered signal with the inverse DFT.
+\end{enumerate}
+
+\begin{solution}
+\sol{a} With $w_4=-\iu$:
+\begin{align*}
+\hat f_0&=\tfrac14(1+2+3+4)=\tfrac52, & \hat f_1&=\tfrac14(1-2\iu-3+4\iu)=-\tfrac12+\tfrac\iu2,\\
+\hat f_2&=\tfrac14(1-2+3-4)=-\tfrac12, & \hat f_3&=\tfrac14(1+2\iu-3-4\iu)=-\tfrac12-\tfrac\iu2.\ptd{2}
+\end{align*}
+
+\sol{b} Split the sum into the first and the second half and use $w_N^{(N/2)k}=(-1)^k$:
+$\hat f_k=\frac1N\sum_{j=0}^{N/2-1}\big(f_j+(-1)^kf_{j+N/2}\big)w_N^{jk}$. \pts{1}
+For $k=2m$, $w_N^{2jm}=w_{N/2}^{jm}$ gives $\hat f_{2m}=\frac12\cdot\frac1{N/2}\sum_j(f_j+f_{j+N/2})w_{N/2}^{jm}=\frac12\hat g_m$. For $k=2m+1$, $(-1)^k=-1$ and $w_N^{j(2m+1)}=w_N^j\,w_{N/2}^{jm}$ give $\hat f_{2m+1}=\frac12\hat h_m$. \pts{1}
+Check: $\vb g=(1+3,2+4)=(4,6)$ and $\vb h=\big((1-3)\cdot1,\,(2-4)(-\iu)\big)=(-2,2\iu)$. Then $\hat{\vb g}=\big(\frac{4+6}2,\frac{4-6}2\big)=(5,-1)$ and $\hat{\vb h}=\big(\frac{-2+2\iu}2,\frac{-2-2\iu}2\big)=(-1+\iu,-1-\iu)$, so $\hat f_0=\frac52$, $\hat f_2=-\frac12$, $\hat f_1=\frac{-1+\iu}2$, $\hat f_3=\frac{-1-\iu}2$, as in a). \pts{1}
+
+\sol{c} $\hat f_k$ belongs to the frequency $k$ for $k<\frac N2$ and to $k-N$ for $k>\frac N2$: $\hat f_0\leftrightarrow0$, $\hat f_1\leftrightarrow1$, $\hat f_3\leftrightarrow-1$, and $\hat f_2\leftrightarrow\pm2$ (Nyquist frequency). After the FFT-shift the order $(\hat f_2,\hat f_3,\hat f_0,\hat f_1)$ belongs to $(-2,-1,0,1)$. \pts{1}
+Amplitudes: $\abs{\hat f_0}=\frac52$, $\abs{\hat f_1}=\abs{\hat f_3}=\frac{\sqrt2}2$, $\abs{\hat f_2}=\frac12$. Since $\vb f$ is real, $\hat f_3=\overline{\hat f_1}$. \pts{1}
+
+\sol{d} The filtered coefficients are $(\frac52,0,-\frac12,0)$. With the inverse DFT $f_j=\sum_k\hat f_k\e^{2\pi\iu jk/4}$: \pts{1}
+\[
+f_j=\tfrac52-\tfrac12(-1)^j,\qquad\text{i.e.}\qquad \vb f_{\mathrm{filt}}=(2,3,2,3)\T.\ptd{2}
+\]
+
+\begin{trap}
+\begin{itemize}
+\item $\hat{\vb g},\hat{\vb h}$ carry their own factor $\frac1{N/2}$, which is why the factor $\frac12$ appears.
+\item Do not forget the twiddle factor $w_N^j$ in $h_j$.
+\item The inverse DFT has no factor $\frac1N$ (formula sheet).
+\end{itemize}
+\end{trap}
+\begin{heart}
+FFT: one DFT$(N)$ is two DFT$(\frac N2)$ plus $\frac N2$ multiplications, in total $\mathcal O(N\log N)$. Filtering: set coefficients to zero, then apply the inverse DFT. $\hat f_k$ with $k>\frac N2$ belongs to the frequency $k-N$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Wave equation}{14}
+\emph{Part 1.} Consider $u_{tt}=4u_{xx}$ for $x\in\R$, $t>0$, with $u(x,0)=\e^{-x^2}$ and $u_t(x,0)=4x\e^{-x^2}$.
+\begin{enumerate}
+\item Solve the problem with d'Alembert's formula.
+\item Describe the solution. Which condition on the initial values $f,g$ gives a purely right-moving wave?
+\end{enumerate}
+\emph{Part 2.} Consider $u_{tt}=4u_{xx}$ for $0\le x\le\pi$, $t>0$, with $u(0,t)=u(\pi,t)=0$, $u(x,0)=\sin^3x$ and $u_t(x,0)=0$.
+\begin{enumerate}[resume]
+\item Use the solution formula on the formula sheet and a trigonometric identity to determine $u$.
+\item Show that the solution from c) can also be written as $\frac12\big(F(x+2t)+F(x-2t)\big)$, where $F$ is the odd $2\pi$-periodic extension of the initial value.
+\end{enumerate}
+
+\begin{solution}
+\sol{a} d'Alembert with $c=2$: $u(x,t)=\frac12\big(f(x+2t)+f(x-2t)\big)+\frac14\int_{x-2t}^{x+2t}g(s)\dd s$. \pts{1}
+Since $\int4s\e^{-s^2}\dd s=-2\e^{-s^2}$:
+\[
+\frac14\int_{x-2t}^{x+2t}4s\e^{-s^2}\dd s=\frac14\Big[-2\e^{-s^2}\Big]_{x-2t}^{x+2t}=\frac12\Big(\e^{-(x-2t)^2}-\e^{-(x+2t)^2}\Big).\ptd{2}
+\]
+Adding $\frac12\big(\e^{-(x+2t)^2}+\e^{-(x-2t)^2}\big)$ gives $u(x,t)=\e^{-(x-2t)^2}$. \pts{1}
+
+\sol{b} The Gaussian keeps its shape and moves to the right with speed $c=2$. \pts{1}
+In $u=\varphi(x+ct)+\psi(x-ct)$ the left-moving part $\varphi=\frac12\big(f+\frac1c\int^xg\big)$ is constant iff $f'+\frac gc=0$, i.e.\ $g=-cf'$. Here $-2\cdot(-2x\e^{-x^2})=4x\e^{-x^2}=g$. \pts{1}
+
+\sol{c} $\sin^3x=\sin x\cdot\frac{1-\cos2x}2$, and $2\sin\alpha\cos\beta=\sin(\alpha+\beta)+\sin(\alpha-\beta)$ gives $\sin x\cos2x=\frac12(\sin3x-\sin x)$. Hence \pts{1}
+\[
+\sin^3x=\tfrac34\sin x-\tfrac14\sin3x.\ptd{1}
+\]
+The formula sheet with $L=\pi$, $c=2$ gives $u=\sum_n\big(A_n\cos(2nt)+B_n\sin(2nt)\big)\sin(nx)$, and $B_n=0$ since $g=0$. \pts{1}
+$A_n=\frac2\pi\int_0^\pi\sin^3x\sin(nx)\dd x$, so by orthogonality $A_1=\frac34$, $A_3=-\frac14$ and all other $A_n=0$, without computing integrals. \pts{1}
+\[
+u(x,t)=\tfrac34\sin x\cos2t-\tfrac14\sin3x\cos6t.\ptd{2}
+\]
+
+\sol{d} $f(x)=\sin^3x$ is already odd and $2\pi$-periodic, so $F=\sin^3$. With $\sin(\alpha+\beta)+\sin(\alpha-\beta)=2\sin\alpha\cos\beta$:
+\begin{align*}
+\tfrac12\big(F(x+2t)+F(x-2t)\big)&=\tfrac12\Big[\tfrac34\big(\sin(x+2t)+\sin(x-2t)\big)-\tfrac14\big(\sin(3x+6t)+\sin(3x-6t)\big)\Big]\\
+&=\tfrac34\sin x\cos2t-\tfrac14\sin3x\cos6t.\ptd{2}
+\end{align*}
+
+\begin{trap}
+\begin{itemize}
+\item The integral term in d'Alembert's formula has the factor $\frac1{2c}$, here $\frac14$.
+\item $c^2=4$, so $c=2$; the frequencies in time are $\frac{cn\pi}L=2n$.
+\item Use the identity to read off $A_n$; computing $\int_0^\pi\sin^3x\sin(nx)\dd x$ takes much longer.
+\end{itemize}
+\end{trap}
+\begin{heart}
+d'Alembert: $u(x,t)=\frac12\big(f(x+ct)+f(x-ct)\big)+\frac1{2c}\int_{x-ct}^{x+ct}g(s)\dd s$. On a bounded interval it holds with the odd periodic extensions of $f$ and $g$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Crank--Nicolson with a Neumann boundary}{10}
+Consider
+\[
+u_t=u_{xx},\quad 0<x<1,\ t>0,\qquad u(0,t)=0,\quad u_x(1,t)=0,\qquad u(x,0)=2x-x^2.
+\]
+Use $x_i=ih$, $h=\frac1M$, $t_n=nk$, $U_i^n\approx u(x_i,t_n)$ and $\alpha=k/h^2$. The unknowns are $U_1^n,\dots,U_M^n$ (since $U_0^n=0$).
+\begin{enumerate}
+\item Derive the approximation of $u_{xx}$ in the boundary node $x_M=1$, using a ghost node $x_{M+1}$ and a central difference for $u_x(1,t)=0$.
+\item For $M=2$, write $u_{xx}$ at the nodes as $\frac1{h^2}A\vb U$ with $A\in\R^{2\times2}$, and derive the Crank--Nicolson scheme $\big(I-\frac\alpha2A\big)\vb U^{n+1}=\big(I+\frac\alpha2A\big)\vb U^n$.
+\item Compute one Crank--Nicolson step with $h=\frac12$ and $k=\frac14$.
+\item State the order of accuracy and the stability of the method. (For comparison: $u(\frac12,\frac14)\approx0.394$ and $u(1,\frac14)\approx0.557$.)
+\end{enumerate}
+
+\begin{solution}
+\sol{a} The central difference gives $\frac{U_{M+1}-U_{M-1}}{2h}=u_x(1,t)=0$, so $U_{M+1}=U_{M-1}$. \pts{1}
+Inserting into the second difference at $i=M$:
+\[
+u_{xx}(x_M)\approx\frac{U_{M-1}-2U_M+U_{M+1}}{h^2}=\frac{2U_{M-1}-2U_M}{h^2}.\ptd{1}
+\]
+Both differences are of order $\mathcal O(h^2)$. \pts{1}
+
+\sol{b} For $M=2$ the unknowns are $U_1$ (at $x=\frac12$) and $U_2$ (at $x=1$): $i=1$ gives $\frac{U_0-2U_1+U_2}{h^2}$ with $U_0=0$, and $i=2$ gives $\frac{2U_1-2U_2}{h^2}$:
+\[
+A=\begin{pmatrix}-2&1\\2&-2\end{pmatrix}.\ptd{1}
+\]
+Crank--Nicolson averages explicit and implicit Euler:
+$\frac{\vb U^{n+1}-\vb U^n}k=\frac1{2h^2}A\big(\vb U^{n+1}+\vb U^n\big)$. Multiplying by $k$ and using $\alpha=k/h^2$ gives $\big(I-\frac\alpha2A\big)\vb U^{n+1}=\big(I+\frac\alpha2A\big)\vb U^n$. \pts{2}
+
+\sol{c} $\vb U^0=\big(f(\frac12),f(1)\big)=(\frac34,1)\T$ and $\alpha=\frac{1/4}{1/4}=1$. The right-hand side is $\big(I+\frac12A\big)\vb U^0=\begin{psmallmatrix}0&1/2\\1&0\end{psmallmatrix}\begin{psmallmatrix}3/4\\1\end{psmallmatrix}=\begin{psmallmatrix}1/2\\3/4\end{psmallmatrix}$. \pts{1}
+$I-\frac12A=\begin{psmallmatrix}2&-1/2\\-1&2\end{psmallmatrix}$ has determinant $\frac72$, so
+\[
+\vb U^1=\frac27\begin{pmatrix}2&1/2\\1&2\end{pmatrix}\begin{pmatrix}1/2\\3/4\end{pmatrix}=\frac27\begin{pmatrix}11/8\\2\end{pmatrix}=\begin{pmatrix}11/28\\4/7\end{pmatrix}\approx\begin{pmatrix}0.393\\0.571\end{pmatrix}.\ptd{2}
+\]
+
+\sol{d} The error is $\mathcal O(h^2+k^2)$, and the method is unconditionally stable (no condition like $\alpha\le\frac12$). Even with $\alpha=1$ and $h=\frac12$ the values are close to the exact $0.394$ and $0.557$; explicit Euler with $\alpha=1$ would give $(\frac14,\frac12)$ and is unstable. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item The boundary row is $(2,-2)$: the factor $2$ comes from the ghost node.
+\item With a Neumann condition $U_M$ is an unknown, not a given value.
+\item Crank--Nicolson is the average of both Euler methods, hence $\frac\alpha2$ on both sides.
+\end{itemize}
+\end{trap}
+\begin{heart}
+Ghost node for $u_x(L,t)=g_L$: $U_{M+1}=U_{M-1}+2hg_L$. Crank--Nicolson: $(I-\frac\alpha2A)\vb U^{n+1}=(I+\frac\alpha2A)\vb U^n+$ boundary terms, error $\mathcal O(h^2+k^2)$, unconditionally stable.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Bézier curves}{11}
+Consider the cubic Bézier curve $\vb b(t)=\sum_{i=0}^3\vb p_ib_{i,3}(t)$, $t\in[0,1]$, with the control points
+\[
+\vb p_0=\begin{pmatrix}0\\0\end{pmatrix},\quad \vb p_1=\begin{pmatrix}1\\2\end{pmatrix},\quad \vb p_2=\begin{pmatrix}3\\2\end{pmatrix},\quad \vb p_3=\begin{pmatrix}4\\0\end{pmatrix}.
+\]
+\begin{enumerate}
+\item Evaluate $\vb b(\frac12)$ with the de Casteljau algorithm and state all intermediate points.
+\item Compute $\vb b'(0)$ and $\vb b'(1)$. Sketch the control polygon and the curve.
+\item Show that the second component of $\vb b$ is $y(t)=6t(1-t)$. Why does the curve lie in the convex hull of the control points?
+\item A second cubic Bézier curve with control points $\vb q_0,\dots,\vb q_3$ is attached, $\vb B(t)=\vb b(t)$ for $0\le t<1$ and $\vb B(t)=\vb b(t-1;\vb q_0,\dots,\vb q_3)$ for $1\le t\le2$. Determine $\vb q_0,\vb q_1$ such that $\vb B$ is continuous and differentiable at $t=1$. For $\vb q_2=(7,-2)\T$, $\vb q_3=(8,0)\T$: is $\vb B$ twice differentiable at $t=1$? Which $\vb q_2$ would make it so?
+\end{enumerate}
+
+\begin{solution}
+\sol{a} For $t=\frac12$ each step takes midpoints, $\vb b_{i,k}=\frac12(\vb b_{i,k-1}+\vb b_{i+1,k-1})$. Level 1: $(\frac12,1)$, $(2,2)$, $(\frac72,1)$. \pts{1}
+Level 2: $(\frac54,\frac32)$, $(\frac{11}4,\frac32)$. Level 3: $\vb b(\frac12)=(2,\frac32)\T$. \pts{1}
+Check with the Bernstein form: $\vb b(\frac12)=\frac18(\vb p_0+3\vb p_1+3\vb p_2+\vb p_3)=\frac18(16,12)\T=(2,\frac32)\T$. \pts{1}
+
+\sol{b} $\vb b'(0)=3(\vb p_1-\vb p_0)=(3,6)\T$ and $\vb b'(1)=3(\vb p_3-\vb p_2)=(3,-6)\T$. The curve starts in $\vb p_0$ in the direction of $\vb p_1$, ends in $\vb p_3$ coming from the direction of $\vb p_2$, and is symmetric with respect to $x=2$, with its highest point $(2,\frac32)$. \pts{2}
+
+\sol{c} $y(t)=0\cdot b_{0,3}+2\cdot3t(1-t)^2+2\cdot3t^2(1-t)+0\cdot b_{3,3}=6t(1-t)\big((1-t)+t\big)=6t(1-t)$. \pts{1}
+$b_{i,3}(t)\ge0$ and $\sum_ib_{i,3}(t)=1$, so $\vb b(t)$ is a convex combination of the control points and lies in their convex hull. For example $0\le y(t)\le\frac32\le2$. \pts{1}
+
+\sol{d} Continuity: $\vb q_0=\vb p_3=(4,0)\T$. Differentiability: $\vb q_1-\vb q_0=\vb p_3-\vb p_2$, i.e.\ $\vb q_1=2\vb q_0-\vb p_2=(5,-2)\T$. \pts{2}
+Second derivatives: the first curve has $\vb b''(1)=6(\vb p_1-2\vb p_2+\vb p_3)=(-6,-12)\T$, the second starts with $6(\vb q_0-2\vb q_1+\vb q_2)=6\big((4,0)-(10,-4)+(7,-2)\big)=(6,12)\T$. They differ, so $\vb B$ is not twice differentiable at $t=1$. \pts{1}
+$C^2$ requires $\vb q_0-2\vb q_1+\vb q_2=\vb p_1-2\vb p_2+\vb p_3=(-1,-2)\T$, i.e.\ $\vb q_2=(-1,-2)-(4,0)+(10,-4)=(5,-6)\T$. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item De Casteljau uses $(1-t)\vb b_{i,k-1}+t\,\vb b_{i+1,k-1}$; midpoints only for $t=\frac12$.
+\item The derivative at the end points has the factor $n$ (here $3$).
+\end{itemize}
+\end{trap}
+\begin{heart}
+$b_{i,n}(t)=\binom ni t^i(1-t)^{n-i}$; $\vb b'(0)=n(\vb p_1-\vb p_0)$, $\vb b'(1)=n(\vb p_n-\vb p_{n-1})$; $\vb b''(0)=n(n-1)(\vb p_0-2\vb p_1+\vb p_2)$. Composite curves: continuous if $\vb q_0=\vb p_3$, differentiable if $\vb q_1=2\vb q_0-\vb p_2$.
+\end{heart}
+\end{solution}
+
+\end{document}

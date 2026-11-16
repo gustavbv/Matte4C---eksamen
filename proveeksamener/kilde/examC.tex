@@ -1,0 +1,543 @@
+\input{preamble}
+\renewcommand{\examletter}{C}
+\begin{document}
+\makeheader
+
+% =====================================================================
+\problem{SVD and Moore--Penrose inverse}{10}
+Consider the matrix
+\[
+A=\begin{pmatrix}1&0&1\\0&1&1\end{pmatrix}\in\R^{2\times 3}.
+\]
+\begin{enumerate}
+\item Compute the singular values of $A$ and a reduced singular value decomposition $A=U\Sigma V\T$ with $\Sigma\in\R^{2\times2}$.
+\item Compute the Moore--Penrose inverse $A^\dagger$.
+\item Consider the linear system $A\vb x=\vb b$ with $\vb b=(1,2)\T$. Compute $\vb x^\dagger=A^\dagger\vb b$ and show that $\tilde{\vb x}=(1,2,0)\T$ also solves the system. Describe all solutions and explain why $\vb x^\dagger$ is the one of smallest norm.
+\item State the best rank-1 approximation $A_1$ of $A$ and the errors $\norm{A-A_1}_2$ and $\norm{A-A_1}_{\mathrm F}$.
+\end{enumerate}
+
+\begin{solution}
+\sol{a} $A$ has fewer rows than columns, so we use the smaller matrix $AA\T\in\R^{2\times2}$:
+\[
+AA\T=\begin{pmatrix}2&1\\1&2\end{pmatrix},\qquad \det(AA\T-\lambda I)=(2-\lambda)^2-1=(\lambda-3)(\lambda-1).
+\]
+Hence $\sigma_1=\sqrt3$, $\sigma_2=1$. \pts{1}
+
+Eigenvectors of $AA\T$: $AA\T-3I=\begin{psmallmatrix}-1&1\\1&-1\end{psmallmatrix}$ gives $\vb u_1=\frac1{\sqrt2}(1,1)\T$, and $AA\T-I=\begin{psmallmatrix}1&1\\1&1\end{psmallmatrix}$ gives $\vb u_2=\frac1{\sqrt2}(1,-1)\T$. \pts{1}
+
+The right singular vectors follow from $A\T\vb u_j=\sigma_j\vb v_j$:
+\[
+\vb v_1=\frac{1}{\sqrt3}\cdot\frac{1}{\sqrt2}\begin{pmatrix}1\\1\\2\end{pmatrix}=\frac1{\sqrt6}\begin{pmatrix}1\\1\\2\end{pmatrix},\qquad
+\vb v_2=\frac{1}{1}\cdot\frac{1}{\sqrt2}\begin{pmatrix}1\\-1\\0\end{pmatrix}.\ptd{1}
+\]
+
+The reduced SVD is
+\[
+A=\underbrace{\frac1{\sqrt2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}}_{U}
+\underbrace{\begin{pmatrix}\sqrt3&0\\0&1\end{pmatrix}}_{\Sigma}
+\underbrace{\begin{pmatrix}\frac1{\sqrt6}&\frac1{\sqrt6}&\frac2{\sqrt6}\\[2pt]\frac1{\sqrt2}&-\frac1{\sqrt2}&0\end{pmatrix}}_{V\T}.\ptd{1}
+\]
+
+\sol{b} By definition $A^\dagger=V\Sigma^{-1}U\T=\frac1{\sigma_1}\vb v_1\vb u_1\T+\frac1{\sigma_2}\vb v_2\vb u_2\T$, with the two terms
+\[
+\frac{1}{\sqrt3\sqrt6\sqrt2}\begin{pmatrix}1&1\\1&1\\2&2\end{pmatrix}=\frac16\begin{pmatrix}1&1\\1&1\\2&2\end{pmatrix},\qquad
+\frac12\begin{pmatrix}1&-1\\-1&1\\0&0\end{pmatrix},
+\qquad\text{so}\qquad
+A^\dagger=\frac13\begin{pmatrix}2&-1\\-1&2\\1&1\end{pmatrix}.\ptd{1}
+\]
+Check: $A$ has full row rank, so $AA^\dagger=I_{2\times2}$ must hold, and indeed $AA^\dagger=\frac13\begin{psmallmatrix}2+1&-1+1\\-1+1&2+1\end{psmallmatrix}=I$. \pts{1}
+
+\sol{c} $\vb x^\dagger=A^\dagger\vb b=\frac13(2-2,\,-1+4,\,1+2)\T=(0,1,1)\T$, and $A\vb x^\dagger=(1,2)\T$. Also $A\tilde{\vb x}=(1+0,\,2+0)\T=\vb b$. \pts{1}
+
+The kernel is given by $x_1+x_3=0$, $x_2+x_3=0$, so $\ker A=\spn\{\vb n\}$ with $\vb n=(1,1,-1)\T$. All solutions are $\vb x=\vb x^\dagger+s\vb n$, $s\in\R$; $\tilde{\vb x}$ is the case $s=1$. Since $\ip{\vb x^\dagger}{\vb n}=0+1-1=0$,
+\[
+\norm{\vb x^\dagger+s\vb n}_2^2=\norm{\vb x^\dagger}_2^2+s^2\norm{\vb n}_2^2=2+3s^2\ \ge\ 2,
+\]
+with equality only for $s=0$. So $\norm{\vb x^\dagger}_2^2=2<5=\norm{\tilde{\vb x}}_2^2$. The Moore--Penrose solution lies in $\operatorname{range}(A\T)=\spn\{\vb v_1,\vb v_2\}$, which is orthogonal to $\ker A$. \pts{1}
+
+\sol{d} The best rank-1 approximation is the truncated SVD
+\[
+A_1=\sigma_1\vb u_1\vb v_1\T=\sqrt3\cdot\frac1{\sqrt2}\cdot\frac1{\sqrt6}\begin{pmatrix}1&1&2\\1&1&2\end{pmatrix}=\frac12\begin{pmatrix}1&1&2\\1&1&2\end{pmatrix}.\ptd{1}
+\]
+The errors are given by the dropped singular value: $\norm{A-A_1}_2=\sigma_2=1$ and $\norm{A-A_1}_{\mathrm F}=\big(\sigma_2^2\big)^{1/2}=1$. (Check: $A-A_1=\frac12\begin{psmallmatrix}1&-1&0\\-1&1&0\end{psmallmatrix}$.) \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item For a wide matrix ($m<n$) use $AA\T$, then get $\vb v_j=A\T\vb u_j/\sigma_j$. Computing the eigenvectors of $A\T A$ separately can give signs that do not match.
+\item $A^\dagger$ has the transposed size, here $3\times2$. Check with $AA^\dagger=I$; $A^\dagger A$ is only a projection (rank 2).
+\item ``Smallest norm'' refers to $\norm{\vb x}_2$; the residual is zero for every solution here.
+\end{itemize}
+\end{trap}
+\begin{heart}
+$A^\dagger=V\Sigma^{-1}U\T$. For full row rank $A^\dagger=A\T(AA\T)^{-1}$ and $\vb x^\dagger=A^\dagger\vb b$ is the solution of minimal norm; for full column rank it is the least-squares solution. Eckart--Young: $\norm{A-A_k}_2=\sigma_{k+1}$, $\norm{A-A_k}_{\mathrm F}=\big(\sum_{j>k}\sigma_j^2\big)^{1/2}$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Matricization and mode products}{8}
+Let $\ten X\in\R^{2\times2\times2}$ be given by its two frontal slices
+\[
+X_{::1}=\begin{pmatrix}1&2\\0&1\end{pmatrix},\qquad X_{::2}=\begin{pmatrix}2&4\\0&2\end{pmatrix}.
+\]
+\begin{enumerate}
+\item State the three matricizations $X_{(1)}$, $X_{(2)}$ and $X_{(3)}$.
+\item Compute the 1-mode product $\ten Y=\ten X\times_1 N$ with $N=\begin{pmatrix}1&-2\\0&1\end{pmatrix}$ and state its frontal slices.
+\item Write $\ten X$ as a sum of two rank-1 tensors and determine the rank of $\ten X$.
+\item Which matricization has rank 1? What does this mean for a Tucker decomposition of $\ten X$ with sizes $(r_1,r_2,r_3)=(2,2,1)$ computed by the HOSVD? Compute the factor matrix $C$.
+\end{enumerate}
+
+\begin{solution}
+\sol{a} The column index runs through the remaining modes ``first index first'':
+\[
+X_{(1)}=\big(X_{::1}\ X_{::2}\big)=\begin{pmatrix}1&2&2&4\\0&1&0&2\end{pmatrix},\qquad
+X_{(2)}=\big(X_{::1}\T\ X_{::2}\T\big)=\begin{pmatrix}1&0&2&0\\2&1&4&2\end{pmatrix},\ptd{2}
+\]
+\[
+X_{(3)}=\begin{pmatrix}\operatorname{vec}(X_{::1})\T\\ \operatorname{vec}(X_{::2})\T\end{pmatrix}=\begin{pmatrix}1&0&2&1\\2&0&4&2\end{pmatrix}.
+\]
+
+\sol{b} With $Y_{(1)}=NX_{(1)}$:
+\[
+Y_{(1)}=\begin{pmatrix}1&-2\\0&1\end{pmatrix}\begin{pmatrix}1&2&2&4\\0&1&0&2\end{pmatrix}=\begin{pmatrix}1&0&2&0\\0&1&0&2\end{pmatrix},
+\qquad\text{so}\qquad Y_{::1}=I_{2\times2},\quad Y_{::2}=2I_{2\times2}.
+\]
+Each frontal slice is multiplied from the left, $Y_{::k}=NX_{::k}$; here $N=X_{::1}^{-1}$. \pts{2}
+
+\sol{c} Since $X_{::2}=2X_{::1}$ we have $x_{ijk}=m_{ij}c_k$ with $M=X_{::1}$ and $\vb c=(1,2)\T$. Splitting $M$ into its rows, $M=\vb e_1(1,2)+\vb e_2(0,1)$, gives
+\[
+\ten X=\vb e_1\op\begin{pmatrix}1\\2\end{pmatrix}\op\vb c\;+\;\vb e_2\op\begin{pmatrix}0\\1\end{pmatrix}\op\vb c,
+\]
+so $\rank\ten X\le2$. \pts{1}
+For a sum of $r$ rank-1 tensors, $X_{(1)}=A(C\kr B)\T$ has rank at most $r$. The first two columns of $X_{(1)}$, $(1,0)\T$ and $(2,1)\T$, are linearly independent, so $\rank X_{(1)}=2$ and therefore $\rank\ten X=2$. \pts{1}
+
+\sol{d} In $X_{(3)}$ the second row is twice the first, so $\rank X_{(3)}=1$: every mode-3 fiber $\vb x_{ij:}=m_{ij}\vb c$ is a multiple of $\vb c$. \pts{1}
+
+The HOSVD takes $C$ as the leading left singular vector of $X_{(3)}=\vb c\operatorname{vec}(M)\T$, i.e.
+$C=\vb c/\norm{\vb c}_2=\frac1{\sqrt5}(1,2)\T$ (singular value $\norm{\vb c}_2\norm{M}_{\mathrm F}=\sqrt5\cdot\sqrt6=\sqrt{30}$).
+Projecting the mode-3 fibers onto $\spn\{\vb c\}$ changes nothing, and for $r_1=r_2=2$ the factors $A,B$ are orthogonal $2\times2$ matrices. Hence
+$\ten G\times_1A\times_2B\times_3C=\ten X\times_1AA\T\times_2BB\T\times_3CC\T=\ten X$: the Tucker decomposition is exact with only $2\cdot2\cdot1=4$ core entries instead of 8. (With $A=B=I$ the core is $\ten G=\ten X\times_3C\T=\sqrt5\,M$.) \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item Column order of $X_{(k)}$: the first remaining index runs fastest. $X_{(2)}$ consists of the \emph{transposed} slices.
+\item $\ten X\times_1N$ means $Y_{(1)}=NX_{(1)}$, not $X_{(1)}N$.
+\item The rank of a tensor is at least the rank of each matricization, but in general not equal to it.
+\end{itemize}
+\end{trap}
+\begin{heart}
+$\ten Y=\ten X\times_kA\iff Y_{(k)}=AX_{(k)}$. For $\ten X=[\![A,B,C]\!]$: $X_{(1)}=A(C\kr B)\T$, $X_{(2)}=B(C\kr A)\T$, $X_{(3)}=C(B\kr A)\T$.
+HOSVD: $A,B,C$ are the leading left singular vectors of $X_{(1)},X_{(2)},X_{(3)}$, and $\ten G=\ten X\times_1A\T\times_2B\T\times_3C\T$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{A curve in space}{8}
+Consider the curve $C$ given by the parametrization
+\[
+\vb c(t)=\begin{pmatrix}2\cos t\\2\sin t\\\sqrt5\,t\end{pmatrix},\qquad t\in\R.
+\]
+\begin{enumerate}
+\item Compute the velocity $\vb v(t)$, the speed and the acceleration $\vb a(t)$. Is the parametrization smooth?
+\item Determine the tangent line and the unit tangent vector at the point $\vb p=\vb c(\pi/2)$.
+\item Compute the arc length from $\vb c(0)$ to $\vb c(t)$, $t>0$, and state the arc length parametrization of $C$.
+\item Consider $\vb d(t)=(t^3,t^6)\T$, $t\in\R$. Is the parametrization $\vb d$ smooth? Is the curve $D=\{\vb d(t):t\in\R\}$ smooth?
+\end{enumerate}
+
+\begin{solution}
+\sol{a}
+\[
+\vb v(t)=\vb c'(t)=\begin{pmatrix}-2\sin t\\2\cos t\\\sqrt5\end{pmatrix},\qquad
+\norm{\vb v(t)}_2=\sqrt{4\sin^2t+4\cos^2t+5}=3,\qquad
+\vb a(t)=\begin{pmatrix}-2\cos t\\-2\sin t\\0\end{pmatrix}.\ptd{1}
+\]
+$\vb c$ is differentiable, $\vb c'(t)\neq\vb 0$ for all $t$, and $\vb c$ is injective since the third component $\sqrt5\,t$ is strictly increasing. So the parametrization is smooth. \pts{1}
+
+\sol{b} $\vb p=\vb c(\pi/2)=(0,2,\sqrt5\pi/2)\T$ and $\vb c'(\pi/2)=(-2,0,\sqrt5)\T$. The tangent line is
+\[
+L(s)=\begin{pmatrix}0\\2\\\sqrt5\pi/2\end{pmatrix}+s\begin{pmatrix}-2\\0\\\sqrt5\end{pmatrix},\quad s\in\R,\ptd{1}
+\]
+and the unit tangent vector is $\frac13(-2,0,\sqrt5)\T$. \pts{1}
+
+\sol{c} $\ell(t)=\int_0^t\norm{\vb c'(\tau)}_2\dd\tau=\int_0^t3\dd\tau=3t$. \pts{1}
+So $s=3t$, i.e.\ $t=s/3$, and the arc length parametrization is
+\[
+\tilde{\vb c}(s)=\vb c(s/3)=\begin{pmatrix}2\cos(s/3)\\2\sin(s/3)\\\sqrt5\,s/3\end{pmatrix},\qquad \norm{\tilde{\vb c}'(s)}_2=\tfrac13\cdot3=1.\ptd{1}
+\]
+
+\sol{d} $\vb d'(t)=(3t^2,6t^5)\T$ vanishes at $t=0$, so the parametrization $\vb d$ is not smooth in $t=0$. \pts{1}
+But $x=t^3$ runs through all of $\R$ and $y=t^6=x^2$, so $D=\{(x,x^2)\T:x\in\R\}$ is a parabola. It has the parametrization $\vb e(s)=(s,s^2)\T$ with $\vb e'(s)=(1,2s)\T\neq\vb 0$, and $\vb e$ is injective. Hence the curve $D$ is smooth: a curve is smooth if it has \emph{some} smooth parametrization. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item Distinguish a smooth \emph{parametrization} from a smooth \emph{curve}: $\vb d$ is not smooth, the curve $D$ is.
+\item The speed is the norm of the velocity, a number; the tangent line needs a point \emph{and} a direction.
+\item An arc length parametrization has unit speed. Check it.
+\end{itemize}
+\end{trap}
+\begin{heart}
+Arc length $\ell=\int_a^b\norm{\vb c'(t)}_2\dd t$; tangent line $\vb c(t_0)+s\,\vb c'(t_0)$; unit tangent $\vb c'(t_0)/\norm{\vb c'(t_0)}_2$; smooth $=$ differentiable, injective and $\vb c'(t)\neq\vb 0$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Newton's method for a system}{7}
+Consider $\vb F\colon\R^2\to\R^2$,
+\[
+\vb F(x,y)=\begin{pmatrix}x^3-y\\y^3-x\end{pmatrix}.
+\]
+\begin{enumerate}
+\item Compute the Jacobi matrix $\vb F'(x,y)$ and all real zeros of $\vb F$.
+\item Perform one step of Newton's method starting from $(x_0,y_0)=(2,1)$.
+\item For which starting points $(a,a)$ on the diagonal can the first Newton step not be computed? Which convergence speed do you expect close to the zero $(1,1)$, and why?
+\end{enumerate}
+
+\begin{solution}
+\sol{a}
+\[
+\vb F'(x,y)=\begin{pmatrix}3x^2&-1\\-1&3y^2\end{pmatrix},\qquad \det\vb F'(x,y)=9x^2y^2-1.\ptd{1}
+\]
+Zeros: $y=x^3$ and $x=y^3=x^9$, so $x(x^8-1)=0$ and $x\in\{0,1,-1\}$. The zeros are $(0,0)$, $(1,1)$ and $(-1,-1)$. \pts{1}
+
+\sol{b} $\vb F(2,1)=(7,-1)\T$ and $\vb F'(2,1)=\begin{psmallmatrix}12&-1\\-1&3\end{psmallmatrix}$ with determinant $35$. \pts{1}
+We solve $\vb F'(2,1)\Delta=-\vb F(2,1)$:
+\[
+\Delta=\frac1{35}\begin{pmatrix}3&1\\1&12\end{pmatrix}\begin{pmatrix}-7\\1\end{pmatrix}=\frac1{35}\begin{pmatrix}-20\\5\end{pmatrix}=\begin{pmatrix}-4/7\\1/7\end{pmatrix}.\ptd{1}
+\]
+Hence $(x_1,y_1)=(2,1)+\Delta=\big(\tfrac{10}7,\tfrac87\big)\approx(1.429,\,1.143)$. \pts{1}
+
+\sol{c} On the diagonal $\det\vb F'(a,a)=9a^4-1=0$ for $a=\pm1/\sqrt3$. There the linear system for $\Delta$ is singular and the step is not defined. \pts{1}
+At the zero, $\det\vb F'(1,1)=8\neq0$, so the Jacobi matrix is invertible there. Then Newton's method converges quadratically for starting points close enough to $(1,1)$. From $(2,1)$ the errors are about $0.45,\ 0.13,\ 0.016,\ 2.9\cdot10^{-4},\ 9\cdot10^{-8}$: the number of correct digits roughly doubles. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item The step solves $\vb F'(\vb x^{(k)})\Delta=-\vb F(\vb x^{(k)})$. The minus sign is the most common error.
+\item Convergence is only local. Newton does not necessarily find the nearest zero: from $(\frac12,\frac12)$ one step lands exactly on $(-1,-1)$, not on $(0,0)$.
+\end{itemize}
+\end{trap}
+\begin{heart}
+$\begin{psmallmatrix}a&b\\c&d\end{psmallmatrix}^{-1}=\frac1{ad-bc}\begin{psmallmatrix}d&-b\\-c&a\end{psmallmatrix}$. Newton converges quadratically if $\vb F'(\vb x^*)$ is invertible and $\vb x^{(0)}$ is close enough to $\vb x^*$. (The Newton step itself is on the formula sheet.)
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Optimization}{10}
+Consider $f\colon\R^2\to\R$, $f(x,y)=x^3-3xy+y^3$.
+\begin{enumerate}
+\item Compute the gradient $\nabla f$ and all stationary points of $f$.
+\item Compute the Hessian and classify the stationary points. Does $f$ have a global minimizer?
+\item Perform one gradient descent step from $\vb x^{(0)}=(1,0)\T$ with step size $s=\frac13$ and compare $f(\vb x^{(1)})$ with $f(\vb x^{(0)})$. Then halve the step size until the function value decreases (backtracking). Which step size and which $\vb x^{(1)}$ do you get?
+\item Perform one step of Newton's method for the minimization of $f$ (Newton applied to $\nabla f(\vb x)=\vb 0$), starting from $(2,2)\T$. Why can Newton's method on its own not guarantee that the limit is a minimizer?
+\end{enumerate}
+
+\begin{solution}
+\sol{a} $\nabla f(x,y)=(3x^2-3y,\;3y^2-3x)\T$. \pts{1}
+$\nabla f=\vb 0\iff y=x^2$ and $x=y^2=x^4$, so $x(x^3-1)=0$. The stationary points are $(0,0)$ and $(1,1)$. \pts{1}
+
+\sol{b}
+\[
+\Hess f(x,y)=\begin{pmatrix}6x&-3\\-3&6y\end{pmatrix}.\ptd{1}
+\]
+At $(0,0)$: $\begin{psmallmatrix}0&-3\\-3&0\end{psmallmatrix}$ has $\det=-9<0$ (eigenvalues $\pm3$), so $(0,0)$ is a saddle point. \pts{1}
+At $(1,1)$: $\begin{psmallmatrix}6&-3\\-3&6\end{psmallmatrix}$ has $\det=27>0$ and $f_{xx}=6>0$ (eigenvalues $9$ and $3$), so it is positive definite and $(1,1)$ is a strict local minimizer with $f(1,1)=-1$.
+It is not a global minimizer: $f(x,0)=x^3\to-\infty$ for $x\to-\infty$, e.g.\ $f(-2,0)=-8<-1$. There is no global minimizer. \pts{1}
+
+\sol{c} $\nabla f(1,0)=(3,-3)\T$ and $f(1,0)=1$. With $s=\frac13$:
+$\vb x^{(1)}=(1,0)\T-\frac13(3,-3)\T=(0,1)\T$ and $f(0,1)=1$: no decrease. \pts{1}
+Halving gives $s=\frac16$: $\vb x^{(1)}=(1,0)\T-\frac16(3,-3)\T=(\frac12,\frac12)\T$ with $f(\frac12,\frac12)=\frac18-\frac34+\frac18=-\frac12<1$. Accept $s=\frac16$. \pts{1}
+
+\sol{d} $\nabla f(2,2)=(6,6)\T$ and $\Hess f(2,2)=\begin{psmallmatrix}12&-3\\-3&12\end{psmallmatrix}$. \pts{1}
+Solve $\Hess f(2,2)\Delta=-\nabla f(2,2)$. By symmetry $\Delta=(d,d)\T$ with $(12-3)d=-6$, so $d=-\frac23$ and $\vb x^{(1)}=(\frac43,\frac43)\T$. (The next step gives $\frac{16}{15}(1,1)\T$, converging to $(1,1)$.) \pts{1}
+Newton's method solves $\nabla f(\vb x)=\vb 0$ and converges to stationary points of any type; started close to $(0,0)$ it converges to the saddle point. Whether a limit is a minimizer has to be checked with the Hessian (positive definite). \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item $\nabla f(\vb x^*)=\vb 0$ is necessary for a local minimum, not sufficient. Always check the Hessian.
+\item ``Local minimizer'' and ``global minimizer'' are different claims; here $f$ is unbounded below.
+\item A fixed step size can fail to decrease $f$; that is the reason for backtracking.
+\end{itemize}
+\end{trap}
+\begin{heart}
+Gradient descent $\vb x^{(k+1)}=\vb x^{(k)}-s_k\nabla f(\vb x^{(k)})$; backtracking: try $s=\beta^\ell u$, $\ell=0,1,\dots$, until the decrease is large enough (Armijo). Newton for optimization: $\Hess f(\vb x^{(k)})\Delta^{(k)}=-\nabla f(\vb x^{(k)})$. In 2D: $\det\Hess f>0$ and $f_{xx}>0$ means minimum, $\det\Hess f>0$ and $f_{xx}<0$ maximum, $\det\Hess f<0$ saddle.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Fourier series}{12}
+Let $f(x)=x^2$ for $-\pi\le x<\pi$, extended $2\pi$-periodically.
+\begin{enumerate}
+\item Compute the complex Fourier coefficients $c_k$ of $f$, and from them the real coefficients $a_0,a_n,b_n$.
+\item To which value does the Fourier series of $f$ converge at $x=\pi$? Use this to compute $\sum_{n=1}^\infty\frac1{n^2}$.
+\item Use Parseval's identity to compute $\sum_{k=1}^\infty\frac1{k^4}$.
+\item Use the derivative rule for Fourier coefficients to determine the complex Fourier coefficients of $g(x)=x$, $-\pi\le x<\pi$ ($2\pi$-periodic), without computing new integrals. Why may the rule be applied here?
+\item Compute the convolution $h=f\ast s$ with $s(x)=\cos(2x)$.
+\end{enumerate}
+
+\begin{solution}
+\sol{a} $c_0=\frac1{2\pi}\int_{-\pi}^\pi x^2\dd x=\frac{\pi^2}3$. \pts{1}
+For $k\neq0$ we integrate by parts twice, using $\e^{\pm\iu k\pi}=(-1)^k$:
+\begin{align*}
+\int_{-\pi}^{\pi}x^2\e^{-\iu kx}\dd x&=\underbrace{\Big[\frac{x^2\e^{-\iu kx}}{-\iu k}\Big]_{-\pi}^{\pi}}_{=0}+\frac2{\iu k}\int_{-\pi}^\pi x\e^{-\iu kx}\dd x,\\
+\int_{-\pi}^\pi x\e^{-\iu kx}\dd x&=\Big[\frac{x\e^{-\iu kx}}{-\iu k}\Big]_{-\pi}^{\pi}+\underbrace{\frac1{\iu k}\int_{-\pi}^\pi\e^{-\iu kx}\dd x}_{=0}=\frac{2\pi(-1)^k}{-\iu k}=\frac{2\pi\iu(-1)^k}{k}.
+\end{align*}
+Hence $\int_{-\pi}^\pi x^2\e^{-\iu kx}\dd x=\frac{4\pi(-1)^k}{k^2}$ and $c_k=\frac{2(-1)^k}{k^2}$, $k\neq0$. \pts{1}
+Real coefficients: $a_0=c_0=\frac{\pi^2}3$, $a_n=c_n+c_{-n}=\frac{4(-1)^n}{n^2}$, $b_n=\iu(c_n-c_{-n})=0$ ($f$ is even). \pts{1}
+
+\sol{b} The periodic extension is continuous ($f(-\pi)=f(\pi)=\pi^2$, no jump) and piecewise continuously differentiable, so the series converges to $f(\pi)=\pi^2$ at $x=\pi$. \pts{1}
+Since $(-1)^n\cos(n\pi)=1$,
+\[
+\pi^2=\frac{\pi^2}{3}+\sum_{n=1}^\infty\frac{4(-1)^n}{n^2}\cos(n\pi)=\frac{\pi^2}{3}+4\sum_{n=1}^\infty\frac1{n^2}
+\quad\Longrightarrow\quad\sum_{n=1}^\infty\frac1{n^2}=\frac{\pi^2}6.\ptd{1}
+\]
+
+\sol{c} Parseval: $\frac1{2\pi}\int_{-\pi}^\pi\abs{f(x)}^2\dd x=\sum_{k\in\Z}\abs{c_k}^2$. The left-hand side is $\frac1{2\pi}\cdot\frac{2\pi^5}{5}=\frac{\pi^4}5$. \pts{1}
+The right-hand side is $\frac{\pi^4}9+2\sum_{k=1}^\infty\frac4{k^4}$ (the terms $k$ and $-k$ are equal). \pts{1}
+Hence
+\[
+\sum_{k=1}^\infty\frac1{k^4}=\frac18\Big(\frac{\pi^4}5-\frac{\pi^4}9\Big)=\frac18\cdot\frac{4\pi^4}{45}=\frac{\pi^4}{90}.\ptd{1}
+\]
+
+\sol{d} The periodic extension of $f$ is continuous and $f'(x)=2x$ is piecewise continuous, so $c_k(f')=\iu k\,c_k(f)$ holds. \pts{1}
+With $f'=2g$:
+\[
+c_k(g)=\frac12\,\iu k\,\frac{2(-1)^k}{k^2}=\frac{\iu(-1)^k}{k},\quad k\neq0,\qquad c_0(g)=\frac12\cdot0\cdot c_0(f)=0.
+\]
+Check: $b_n=\iu(c_n-c_{-n})=\frac{2(-1)^{n+1}}{n}$, the known sine series of $x$. \pts{1}
+
+\sol{e} By the convolution theorem $c_k(f\ast s)=2\pi\,c_k(f)\,c_k(s)$. Since $s(x)=\frac12(\e^{2\iu x}+\e^{-2\iu x})$, only $c_{\pm2}(s)=\frac12$ are nonzero. \pts{1}
+So $c_{\pm2}(h)=2\pi\cdot\frac{2}{4}\cdot\frac12=\frac\pi2$ and all other coefficients vanish:
+\[
+h(x)=\frac\pi2\big(\e^{2\iu x}+\e^{-2\iu x}\big)=\pi\cos(2x).\ptd{1}
+\]
+
+\begin{trap}
+\begin{itemize}
+\item $c_0$ has to be computed separately; the formula $2(-1)^k/k^2$ is only valid for $k\neq0$.
+\item In Parseval both $k$ and $-k$ appear on the right, and the left-hand side carries the factor $\frac1{2\pi}$.
+\item The derivative rule needs a \emph{continuous} periodic extension. It may not be applied to $g(x)=x$ itself (jump at $\pm\pi$).
+\item In this course $(f\ast g)(x)=\int_{-\pi}^\pi f(y)g(x-y)\dd y$, without $\frac1{2\pi}$. Hence the factor $2\pi$ in $c_k(f\ast g)$.
+\end{itemize}
+\end{trap}
+\begin{heart}
+$a_n=c_n+c_{-n}$, $b_n=\iu(c_n-c_{-n})$, $c_{\pm n}=\frac12(a_n\mp\iu b_n)$. Parseval: $\frac1{2\pi}\int_{-\pi}^{\pi}\abs f^2\dd x=\sum_k\abs{c_k}^2=a_0^2+\frac12\sum_{n\ge1}(a_n^2+b_n^2)$.
+$c_k(f\ast g)=2\pi c_k(f)c_k(g)$, $c_k(f')=\iu k\,c_k(f)$. The series converges to $\frac12\big(f(x^-)+f(x^+)\big)$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Discrete Fourier transform}{10}
+Consider the signal $\vb f=(1,2,0,-1)\T\in\R^4$.
+\begin{enumerate}
+\item State the Fourier matrix $\F_4$ and compute the DFT $\hat{\vb f}$.
+\item Verify that $\hat f_3=\overline{\hat f_1}$ and explain why this has to hold.
+\item The signal consists of the samples $f_j=p(x_j)$, $x_j=\frac{2\pi j}{4}$, of a real trigonometric polynomial $p(x)=a_0+a_1\cos x+b_1\sin x$. Determine $a_0,a_1,b_1$ from $\hat{\vb f}$ and check your result at the four sample points.
+\item For $N=2^{10}=1024$, compare the number of operations needed to compute the DFT as a matrix--vector product and with the FFT.
+\end{enumerate}
+
+\begin{solution}
+\sol{a} With $w_4=\e^{-2\pi\iu/4}=-\iu$,
+\[
+\F_4=\big(w_4^{jk}\big)_{j,k=0}^3=\begin{pmatrix}1&1&1&1\\1&-\iu&-1&\iu\\1&-1&1&-1\\1&\iu&-1&-\iu\end{pmatrix}.\ptd{1}
+\]
+$\hat{\vb f}=\frac14\F_4\vb f$:
+\begin{align*}
+\hat f_0&=\tfrac14(1+2+0-1)=\tfrac12, & \hat f_1&=\tfrac14(1-2\iu+0-\iu)=\tfrac{1-3\iu}4,\\
+\hat f_2&=\tfrac14(1-2+0+1)=0, & \hat f_3&=\tfrac14(1+2\iu+0+\iu)=\tfrac{1+3\iu}4.\ptd{2}
+\end{align*}
+
+\sol{b} $\hat f_3=\frac{1+3\iu}4=\overline{\frac{1-3\iu}4}=\overline{\hat f_1}$. \pts{1}
+For a real signal, $\hat f_{N-k}=\frac1N\sum_jf_j\e^{-2\pi\iu j(N-k)/N}=\frac1N\sum_jf_j\e^{2\pi\iu jk/N}=\overline{\hat f_k}$, because $\e^{-2\pi\iu j}=1$ and $f_j=\overline{f_j}$. \pts{1}
+
+\sol{c} By the aliasing formula $\hat f_k=\sum_{\ell}c_{k+4\ell}(p)$, and $p$ only has $c_0,c_{\pm1}$. So $\hat f_0=c_0$, $\hat f_1=c_1$, $\hat f_3=\hat f_{-1}=c_{-1}$ (and $\hat f_2=0$ fits). \pts{1}
+Hence $a_0=c_0=\frac12$, $a_1=c_1+c_{-1}=\frac{1-3\iu}4+\frac{1+3\iu}4=\frac12$ and $b_1=\iu(c_1-c_{-1})=\iu\cdot\frac{-6\iu}4=\frac32$. \pts{1}
+So $p(x)=\frac12+\frac12\cos x+\frac32\sin x$, and $p(0)=1$, $p(\frac\pi2)=\frac12+\frac32=2$, $p(\pi)=0$, $p(\frac{3\pi}2)=\frac12-\frac32=-1$. \pts{1}
+
+\sol{d} As a matrix--vector product the DFT needs $N^2=1\,048\,576$ multiplications, $\mathcal O(N^2)$. The FFT needs $\mathcal O(N\log_2N)$: about $\frac N2\log_2N=5120$ multiplications and $N\log_2N=10\,240$ additions. That is about 100 times fewer operations. \pts{2}
+
+\begin{trap}
+\begin{itemize}
+\item The factor $\frac1N$ belongs to the DFT (formula sheet), not to the inverse DFT.
+\item $\hat f_3$ belongs to the frequency $-1$, not $3$ (FFT-shift).
+\item $w_N=\e^{-2\pi\iu/N}$ carries a minus sign.
+\end{itemize}
+\end{trap}
+\begin{heart}
+Aliasing formula $\hat f_k=\sum_{\ell\in\Z}c_{k+\ell N}(f)$. For real signals $\hat f_{N-k}=\overline{\hat f_k}$. DFT: $\mathcal O(N^2)$, FFT: $\mathcal O(N\log N)$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Heat equation on the real line}{14}
+Consider the heat equation on the real line
+\[
+\frac{\partial u}{\partial t}=2\frac{\partial^2u}{\partial x^2},\quad x\in\R,\ t>0,\qquad u(x,0)=\e^{-x^2},\qquad u(x,t)\to0\ \text{for } \abs x\to\infty.
+\]
+\begin{enumerate}
+\item Classify the PDE (order, linear/nonlinear, homogeneous/inhomogeneous). Why does the superposition principle hold?
+\item Apply the Fourier transform in $x$, derive the ODE for $\hat u(\omega,t)$ and solve it using the initial condition.
+\item Compute $\hat u(\omega,t)$ explicitly and transform back to obtain $u(x,t)$.
+\item Verify that your $u$ solves the PDE and the initial condition.
+\item Compute $\max_{x\in\R}u(x,t)$ and $\int_{-\infty}^\infty u(x,t)\dd x$. Interpret the result.
+\end{enumerate}
+
+\begin{solution}
+\sol{a} The PDE is of second order ($u_{xx}$), linear ($u$ and its derivatives appear only linearly) and homogeneous (no term without $u$). \pts{1}
+If $u_1,u_2$ solve it, so does $\alpha u_1+\beta u_2$, because $\partial_t$ and $\partial_x^2$ are linear. \pts{1}
+
+\sol{b} Let $\hat u(\omega,t)=\F\big(u(\cdot,t)\big)(\omega)$. Applying the derivative rule twice gives $\F(u_{xx})=(\iu\omega)^2\hat u=-\omega^2\hat u$, and $\F(u_t)=\partial_t\hat u$. \pts{1}
+So for every fixed $\omega$:
+\[
+\frac{\partial\hat u}{\partial t}(\omega,t)=-2\omega^2\,\hat u(\omega,t).\ptd{1}
+\]
+Its solution is $\hat u(\omega,t)=C(\omega)\e^{-2\omega^2t}$ with $C(\omega)=\hat u(\omega,0)=\F(\e^{-x^2})(\omega)$. \pts{1}
+
+\sol{c} The formula sheet ($a=1$) gives $\F(\e^{-x^2})(\omega)=\frac1{\sqrt2}\e^{-\omega^2/4}$. \pts{1}
+So $\hat u(\omega,t)=\frac1{\sqrt2}\e^{-\omega^2/4-2\omega^2t}=\frac1{\sqrt2}\e^{-\omega^2(1+8t)/4}$. \pts{1}
+Let $a=\frac1{1+8t}$. The table gives $\F(\e^{-ax^2})(\omega)=\frac1{\sqrt{2a}}\e^{-\omega^2/(4a)}=\frac1{\sqrt{2a}}\e^{-\omega^2(1+8t)/4}$, hence
+$\hat u(\omega,t)=\frac1{\sqrt2}\sqrt{2a}\,\F(\e^{-ax^2})(\omega)=\sqrt a\,\F(\e^{-ax^2})(\omega)$. \pts{1}
+Transforming back,
+\[
+u(x,t)=\sqrt a\,\e^{-ax^2}=\frac1{\sqrt{1+8t}}\exp\Big(-\frac{x^2}{1+8t}\Big).\ptd{1}
+\]
+
+\sol{d} Write $s=1+8t$, so $u=s^{-1/2}\e^{-x^2/s}$ and $\partial_t=8\,\partial_s$:
+\[
+u_t=8\Big(-\tfrac12s^{-3/2}+s^{-1/2}\tfrac{x^2}{s^2}\Big)\e^{-x^2/s}=s^{-5/2}\,(8x^2-4s)\,\e^{-x^2/s}.\ptd{1}
+\]
+\[
+u_x=-2x\,s^{-3/2}\e^{-x^2/s},\qquad u_{xx}=\big(-2s^{-3/2}+4x^2s^{-5/2}\big)\e^{-x^2/s}=s^{-5/2}(4x^2-2s)\,\e^{-x^2/s},
+\]
+so $2u_{xx}=u_t$. \pts{1}
+For $t=0$ we have $s=1$ and $u(x,0)=\e^{-x^2}$, and $u\to0$ for $\abs x\to\infty$. \pts{1}
+
+\sol{e} $\max_xu(x,t)=u(0,t)=\frac1{\sqrt{1+8t}}\to0$ for $t\to\infty$: the peak decreases. \pts{1}
+With $\int_{-\infty}^\infty\e^{-x^2/s}\dd x=\sqrt{\pi s}$ we get $\int u\dd x=s^{-1/2}\sqrt{\pi s}=\sqrt\pi$ for all $t$. The total amount of heat is conserved; it only spreads out, with a width proportional to $\sqrt{1+8t}$. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item Use the normalization of the formula sheet: $\F(\e^{-x^2})=\frac1{\sqrt2}\e^{-\omega^2/4}$ (some books get $\sqrt\pi\,\e^{-\omega^2/4}$).
+\item $\F(u_{xx})=-\omega^2\hat u$; a wrong sign gives a solution that grows.
+\item The ``constant'' of the ODE depends on $\omega$: $C(\omega)=\hat u(\omega,0)$.
+\item Transform back by recognising a Gaussian in the table, not by integrating.
+\end{itemize}
+\end{trap}
+\begin{heart}
+$\F(f')=\iu\omega\F(f)$, $\F(f'')=-\omega^2\F(f)$, $\F(f\ast g)=\sqrt{2\pi}\,\F(f)\F(g)$.
+Heat equation on $\R$: $\hat u(\omega,t)=\hat f(\omega)\e^{-c^2\omega^2t}$, then transform back.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Finite differences for the heat equation}{10}
+Consider
+\[
+u_t=u_{xx},\quad 0<x<1,\ t>0,\qquad u(0,t)=u(1,t)=0,\qquad u(x,0)=f(x)=2\big(1-\abs{2x-1}\big).
+\]
+Use the grid $x_i=ih$, $h=\frac14$ ($M=4$), $t_n=nk$, approximations $U_i^n\approx u(x_i,t_n)$ and $\alpha=k/h^2$.
+\begin{enumerate}
+\item Derive the explicit scheme (forward Euler) for the inner nodes and state its approximation order in $h$ and $k$.
+\item Compute $\vb U^1$ and $\vb U^2$ at the inner nodes for $k=\frac1{32}$.
+\item Repeat b) with $k=\frac1{16}$. What do you observe? Explain it with the stability condition.
+\item State the implicit Euler method in matrix form and compute one step with $k=\frac1{16}$. Why can this time step be used here?
+\end{enumerate}
+
+\begin{solution}
+\sol{a} A forward difference in time and the central second difference in space give
+\begin{align*}
+u_t(x_i,t_n)&=\frac{u(x_i,t_{n+1})-u(x_i,t_n)}{k}+\mathcal O(k),\\
+u_{xx}(x_i,t_n)&=\frac{u(x_{i-1},t_n)-2u(x_i,t_n)+u(x_{i+1},t_n)}{h^2}+\mathcal O(h^2).\ptd{1}
+\end{align*}
+Replacing $u$ by $U$:
+$U_i^{n+1}=U_i^n+\alpha\big(U_{i-1}^n-2U_i^n+U_{i+1}^n\big)$, $i=1,\dots,M-1$, with $U_0^n=U_M^n=0$ and $U_i^0=f(x_i)$. The error is $\mathcal O(k+h^2)$. \pts{1}
+
+\sol{b} $\vb U^0=\big(f(\frac14),f(\frac12),f(\frac34)\big)=(1,2,1)$ and $\alpha=\frac{1/32}{1/16}=\frac12$. \pts{1}
+\[
+U^1_1=1+\tfrac12(0-2+2)=1,\quad U^1_2=2+\tfrac12(1-4+1)=1,\quad U^1_3=1,\qquad \vb U^1=(1,1,1).\ptd{1}
+\]
+\[
+U^2_1=1+\tfrac12(0-2+1)=\tfrac12,\quad U^2_2=1+\tfrac12(1-2+1)=1,\quad U^2_3=\tfrac12,\qquad \vb U^2=(\tfrac12,1,\tfrac12).\ptd{1}
+\]
+
+\sol{c} Now $\alpha=\frac1{16}\cdot16=1$:
+$\vb U^1=(1+(0-2+2),\ 2+(1-4+1),\ 1)=(1,0,1)$ and $\vb U^2=(1+(0-2+0),\ 0+(1-0+1),\ -1)=(-1,2,-1)$; the next step gives $(3,-4,3)$. \pts{1}
+Negative temperatures and growing oscillations: the scheme is unstable. The explicit scheme requires $\alpha=c^2k/h^2\le\frac12$, which is violated for $\alpha=1$. \pts{1}
+
+\sol{d} A backward difference in time gives $U_i^{n+1}-\alpha\big(U_{i-1}^{n+1}-2U_i^{n+1}+U_{i+1}^{n+1}\big)=U_i^n$. In matrix form
+\[
+(I-\alpha B)\vb U^{n+1}=\vb U^n+\alpha\vb b^{n+1},\qquad B=\begin{pmatrix}-2&1&0\\1&-2&1\\0&1&-2\end{pmatrix},
+\]
+where $\vb b^{n+1}$ contains the boundary values and is $\vb 0$ here. \pts{1}
+With $\alpha=1$:
+\[
+\begin{pmatrix}3&-1&0\\-1&3&-1\\0&-1&3\end{pmatrix}\vb U^1=\begin{pmatrix}1\\2\\1\end{pmatrix}.
+\]
+By symmetry $U_1=U_3=p$, $U_2=q$, with $3p-q=1$ and $-2p+3q=2$. This gives $p=\frac57$, $q=\frac87$, i.e.\ $\vb U^1=(\frac57,\frac87,\frac57)$. \pts{1}
+Implicit Euler is unconditionally stable, so there is no restriction on $\alpha$. For accuracy, $k$ still has to be small (error $\mathcal O(k+h^2)$). \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item $\alpha=c^2k/h^2$ with $h$ \emph{squared}.
+\item Do not forget the boundary values $U_0=U_M=0$ in the first and the last inner node.
+\item Implicit Euler gives a linear system, not a formula for each $U_i^{n+1}$ separately.
+\end{itemize}
+\end{trap}
+\begin{heart}
+Forward/backward difference $\mathcal O(k)$, central differences $\mathcal O(h^2)$. Explicit Euler for the heat equation is stable iff $\alpha\le\frac12$. Implicit Euler and Crank--Nicolson are unconditionally stable; Crank--Nicolson has error $\mathcal O(h^2+k^2)$.
+\end{heart}
+\end{solution}
+
+% =====================================================================
+\problem{Cubic splines}{11}
+Let $\Delta=[0,1,2,3]$ and $(y)_+=\max\{y,0\}$.
+\begin{enumerate}
+\item Which of the following functions are in $S_{3,\Delta}$? Give a reason for each.
+\[
+f_1(x)=\abs{x-2}^3,\qquad f_2(x)=\big(x-\tfrac12\big)_+^3,\qquad f_3(x)=x^3+(x-1)_+^2.
+\]
+\item What is the dimension of $S_{3,\Delta}$? Why does interpolation of four values need two additional conditions?
+\item Compute the natural cubic spline $s\in S_{3,\Delta}$ with $s(0)=0$, $s(1)=1$, $s(2)=0$, $s(3)=1$, i.e.\ determine $M_i=s''(x_i)$, $i=0,\dots,3$.
+\item State $s$ on $[0,1]$ and compute $s(\frac12)$.
+\end{enumerate}
+
+\begin{solution}
+We have to check: $s|_{[x_j,x_{j+1}]}\in\mathcal P_3$ for every interval, and $s\in C^2([0,3])$.
+
+\sol{a} $f_1(x)=(2-x)^3$ on $[0,2]$ and $(x-2)^3$ on $[2,3]$, a cubic polynomial on each of $[0,1],[1,2],[2,3]$. At $x=2$ the values ($0$), the first derivatives ($-3(2-x)^2\to0$, $3(x-2)^2\to0$) and the second derivatives ($6(2-x)\to0$, $6(x-2)\to0$) match. So $f_1\in C^2$ and $f_1\in S_{3,\Delta}$; only the third derivative jumps, which is allowed. \pts{1}
+
+$f_2$ is $0$ on $[0,\frac12)$ and $(x-\frac12)^3$ on $[\frac12,1]$, so it is not a single polynomial on $[0,1]$. The point $\frac12$ is not a knot, so $f_2\notin S_{3,\Delta}$, although $f_2\in C^2$. \pts{1}
+
+$f_3$ is a cubic polynomial on each interval, but $f_3''(x)=6x+2$ for $x>1$ and $6x$ for $x<1$: the second derivative jumps by $2$ at $x=1$. So $f_3\notin C^2$ and $f_3\notin S_{3,\Delta}$. \pts{1}
+
+\sol{b} $\dim S_{3,\Delta}=n+k=3+3=6$ (the knots are $x_0,\dots,x_n$ with $n=3$). \pts{1}
+Interpolation gives $n+1=4$ conditions, so $2$ degrees of freedom are left. For example the natural boundary conditions $s''(x_0)=s''(x_n)=0$ fix them. \pts{1}
+
+\sol{c} Natural spline: $M_0=M_3=0$. With $h_i=1$ we have $\lambda_i=\mu_i=\frac12$ and
+\[
+d_i=\frac6{h_i+h_{i+1}}\Big(\frac{f_{i+1}-f_i}{h_{i+1}}-\frac{f_i-f_{i-1}}{h_i}\Big)=3\,(f_{i+1}-2f_i+f_{i-1}).\ptd{1}
+\]
+So $d_1=3(0-2+0)=-6$ and $d_2=3(1-0+1)=6$. \pts{1}
+The equations $\lambda_iM_{i+1}+2M_i+\mu_iM_{i-1}=d_i$ for $i=1,2$ read
+\[
+2M_1+\tfrac12M_2=-6,\qquad \tfrac12M_1+2M_2=6.\ptd{1}
+\]
+Adding both gives $\frac52(M_1+M_2)=0$, so $M_2=-M_1$ and $\frac32M_1=-6$. Hence
+$M_0=0$, $M_1=-4$, $M_2=4$, $M_3=0$. \pts{1}
+
+\sol{d} On $[0,1]$, $s''$ is linear from $M_0=0$ to $M_1=-4$: $s''(x)=-4x$. Integrating twice, $s(x)=-\frac23x^3+Cx+D$. From $s(0)=0$ we get $D=0$, and from $s(1)=1$ we get $C=\frac53$:
+\[
+s(x)=\tfrac53x-\tfrac23x^3,\qquad x\in[0,1].\ptd{1}
+\]
+$s(\frac12)=\frac56-\frac1{12}=\frac34$. \pts{1}
+
+\begin{trap}
+\begin{itemize}
+\item Break points must be knots: $f_2$ is $C^2$ but not a spline, while $\abs{x-2}^3$ \emph{is} one.
+\item The $M_i$ are second derivatives. To get $s$ you still have to integrate and use the values $s(x_i)$.
+\item If you do not remember the system: take $s''$ piecewise linear with unknown $M_i$, integrate, and require $s'$ to be continuous at the inner knots. This gives the same equations.
+\end{itemize}
+\end{trap}
+\begin{heart}
+$S_{k,\Delta}$: piecewise in $\mathcal P_k$ and globally $C^{k-1}$; $\dim S_{k,\Delta}=n+k$. Natural spline: $s''(x_0)=s''(x_n)=0$. Cubic spline system $\lambda_iM_{i+1}+2M_i+\mu_iM_{i-1}=d_i$ with $\lambda_i=\frac{h_{i+1}}{h_i+h_{i+1}}$, $\mu_i=\frac{h_i}{h_i+h_{i+1}}$.
+\end{heart}
+\end{solution}
+
+\end{document}
