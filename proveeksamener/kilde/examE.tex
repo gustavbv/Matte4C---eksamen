@@ -207,7 +207,7 @@ Consider $f(x,y)=x^2+5y^2$.
 \end{enumerate}
 
 \begin{solution}
-\sol{a} $\nabla f=(2x,10y)\T$ and $\Hess f=\begin{psmallmatrix}2&0\\0&10\end{psmallmatrix}$ is positive definite, so $(0,0)$ is the unique (global) minimizer. \pts{1}
+\sol{a} $\nabla f=(2x,10y)\T$ and $\Hess f=\begin{psmallmatrix}2&0\\0&10\end{psmallmatrix}$. Since $f(x,y)\ge0=f(0,0)$ with equality only in $(0,0)$, the origin is the unique (global) minimizer. \pts{1}
 The level curve $x^2+5y^2=6$ through $(1,1)$ satisfies $2x\dd x+10y\dd y=0$, so its tangent direction is $(10y,-2x)\T\propto(5,-1)\T$ at $(1,1)$. Then $\ip{\nabla f(1,1)}{(5,-1)\T}=\ip{(2,10)\T}{(5,-1)\T}=10-10=0$. \pts{1}
 
 \sol{b} $x_{k+1}=x_k-s\cdot2x_k=(1-2s)x_k$ and $y_{k+1}=y_k-s\cdot10y_k=(1-10s)y_k$, which gives the formulas by induction. \pts{1}
