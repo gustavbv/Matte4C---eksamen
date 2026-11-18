@@ -15,6 +15,10 @@ Løsningsforslagene har poengfordeling per steg, en rød boks med typiske feller
 | D | [PDF](proveeksamen-D.pdf) | [LF](proveeksamen-D-lf.pdf) | rangmangel og minste-norm minste kvadrater · ytre produkt, Khatri–Rao og rang · kjegleflate og tangentplan · Jacobi for R³→R², linearisering og Newton · Lagrange og nivåkurver · Fouriertransform, konvolusjon og derivasjonsregel · DFT og aliasing · varmelikning med blandede randbetingelser · randverdiproblem med spøkelsesnode · Cox–de Boor og spline med parametre |
 | E | [PDF](proveeksamen-E.pdf) | [LF](proveeksamen-E-lf.pdf) | normallikninger, QR og Tikhonov · ALS-oppdatering · kule og kjerneregel · Gauss–Newton og Levenberg–Marquardt · steglengde og eksakt linjesøk · Fourierrekke og beste approksimasjon, Gibbs · FFT-splitting og filtrering · d'Alembert og bølge på intervall · Crank–Nicolson med Neumann · Bézier, de Casteljau og sammensatte kurver |
 
+## Sett fra gamle eksamensoppgaver
+
+[fra-gamle-eksamener/](fra-gamle-eksamener/) har seks sett til (1–6) satt sammen av ekte oppgaver fra gamle eksamener, med de offisielle løsningsforslagene. De har samme oppbygning som prøveeksamenen, og hvert sett er bygget rundt én av Bergmanns eksamener: Matte 4N kont. 2025, vår 2024, vår 2023, vår 2022, kont. 2023 og kont. 2022.
+
 ## Dekning per forelesning
 
 Tallene er oppgavenumre.

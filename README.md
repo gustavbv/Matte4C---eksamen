@@ -4,7 +4,7 @@ Oppgaver fra gamle eksamener på wiki.math.ntnu.no, sortert etter forelesningene
 
 Totalt 938 oppgaver: 672 **Ja** (hele oppgaven er pensum), 155 **Delvis** (bare noen deloppgaver) og 111 **Grense** (bare repetert eller like utenfor).
 
-Hele prøveeksamener med løsningsforslag ligger i [proveeksamener/](proveeksamener/).
+Hele prøveeksamener med løsningsforslag ligger i [proveeksamener/](proveeksamener/), og seks sett satt sammen av gamle eksamensoppgaver ligger i [proveeksamener/fra-gamle-eksamener/](proveeksamener/fra-gamle-eksamener/).
 
 ## Slik er det organisert
 
@@ -55,6 +55,17 @@ oppgavesett/
 | C | [PDF](proveeksamener/proveeksamen-C.pdf) | [LF](proveeksamener/proveeksamen-C-lf.pdf) |
 | D | [PDF](proveeksamener/proveeksamen-D.pdf) | [LF](proveeksamener/proveeksamen-D-lf.pdf) |
 | E | [PDF](proveeksamener/proveeksamen-E.pdf) | [LF](proveeksamener/proveeksamen-E-lf.pdf) |
+
+[proveeksamener/fra-gamle-eksamener/](proveeksamener/fra-gamle-eksamener/) har seks sett satt sammen av ekte gamle eksamensoppgaver i samme format, med de offisielle løsningsforslagene. Hvert sett er bygget rundt én av Bergmanns eksamener; oppgavene som prøveeksamenen allerede har brukt, er holdt utenfor.
+
+| Sett | Bygget rundt Bergmann | Oppgaver | Løsningsforslag |
+|---|---|---|---|
+| 1 | Matte 4N kont. 2025 | [PDF](proveeksamener/fra-gamle-eksamener/sett-1-oppgaver.pdf) | [LF](proveeksamener/fra-gamle-eksamener/sett-1-lf.pdf) |
+| 2 | Matte 4N vår 2024 | [PDF](proveeksamener/fra-gamle-eksamener/sett-2-oppgaver.pdf) | [LF](proveeksamener/fra-gamle-eksamener/sett-2-lf.pdf) |
+| 3 | Matte 4N vår 2023 | [PDF](proveeksamener/fra-gamle-eksamener/sett-3-oppgaver.pdf) | [LF](proveeksamener/fra-gamle-eksamener/sett-3-lf.pdf) |
+| 4 | Matte 4N vår 2022 | [PDF](proveeksamener/fra-gamle-eksamener/sett-4-oppgaver.pdf) | [LF](proveeksamener/fra-gamle-eksamener/sett-4-lf.pdf) |
+| 5 | Matte 4N kont. 2023 | [PDF](proveeksamener/fra-gamle-eksamener/sett-5-oppgaver.pdf) | [LF](proveeksamener/fra-gamle-eksamener/sett-5-lf.pdf) |
+| 6 | Matte 4N kont. 2022 | [PDF](proveeksamener/fra-gamle-eksamener/sett-6-oppgaver.pdf) | [LF](proveeksamener/fra-gamle-eksamener/sett-6-lf.pdf) |
 
 Se også [alle eksamenssett](eksamenssett.md) og [metode og pensumregler](metode.md). Hele tabellen ligger i [data/oppgaver.csv](data/oppgaver.csv) og [data/oppgavebank-tma4432.xlsx](data/oppgavebank-tma4432.xlsx).
 
