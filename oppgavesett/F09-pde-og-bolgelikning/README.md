@@ -8,7 +8,8 @@
 
 Hver oppgave er to PDF-er ved siden av hverandre: `…-oppgave.pdf` og løsningsforslaget `…-svar.pdf`. Filnavnet sier nummer, emne, år, semester og oppgavenummer, for eksempel `009-TMA4125-2025-var-oppg6-oppgave.pdf`. Undermappene kommer i anbefalt rekkefølge:
 
-- [`1-TMA4432-ovinger-og-proveeksamen/`](1-TMA4432-ovinger-og-proveeksamen/): Fra TMA4432 (øvinger og prøveeksamen) (8)
+- [`1-TMA4432-ovinger-og-proveeksamen/`](1-TMA4432-ovinger-og-proveeksamen/): Fra TMA4432 (øvinger og prøveeksamen) (4)
+- [`1b-TMA4432-ekstraoppgaver/`](1b-TMA4432-ekstraoppgaver/): Fra TMA4432 (ekstraoppgaver i øvingene) (4)
 - [`2-Bergmann-eksamener/`](2-Bergmann-eksamener/): Bergmanns eksamener (10)
 - [`3-hele-oppgaven-i-pensum/`](3-hele-oppgaven-i-pensum/): Andre eksamener: hele oppgaven er pensum (84)
 - [`4-delvis-i-pensum/`](4-delvis-i-pensum/): Andre eksamener: bare deler er pensum (1)
@@ -18,13 +19,20 @@ Hver oppgave er to PDF-er ved siden av hverandre: `…-oppgave.pdf` og løsnings
 | Nr. | Oppgave | LF | Status | Tema | Også i | Merknad |
 |---|---|---|---|---|---|---|
 | 1 | [TMA4432 prøveeksamen 2026, oppg. 8](1-TMA4432-ovinger-og-proveeksamen/001-TMA4432-2026-proveeksamen-oppg8-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/001-TMA4432-2026-proveeksamen-oppg8-svar.pdf) | Ja | PDE, separasjon av variable | F10 | Poeng lest fra PDF med uleselig tallformat; sjekk mot originalen |
-| 2 | [TMA4432 øving 10, oppg. 5](1-TMA4432-ovinger-og-proveeksamen/002-TMA4432-oving-10-oppg5-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/002-TMA4432-oving-10-oppg5-svar.pdf) | Ja | Fjerdeordens PDE for stiv stav |  |  |
 | 3 | [TMA4432 øving 9, oppg. 1](1-TMA4432-ovinger-og-proveeksamen/003-TMA4432-oving-9-oppg1-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/003-TMA4432-oving-9-oppg1-svar.pdf) | Ja | Klassifisering av PDE-er |  |  |
 | 4 | [TMA4432 øving 9, oppg. 2](1-TMA4432-ovinger-og-proveeksamen/004-TMA4432-oving-9-oppg2-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/004-TMA4432-oving-9-oppg2-svar.pdf) | Ja | Superposisjon (varmelikning) |  |  |
 | 5 | [TMA4432 øving 9, oppg. 3](1-TMA4432-ovinger-og-proveeksamen/005-TMA4432-oving-9-oppg3-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/005-TMA4432-oving-9-oppg3-svar.pdf) | Ja | Bølgelikning (streng) |  |  |
-| 6 | [TMA4432 øving 9, oppg. 4](1-TMA4432-ovinger-og-proveeksamen/006-TMA4432-oving-9-oppg4-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/006-TMA4432-oving-9-oppg4-svar.pdf) | Ja | Verifisere løsninger av PDE-er |  |  |
-| 7 | [TMA4432 øving 9, oppg. 5](1-TMA4432-ovinger-og-proveeksamen/007-TMA4432-oving-9-oppg5-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/007-TMA4432-oving-9-oppg5-svar.pdf) | Ja | Bølgelikning på R | F10 |  |
-| 8 | [TMA4432 øving 9, oppg. 6](1-TMA4432-ovinger-og-proveeksamen/008-TMA4432-oving-9-oppg6-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/008-TMA4432-oving-9-oppg6-svar.pdf) | Ja | Dempet bølgelikning |  |  |
+
+## Fra TMA4432 (ekstraoppgaver i øvingene)
+
+Frivillige oppgaver fra øvingsarkene: de som står etter «The next exercises are optional and should not be handed in!». De skulle ikke leveres, men har løsningsforslag.
+
+| Nr. | Oppgave | LF | Status | Tema | Også i | Merknad |
+|---|---|---|---|---|---|---|
+| 2 | [TMA4432 øving 10, oppg. 5](1b-TMA4432-ekstraoppgaver/002-TMA4432-oving-10-oppg5-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/002-TMA4432-oving-10-oppg5-svar.pdf) | Ja | Fjerdeordens PDE for stiv stav |  |  |
+| 6 | [TMA4432 øving 9, oppg. 4](1b-TMA4432-ekstraoppgaver/006-TMA4432-oving-9-oppg4-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/006-TMA4432-oving-9-oppg4-svar.pdf) | Ja | Verifisere løsninger av PDE-er |  |  |
+| 7 | [TMA4432 øving 9, oppg. 5](1b-TMA4432-ekstraoppgaver/007-TMA4432-oving-9-oppg5-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/007-TMA4432-oving-9-oppg5-svar.pdf) | Ja | Bølgelikning på R | F10 |  |
+| 8 | [TMA4432 øving 9, oppg. 6](1b-TMA4432-ekstraoppgaver/008-TMA4432-oving-9-oppg6-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/008-TMA4432-oving-9-oppg6-svar.pdf) | Ja | Dempet bølgelikning |  |  |
 
 ## Bergmanns eksamener
 

@@ -13,6 +13,7 @@ oppgavesett/
   F06-fourierrekker/
     README.md                                   tabell over alle oppgavene i forelesningen
     1-TMA4432-ovinger-og-proveeksamen/
+    1b-TMA4432-ekstraoppgaver/                  frivillige oppgaver fra øvingene, bare i F6–F10
     2-Bergmann-eksamener/
       011-TMA4125-2025-var-oppg4-oppgave.pdf    oppgaven
       011-TMA4125-2025-var-oppg4-svar.pdf       løsningsforslaget
@@ -22,7 +23,7 @@ oppgavesett/
     5-grensetilfeller/
 ```
 
-Én mappe per forelesning, og i hver av dem én PDF per oppgave (`-oppgave.pdf`) med løsningsforslaget i en egen fil rett under (`-svar.pdf`). Undermappene står i anbefalt rekkefølge: først TMA4432 sine egne øvinger og prøveeksamen, så Bergmanns eksamener (TMA4125 vår 2022–2025 med kontinuasjon, TMA4215 høst 2021–2023), så andre eksamener der hele oppgaven er pensum, så oppgaver der bare deler er pensum, og til slutt grensetilfeller. Innenfor hver mappe kommer nyeste eksamen først.
+Én mappe per forelesning, og i hver av dem én PDF per oppgave (`-oppgave.pdf`) med løsningsforslaget i en egen fil rett under (`-svar.pdf`). Undermappene står i anbefalt rekkefølge: først TMA4432 sine egne øvinger og prøveeksamen, så de frivillige ekstraoppgavene fra øvingene (de som står etter «The next exercises are optional» i øvingsarket), så Bergmanns eksamener (TMA4125 vår 2022–2025 med kontinuasjon, TMA4215 høst 2021–2023), så andre eksamener der hele oppgaven er pensum, så oppgaver der bare deler er pensum, og til slutt grensetilfeller. Innenfor hver mappe kommer nyeste eksamen først.
 
 Øverst i hver PDF står eksamen, oppgavenummer, status, tema, en eventuell merknad (for eksempel hvilke deloppgaver som er utenfor pensum) og lenke til original-PDF-en. En oppgave som dekker flere forelesninger ligger i mappen til hver av dem.
 

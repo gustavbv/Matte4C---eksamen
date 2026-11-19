@@ -8,7 +8,8 @@
 
 Hver oppgave er to PDF-er ved siden av hverandre: `…-oppgave.pdf` og løsningsforslaget `…-svar.pdf`. Filnavnet sier nummer, emne, år, semester og oppgavenummer, for eksempel `004-TMA4125-2025-var-oppg5-oppgave.pdf`. Undermappene kommer i anbefalt rekkefølge:
 
-- [`1-TMA4432-ovinger-og-proveeksamen/`](1-TMA4432-ovinger-og-proveeksamen/): Fra TMA4432 (øvinger og prøveeksamen) (3)
+- [`1-TMA4432-ovinger-og-proveeksamen/`](1-TMA4432-ovinger-og-proveeksamen/): Fra TMA4432 (øvinger og prøveeksamen) (2)
+- [`1b-TMA4432-ekstraoppgaver/`](1b-TMA4432-ekstraoppgaver/): Fra TMA4432 (ekstraoppgaver i øvingene) (1)
 - [`2-Bergmann-eksamener/`](2-Bergmann-eksamener/): Bergmanns eksamener (7)
 - [`3-hele-oppgaven-i-pensum/`](3-hele-oppgaven-i-pensum/): Andre eksamener: hele oppgaven er pensum (7)
 - [`4-delvis-i-pensum/`](4-delvis-i-pensum/): Andre eksamener: bare deler er pensum (1)
@@ -20,7 +21,14 @@ Hver oppgave er to PDF-er ved siden av hverandre: `…-oppgave.pdf` og løsnings
 |---|---|---|---|---|---|---|
 | 1 | [TMA4432 prøveeksamen 2026, oppg. 7](1-TMA4432-ovinger-og-proveeksamen/001-TMA4432-2026-proveeksamen-oppg7-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/001-TMA4432-2026-proveeksamen-oppg7-svar.pdf) | Ja | DFT |  | Poeng lest fra PDF med uleselig tallformat; sjekk mot originalen |
 | 2 | [TMA4432 øving 8, oppg. 3](1-TMA4432-ovinger-og-proveeksamen/002-TMA4432-oving-8-oppg3-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/002-TMA4432-oving-8-oppg3-svar.pdf) | Ja | DFT (Jupyter) |  |  |
-| 3 | [TMA4432 øving 8, oppg. 6](1-TMA4432-ovinger-og-proveeksamen/003-TMA4432-oving-8-oppg6-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/003-TMA4432-oving-8-oppg6-svar.pdf) | Ja | Periodisitet i DFT |  |  |
+
+## Fra TMA4432 (ekstraoppgaver i øvingene)
+
+Frivillige oppgaver fra øvingsarkene: de som står etter «The next exercises are optional and should not be handed in!». De skulle ikke leveres, men har løsningsforslag.
+
+| Nr. | Oppgave | LF | Status | Tema | Også i | Merknad |
+|---|---|---|---|---|---|---|
+| 3 | [TMA4432 øving 8, oppg. 6](1b-TMA4432-ekstraoppgaver/003-TMA4432-oving-8-oppg6-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/003-TMA4432-oving-8-oppg6-svar.pdf) | Ja | Periodisitet i DFT |  |  |
 
 ## Bergmanns eksamener
 

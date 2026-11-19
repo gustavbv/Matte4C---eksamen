@@ -8,7 +8,8 @@
 
 Hver oppgave er to PDF-er ved siden av hverandre: `…-oppgave.pdf` og løsningsforslaget `…-svar.pdf`. Filnavnet sier nummer, emne, år, semester og oppgavenummer, for eksempel `009-TMA4125-2022-var-oppg6-oppgave.pdf`. Undermappene kommer i anbefalt rekkefølge:
 
-- [`1-TMA4432-ovinger-og-proveeksamen/`](1-TMA4432-ovinger-og-proveeksamen/): Fra TMA4432 (øvinger og prøveeksamen) (8)
+- [`1-TMA4432-ovinger-og-proveeksamen/`](1-TMA4432-ovinger-og-proveeksamen/): Fra TMA4432 (øvinger og prøveeksamen) (4)
+- [`1b-TMA4432-ekstraoppgaver/`](1b-TMA4432-ekstraoppgaver/): Fra TMA4432 (ekstraoppgaver i øvingene) (4)
 - [`2-Bergmann-eksamener/`](2-Bergmann-eksamener/): Bergmanns eksamener (2)
 - [`3-hele-oppgaven-i-pensum/`](3-hele-oppgaven-i-pensum/): Andre eksamener: hele oppgaven er pensum (72)
 - [`5-grensetilfeller/`](5-grensetilfeller/): Grensetilfeller (repetisjon eller like utenfor) (1)
@@ -19,12 +20,19 @@ Hver oppgave er to PDF-er ved siden av hverandre: `…-oppgave.pdf` og løsnings
 |---|---|---|---|---|---|---|
 | 1 | [TMA4432 øving 11, oppg. 1](1-TMA4432-ovinger-og-proveeksamen/001-TMA4432-oving-11-oppg1-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/001-TMA4432-oving-11-oppg1-svar.pdf) | Ja | Bølgelikning på R med Fouriertransform | F10 |  |
 | 2 | [TMA4432 øving 11, oppg. 2](1-TMA4432-ovinger-og-proveeksamen/002-TMA4432-oving-11-oppg2-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/002-TMA4432-oving-11-oppg2-svar.pdf) | Ja | Varmelikning på R med Fouriertransform | F10 |  |
-| 3 | [TMA4432 øving 11, oppg. 4](1-TMA4432-ovinger-og-proveeksamen/003-TMA4432-oving-11-oppg4-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/003-TMA4432-oving-11-oppg4-svar.pdf) | Ja | Førsteordens PDE med Fouriertransform | F10 |  |
-| 4 | [TMA4432 øving 11, oppg. 5](1-TMA4432-ovinger-og-proveeksamen/004-TMA4432-oving-11-oppg5-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/004-TMA4432-oving-11-oppg5-svar.pdf) | Ja | Telegraflikningen med Fouriertransform | F10 |  |
 | 5 | [TMA4432 øving 8, oppg. 1](1-TMA4432-ovinger-og-proveeksamen/005-TMA4432-oving-8-oppg1-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/005-TMA4432-oving-8-oppg1-svar.pdf) | Ja | Fouriertransform |  |  |
 | 6 | [TMA4432 øving 8, oppg. 2](1-TMA4432-ovinger-og-proveeksamen/006-TMA4432-oving-8-oppg2-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/006-TMA4432-oving-8-oppg2-svar.pdf) | Ja | Fouriertransform og konvolusjon |  |  |
-| 7 | [TMA4432 øving 8, oppg. 4](1-TMA4432-ovinger-og-proveeksamen/007-TMA4432-oving-8-oppg4-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/007-TMA4432-oving-8-oppg4-svar.pdf) | Ja | Konvolusjon sinc∗sinc |  |  |
-| 8 | [TMA4432 øving 8, oppg. 5](1-TMA4432-ovinger-og-proveeksamen/008-TMA4432-oving-8-oppg5-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/008-TMA4432-oving-8-oppg5-svar.pdf) | Ja | Gauss-integralet og transformen |  |  |
+
+## Fra TMA4432 (ekstraoppgaver i øvingene)
+
+Frivillige oppgaver fra øvingsarkene: de som står etter «The next exercises are optional and should not be handed in!». De skulle ikke leveres, men har løsningsforslag.
+
+| Nr. | Oppgave | LF | Status | Tema | Også i | Merknad |
+|---|---|---|---|---|---|---|
+| 3 | [TMA4432 øving 11, oppg. 4](1b-TMA4432-ekstraoppgaver/003-TMA4432-oving-11-oppg4-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/003-TMA4432-oving-11-oppg4-svar.pdf) | Ja | Førsteordens PDE med Fouriertransform | F10 |  |
+| 4 | [TMA4432 øving 11, oppg. 5](1b-TMA4432-ekstraoppgaver/004-TMA4432-oving-11-oppg5-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/004-TMA4432-oving-11-oppg5-svar.pdf) | Ja | Telegraflikningen med Fouriertransform | F10 |  |
+| 7 | [TMA4432 øving 8, oppg. 4](1b-TMA4432-ekstraoppgaver/007-TMA4432-oving-8-oppg4-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/007-TMA4432-oving-8-oppg4-svar.pdf) | Ja | Konvolusjon sinc∗sinc |  |  |
+| 8 | [TMA4432 øving 8, oppg. 5](1b-TMA4432-ekstraoppgaver/008-TMA4432-oving-8-oppg5-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/008-TMA4432-oving-8-oppg5-svar.pdf) | Ja | Gauss-integralet og transformen |  |  |
 
 ## Bergmanns eksamener
 

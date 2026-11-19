@@ -8,7 +8,8 @@
 
 Hver oppgave er to PDF-er ved siden av hverandre: `…-oppgave.pdf` og løsningsforslaget `…-svar.pdf`. Filnavnet sier nummer, emne, år, semester og oppgavenummer, for eksempel `011-TMA4125-2025-var-oppg4-oppgave.pdf`. Undermappene kommer i anbefalt rekkefølge:
 
-- [`1-TMA4432-ovinger-og-proveeksamen/`](1-TMA4432-ovinger-og-proveeksamen/): Fra TMA4432 (øvinger og prøveeksamen) (10)
+- [`1-TMA4432-ovinger-og-proveeksamen/`](1-TMA4432-ovinger-og-proveeksamen/): Fra TMA4432 (øvinger og prøveeksamen) (7)
+- [`1b-TMA4432-ekstraoppgaver/`](1b-TMA4432-ekstraoppgaver/): Fra TMA4432 (ekstraoppgaver i øvingene) (3)
 - [`2-Bergmann-eksamener/`](2-Bergmann-eksamener/): Bergmanns eksamener (8)
 - [`3-hele-oppgaven-i-pensum/`](3-hele-oppgaven-i-pensum/): Andre eksamener: hele oppgaven er pensum (96)
 - [`4-delvis-i-pensum/`](4-delvis-i-pensum/): Andre eksamener: bare deler er pensum (1)
@@ -22,12 +23,19 @@ Hver oppgave er to PDF-er ved siden av hverandre: `…-oppgave.pdf` og løsnings
 | 2 | [TMA4432 øving 6, oppg. 1](1-TMA4432-ovinger-og-proveeksamen/002-TMA4432-oving-6-oppg1-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/002-TMA4432-oving-6-oppg1-svar.pdf) | Ja | Trigonometriske rekker |  |  |
 | 3 | [TMA4432 øving 6, oppg. 2](1-TMA4432-ovinger-og-proveeksamen/003-TMA4432-oving-6-oppg2-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/003-TMA4432-oving-6-oppg2-svar.pdf) | Ja | Reelle og komplekse Fourierkoeffisienter |  |  |
 | 4 | [TMA4432 øving 6, oppg. 3](1-TMA4432-ovinger-og-proveeksamen/004-TMA4432-oving-6-oppg3-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/004-TMA4432-oving-6-oppg3-svar.pdf) | Ja | Fourierrekker og delsummer |  |  |
-| 5 | [TMA4432 øving 6, oppg. 4](1-TMA4432-ovinger-og-proveeksamen/005-TMA4432-oving-6-oppg4-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/005-TMA4432-oving-6-oppg4-svar.pdf) | Ja | Trigonometriske rekker (frivillig) |  |  |
-| 6 | [TMA4432 øving 6, oppg. 5](1-TMA4432-ovinger-og-proveeksamen/006-TMA4432-oving-6-oppg5-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/006-TMA4432-oving-6-oppg5-svar.pdf) | Ja | Egenskaper ved koeffisientene (frivillig) |  |  |
 | 7 | [TMA4432 øving 7, oppg. 1](1-TMA4432-ovinger-og-proveeksamen/007-TMA4432-oving-7-oppg1-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/007-TMA4432-oving-7-oppg1-svar.pdf) | Ja | Halvperiodeutvidelser |  |  |
 | 8 | [TMA4432 øving 7, oppg. 2](1-TMA4432-ovinger-og-proveeksamen/008-TMA4432-oving-7-oppg2-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/008-TMA4432-oving-7-oppg2-svar.pdf) | Ja | Konvolusjon |  |  |
 | 9 | [TMA4432 øving 7, oppg. 3](1-TMA4432-ovinger-og-proveeksamen/009-TMA4432-oving-7-oppg3-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/009-TMA4432-oving-7-oppg3-svar.pdf) | Ja | Derivasjon av Fourierrekker |  |  |
-| 10 | [TMA4432 øving 7, oppg. 4](1-TMA4432-ovinger-og-proveeksamen/010-TMA4432-oving-7-oppg4-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/010-TMA4432-oving-7-oppg4-svar.pdf) | Ja | Komplekse rekker |  |  |
+
+## Fra TMA4432 (ekstraoppgaver i øvingene)
+
+Frivillige oppgaver fra øvingsarkene: de som står etter «The next exercises are optional and should not be handed in!». De skulle ikke leveres, men har løsningsforslag.
+
+| Nr. | Oppgave | LF | Status | Tema | Også i | Merknad |
+|---|---|---|---|---|---|---|
+| 5 | [TMA4432 øving 6, oppg. 4](1b-TMA4432-ekstraoppgaver/005-TMA4432-oving-6-oppg4-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/005-TMA4432-oving-6-oppg4-svar.pdf) | Ja | Trigonometriske rekker (frivillig) |  |  |
+| 6 | [TMA4432 øving 6, oppg. 5](1b-TMA4432-ekstraoppgaver/006-TMA4432-oving-6-oppg5-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/006-TMA4432-oving-6-oppg5-svar.pdf) | Ja | Egenskaper ved koeffisientene (frivillig) |  |  |
+| 10 | [TMA4432 øving 7, oppg. 4](1b-TMA4432-ekstraoppgaver/010-TMA4432-oving-7-oppg4-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/010-TMA4432-oving-7-oppg4-svar.pdf) | Ja | Komplekse rekker |  |  |
 
 ## Bergmanns eksamener
 

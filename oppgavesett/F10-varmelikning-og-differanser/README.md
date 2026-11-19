@@ -8,7 +8,8 @@
 
 Hver oppgave er to PDF-er ved siden av hverandre: `…-oppgave.pdf` og løsningsforslaget `…-svar.pdf`. Filnavnet sier nummer, emne, år, semester og oppgavenummer, for eksempel `013-TMA4125-2025-var-oppg7-oppgave.pdf`. Undermappene kommer i anbefalt rekkefølge:
 
-- [`1-TMA4432-ovinger-og-proveeksamen/`](1-TMA4432-ovinger-og-proveeksamen/): Fra TMA4432 (øvinger og prøveeksamen) (12)
+- [`1-TMA4432-ovinger-og-proveeksamen/`](1-TMA4432-ovinger-og-proveeksamen/): Fra TMA4432 (øvinger og prøveeksamen) (8)
+- [`1b-TMA4432-ekstraoppgaver/`](1b-TMA4432-ekstraoppgaver/): Fra TMA4432 (ekstraoppgaver i øvingene) (4)
 - [`2-Bergmann-eksamener/`](2-Bergmann-eksamener/): Bergmanns eksamener (11)
 - [`3-hele-oppgaven-i-pensum/`](3-hele-oppgaven-i-pensum/): Andre eksamener: hele oppgaven er pensum (116)
 - [`4-delvis-i-pensum/`](4-delvis-i-pensum/): Andre eksamener: bare deler er pensum (35)
@@ -23,13 +24,20 @@ Hver oppgave er to PDF-er ved siden av hverandre: `…-oppgave.pdf` og løsnings
 | 3 | [TMA4432 øving 10, oppg. 1](1-TMA4432-ovinger-og-proveeksamen/003-TMA4432-oving-10-oppg1-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/003-TMA4432-oving-10-oppg1-svar.pdf) | Ja | D'Alemberts metode |  |  |
 | 4 | [TMA4432 øving 10, oppg. 2](1-TMA4432-ovinger-og-proveeksamen/004-TMA4432-oving-10-oppg2-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/004-TMA4432-oving-10-oppg2-svar.pdf) | Ja | Differansemetode for bølgelikningen |  |  |
 | 5 | [TMA4432 øving 10, oppg. 3](1-TMA4432-ovinger-og-proveeksamen/005-TMA4432-oving-10-oppg3-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/005-TMA4432-oving-10-oppg3-svar.pdf) | Ja | 1D varmelikning |  |  |
-| 6 | [TMA4432 øving 10, oppg. 4](1-TMA4432-ovinger-og-proveeksamen/006-TMA4432-oving-10-oppg4-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/006-TMA4432-oving-10-oppg4-svar.pdf) | Ja | D'Alemberts metode |  |  |
 | 7 | [TMA4432 øving 11, oppg. 1](1-TMA4432-ovinger-og-proveeksamen/007-TMA4432-oving-11-oppg1-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/007-TMA4432-oving-11-oppg1-svar.pdf) | Ja | Bølgelikning på R med Fouriertransform | F8 |  |
 | 8 | [TMA4432 øving 11, oppg. 2](1-TMA4432-ovinger-og-proveeksamen/008-TMA4432-oving-11-oppg2-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/008-TMA4432-oving-11-oppg2-svar.pdf) | Ja | Varmelikning på R med Fouriertransform | F8 |  |
 | 9 | [TMA4432 øving 11, oppg. 3](1-TMA4432-ovinger-og-proveeksamen/009-TMA4432-oving-11-oppg3-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/009-TMA4432-oving-11-oppg3-svar.pdf) | Ja | Numerisk varmelikning: eksplisitt og implisitt (Jupyter) |  |  |
-| 10 | [TMA4432 øving 11, oppg. 4](1-TMA4432-ovinger-og-proveeksamen/010-TMA4432-oving-11-oppg4-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/010-TMA4432-oving-11-oppg4-svar.pdf) | Ja | Førsteordens PDE med Fouriertransform | F8 |  |
-| 11 | [TMA4432 øving 11, oppg. 5](1-TMA4432-ovinger-og-proveeksamen/011-TMA4432-oving-11-oppg5-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/011-TMA4432-oving-11-oppg5-svar.pdf) | Ja | Telegraflikningen med Fouriertransform | F8 |  |
-| 12 | [TMA4432 øving 9, oppg. 5](1-TMA4432-ovinger-og-proveeksamen/012-TMA4432-oving-9-oppg5-oppgave.pdf) | [LF](1-TMA4432-ovinger-og-proveeksamen/012-TMA4432-oving-9-oppg5-svar.pdf) | Ja | Bølgelikning på R | F9 |  |
+
+## Fra TMA4432 (ekstraoppgaver i øvingene)
+
+Frivillige oppgaver fra øvingsarkene: de som står etter «The next exercises are optional and should not be handed in!». De skulle ikke leveres, men har løsningsforslag.
+
+| Nr. | Oppgave | LF | Status | Tema | Også i | Merknad |
+|---|---|---|---|---|---|---|
+| 6 | [TMA4432 øving 10, oppg. 4](1b-TMA4432-ekstraoppgaver/006-TMA4432-oving-10-oppg4-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/006-TMA4432-oving-10-oppg4-svar.pdf) | Ja | D'Alemberts metode |  |  |
+| 10 | [TMA4432 øving 11, oppg. 4](1b-TMA4432-ekstraoppgaver/010-TMA4432-oving-11-oppg4-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/010-TMA4432-oving-11-oppg4-svar.pdf) | Ja | Førsteordens PDE med Fouriertransform | F8 |  |
+| 11 | [TMA4432 øving 11, oppg. 5](1b-TMA4432-ekstraoppgaver/011-TMA4432-oving-11-oppg5-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/011-TMA4432-oving-11-oppg5-svar.pdf) | Ja | Telegraflikningen med Fouriertransform | F8 |  |
+| 12 | [TMA4432 øving 9, oppg. 5](1b-TMA4432-ekstraoppgaver/012-TMA4432-oving-9-oppg5-oppgave.pdf) | [LF](1b-TMA4432-ekstraoppgaver/012-TMA4432-oving-9-oppg5-svar.pdf) | Ja | Bølgelikning på R | F9 |  |
 
 ## Bergmanns eksamener
 
