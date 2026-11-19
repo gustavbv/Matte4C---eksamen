@@ -1,0 +1,156 @@
+\section{F11 · Splines, B-splines og Bézierkurver}
+
+\textbf{Kjernen:} Polynomer av høy grad oscillerer (Runge). Bruk i stedet stykkevise polynomer av lav grad som er så glatte som mulig i skjøtene. De utgjør et vektorrom. B-splines er en lokal basis for rommet. Bézierkurver bygges av Bernsteinpolynomer og styres med kontrollpunkter.
+
+\subsection{Polynominterpolasjon (repetisjon fra Matte 3C)}
+Gitt $n+1$ punkter $(x_i,y_i)$ med ulike $x_i$ finnes nøyaktig ett $p\in\mathcal P_n$ med $p(x_i)=y_i$. Lagrange-formen er
+\[
+p_n(x)=\sum_{i=0}^ny_i\,\ell_i(x),\qquad \ell_i(x)=\prod_{j\neq i}\frac{x-x_j}{x_i-x_j},\qquad \ell_i(x_j)=\delta_{ij}.
+\]
+\textbf{Runges eksempel:} $f(x)=\frac1{1+x^2}$ på $[-5,5]$ med ekvidistante noder gir store svingninger ved endene når $n$ vokser. Chebyshev-noder hjelper litt, men problemet med høy grad består. Det er motivasjonen for splines.
+
+\subsection{Splinerommet}
+\begin{defn}[spline av grad $k$]
+La $\Delta=[x_0,\dots,x_n]$ med $a=x_0<x_1<\dots<x_n=b$. Da er $s\in\mathcal S_{k,\Delta}$ hvis
+\begin{enumerate}
+  \item $s|_{[x_j,x_{j+1}]}\in\mathcal P_k$ for $j=0,\dots,n-1$ (polynom av grad høyst $k$ på hvert intervall), og
+  \item $s\in C^{k-1}([a,b])$ (funksjonen og de deriverte opp til orden $k-1$ er kontinuerlige, også i knutene).
+\end{enumerate}
+$\mathcal S_{k,\Delta}$ er et vektorrom. $k=1$ gir lineære, $k=2$ kvadratiske og $k=3$ kubiske splines.
+\end{defn}
+\begin{teorem}[dimensjon]
+$\dim\mathcal S_{k,\Delta}=n+k$ ($n$ intervaller, altså $n+1$ knuter). Det er $(k+1)n$ koeffisienter og $k(n-1)$ glatthetskrav i de indre knutene. Kubisk: $4n-3(n-1)=n+3$.
+\end{teorem}
+
+\begin{oppskrift}[ligger $f$ i $\mathcal S_{k,\Delta}$? (prøveeksamen, oppg.~10)]
+Sjekk begge kravene og begrunn hvert av dem:
+\begin{enumerate}
+  \item \textbf{Polynom på hvert intervall:} et polynom av grad $\le k$ ligger alltid i rommet. Grad $>k$ (for eksempel $x^4$ i $\mathcal S_3$) gjør det ikke. En knekk som \emph{ikke} er i en knute, for eksempel $\abs{x-\frac12}$ når $\frac12$ ikke er en knute, betyr at $f$ ikke er et polynom på det intervallet.
+  \item \textbf{Glatthet i knutene:} sammenlign venstre- og høyregrenser for $f,f',\dots,f^{(k-1)}$ i hver indre knute.
+  \item \textbf{Trunkerte potenser:} $(x-x_j)_+^m$ (lik $(x-x_j)^m$ for $x\ge x_j$, ellers $0$) er $C^{m-1}$ i $x_j$. Med $x_j$ som knute og $m=k$ ligger den i $\mathcal S_{k,\Delta}$. Er $m<k$, er den ikke glatt nok. For eksempel er $(x)_+^2$ bare $C^1$ i $0$, så den ligger ikke i $\mathcal S_3$.
+  \item \textbf{Ukjente konstanter} (bestem $a,b$): still opp likningene for kontinuitet av $f,f',\dots,f^{(k-1)}$ i skjøten og løs.
+\end{enumerate}
+\end{oppskrift}
+
+\subsection{Lineære og kubiske splines}
+\begin{defn}[hattefunksjoner (lineære splines)]
+For $i=1,\dots,n-1$:
+\[
+\Lambda_i(x)=\begin{cases}\frac{x-x_{i-1}}{x_i-x_{i-1}},&x_{i-1}\le x<x_i,\\ \frac{x_{i+1}-x}{x_{i+1}-x_i},&x_i\le x<x_{i+1},\\0&\text{ellers},\end{cases}
+\]
+og $\Lambda_0$, $\Lambda_n$ er «halve hatter» i endene. Siden $\Lambda_i(x_j)=\delta_{ij}$, interpolerer $s_1(x)=\sum_{i=0}^ny_i\Lambda_i(x)$ dataene.
+\end{defn}
+
+\begin{defn}[randbetingelser for kubisk interpolasjon]
+Interpolasjon gir $n+1$ krav, og dimensjonen er $n+3$, så to krav må til:
+\begin{itemize}
+  \item \textbf{Naturlig:} $s''(x_0)=s''(x_n)=0$ (ingen krumning i endene).
+  \item \textbf{Innspent (clamped):} $s'(x_0)$ og $s'(x_n)$ er gitt (på lysarket $=0$, altså vannrette tangenter).
+  \item \textbf{Periodisk:} $s(x_0)=s(x_n)$, $s'(x_0)=s'(x_n)$ og $s''(x_0)=s''(x_n)$.
+  \item \textbf{Not-a-knot:} $x_1$ og $x_{n-1}$ fjernes som knuter, men brukes fortsatt som interpolasjonspunkter.
+\end{itemize}
+Den naturlige kubiske splinen er også den $C^2$-interpolanten som minimerer $\int_a^b(s'')^2\dd x$, altså den som krummer minst (standardresultat).
+\end{defn}
+
+\begin{formel}[Kubisk interpolasjon med momentene $M_i=s''(x_i)$]
+Med $h_i=x_i-x_{i-1}$ og $f_i=y_i$, for $i=1,\dots,n-1$:
+\begin{gather*}
+\mu_iM_{i-1}+2M_i+\lambda_iM_{i+1}=d_i,\qquad \lambda_i=\frac{h_{i+1}}{h_i+h_{i+1}},\qquad \mu_i=\frac{h_i}{h_i+h_{i+1}},\\
+d_i=\frac{6}{h_i+h_{i+1}}\Bigl(\frac{f_{i+1}-f_i}{h_{i+1}}-\frac{f_i-f_{i-1}}{h_i}\Bigr).
+\end{gather*}
+Naturlig spline: $M_0=M_n=0$ gir et tridiagonalt $(n-1)\times(n-1)$-system. Er alle $h_i=h$, blir likningen $M_{i-1}+4M_i+M_{i+1}=\frac6{h^2}\bigl(f_{i+1}-2f_i+f_{i-1}\bigr)$.
+Splinen på $[x_{i-1},x_i]$ er (siden $s''$ er lineær der):
+\[
+s(x)=M_{i-1}\frac{(x_i-x)^3}{6h_i}+M_i\frac{(x-x_{i-1})^3}{6h_i}+\Bigl(f_{i-1}-\frac{M_{i-1}h_i^2}6\Bigr)\frac{x_i-x}{h_i}+\Bigl(f_i-\frac{M_ih_i^2}6\Bigr)\frac{x-x_{i-1}}{h_i}.
+\]
+Begge formlene er kontrollert mot \texttt{scipy}. Med andre randbetingelser enn de naturlige endres første og siste rad i systemet.
+\end{formel}
+
+\subsection{B-splines}
+\begin{defn}[B-spline $B_{i,k+1}$ av orden $m=k+1$ (grad $k$)]
+Den entydige (opp til skalering) splinen i $\mathcal S_k$ med \textbf{støtte} $\supp B_{i,k+1}=[x_i,x_{i+k+1}]$, skalert slik at B-splinene summerer til 1.
+\begin{gather*}
+B_{i,1}(x)=\begin{cases}1,&x\in[x_i,x_{i+1}),\\0,&\text{ellers},\end{cases}\\
+B_{i,k+1}(x)=\frac{x-x_i}{x_{i+k}-x_i}B_{i,k}(x)+\frac{x_{i+k+1}-x}{x_{i+k+1}-x_{i+1}}B_{i+1,k}(x)\qquad\text{(Cox--de Boor)}.
+\end{gather*}
+\end{defn}
+\begin{eksempel}[lav grad (kontrollregnet)]
+$B_{i,2}$ er hatten med topp $1$ i $x_{i+1}$. Den kvadratiske er
+\[
+B_{i,3}(x)=\begin{cases}
+\dfrac{(x-x_i)^2}{(x_{i+1}-x_i)(x_{i+2}-x_i)},&[x_i,x_{i+1}),\\[8pt]
+\dfrac{(x-x_i)(x_{i+2}-x)}{(x_{i+2}-x_i)(x_{i+2}-x_{i+1})}+\dfrac{(x_{i+3}-x)(x-x_{i+1})}{(x_{i+3}-x_{i+1})(x_{i+2}-x_{i+1})},&[x_{i+1},x_{i+2}),\\[8pt]
+\dfrac{(x_{i+3}-x)^2}{(x_{i+3}-x_{i+1})(x_{i+3}-x_{i+2})},&[x_{i+2},x_{i+3}),\\[4pt]
+0&\text{ellers}.
+\end{cases}
+\]
+(Lysarket har bare det første leddet på det midterste intervallet.) For uniforme knuter har den kubiske $B_{i,4}$ verdiene $\frac16,\frac46,\frac16$ i de tre indre knutene i støtten.
+\end{eksempel}
+\begin{teorem}[egenskaper]
+\begin{enumerate}
+  \item $B_{i,m}$ er et polynom av grad $k$ på hvert intervall og ligger i $\mathcal S_k$.
+  \item $\supp B_{i,m}=[t_i,t_{i+m}]$ og $B_{i,m}>0$ på $(t_i,t_{i+m})$. Med doble knuter kan støtten bli kortere enn du venter.
+  \item \textbf{Partisjon av enheten:} $\sum_iB_{i,m}(x)=1$ på $[a,b]$, når de fiktive knutene er med.
+  \item I et punkt er høyst $m-1=k$ B-splines ulik null (ved enkle knuter), så interpolasjonssystemet blir glissent (båndmatrise).
+\end{enumerate}
+\end{teorem}
+\begin{defn}[fiktive knuter og sammenfallende knuter]
+Uten ekstra knuter får vi bare $n-k$ B-splines, og summen er 1 bare på $[x_k,x_{n-k}]$. Legg derfor til $k$ fiktive knuter på hver side: $x_{-k}<\dots<x_{-1}<x_0$ og $x_n<x_{n+1}<\dots<x_{n+k}$. Da har vi $n+k$ lineært uavhengige B-splines $B_{-k,k+1},\dots,B_{n-1,k+1}$, en basis for $\mathcal S_{k,\Delta}$ (som stemmer med $\dim=n+k$):
+\[
+s(x)=\sum_{i=-k}^{n-1}c_iB_{i,k+1}(x).
+\]
+\textbf{Sammenfallende knuter} ($t_j\le t_{j+1}$, for eksempel $[0,0,0,1,1,2,3,4,5,5,5]$): bruk Cox--de Boor med konvensjonen $\frac{x-t_i}{t_{i+k}-t_i}:=0$ hvis $t_i=t_{i+k}$, og $B_{i,1}\equiv0$ hvis $t_i=t_{i+1}$. Lysarket skriver dette som $B_{i,k+1}=\lambda_{i,k+1}B_{i,k}+(1-\lambda_{i+1,k+1})B_{i+1,k}$. Gjentatte endeknuter gir «halve hatter» i endene. En knute med multiplisitet $\mu$ gir bare $C^{k-\mu}$ der (standardresultat).
+\end{defn}
+\begin{oppskrift}[interpolasjon med B-splines]
+Ansatsen $s(x)=\sum_ic_iB_{i,k+1}(x)$ og kravene $s(x_j)=y_j$ gir et lineært system $\sum_ic_iB_{i,k+1}(x_j)=y_j$ med båndmatrise.
+\begin{itemize}
+  \item \textbf{Lineært:} $B_{i,2}(x_{i+1})=1$ og $B_{i,2}$ er null i de andre knutene, så $c_i=y_{i+1}$ (øving 12, oppg.~1).
+  \item \textbf{Kubisk:} $n+1$ likninger og $n+3$ ukjente. Legg til to krav (naturlig, periodisk eller Hermite: $s'(a)=y_0'$ og $s'(b)=y_n'$).
+\end{itemize}
+\end{oppskrift}
+
+\subsection{Bernsteinpolynomer og Bézierkurver}
+\begin{defn}[Bernsteinpolynomer]
+$b_{i,n}(t)=\binom ni t^i(1-t)^{n-i}$, $i=0,\dots,n$. De er $>0$ på $(0,1)$, summerer til 1 (binomialformelen $1=(t+(1-t))^n$), og oppfyller rekursjonen $b_{i,n}(t)=t\,b_{i-1,n-1}(t)+(1-t)\,b_{i,n-1}(t)$.
+For $n=3$: $(1-t)^3$, $3t(1-t)^2$, $3t^2(1-t)$ og $t^3$.
+\end{defn}
+\begin{defn}[Bézierkurve]
+Med kontrollpunkter $\vb p_0,\dots,\vb p_n\in\R^m$:
+\[
+\vb b(t)=\vb b(t;\vb p_0,\dots,\vb p_n)=\sum_{i=0}^n\vb p_i\,b_{i,n}(t)=\sum_{i=0}^n\binom ni(1-t)^{n-i}t^i\,\vb p_i,\qquad t\in[0,1].
+\]
+Hver komponent er et polynom av grad $n$, og kurven ligger i den konvekse innhyllingen av kontrollpunktene (vektene er positive og summerer til 1).
+\end{defn}
+\begin{teorem}[egenskaper (rettet, kontrollregnet)]
+\[
+\vb b(0)=\vb p_0,\quad \vb b(1)=\vb p_n,\quad \vb b'(0)=n(\vb p_1-\vb p_0),\quad \vb b'(1)=n(\vb p_n-\vb p_{n-1}),
+\]
+\[
+\vb b''(0)=n(n-1)(\vb p_0-2\vb p_1+\vb p_2),\qquad \vb b''(1)=n(n-1)(\vb p_n-2\vb p_{n-1}+\vb p_{n-2}).
+\]
+Kurven går gjennom $\vb p_0$ og $\vb p_n$. Punktene $\vb p_1$ og $\vb p_{n-1}$ bestemmer start- og sluttretningen.
+\end{teorem}
+\begin{oppskrift}[de Casteljaus algoritme (stabil evaluering i $t_0$)]
+\begin{enumerate}
+  \item Start med $\vb b_{i,0}=\vb p_i$, $i=0,\dots,n$.
+  \item For $k=1,\dots,n$ og $i=0,\dots,n-k$: $\vb b_{i,k}=(1-t_0)\vb b_{i,k-1}+t_0\vb b_{i+1,k-1}$.
+  \item $\vb b(t_0)=\vb b_{0,n}$.
+\end{enumerate}
+Algoritmen bygger på $\vb b(t;\vb p_0,\dots,\vb p_n)=(1-t)\vb b(t;\vb p_0,\dots,\vb p_{n-1})+t\,\vb b(t;\vb p_1,\dots,\vb p_n)$.\\
+\textbf{Eksempel} (kontrollregnet): $\vb p=(0,0),(1,2),(3,3),(4,0)$ og $t_0=\frac12$. Første nivå er $(0{,}5;1)$, $(2;2{,}5)$, $(3{,}5;1{,}5)$, andre nivå $(1{,}25;1{,}75)$, $(2{,}75;2)$, og resultatet er $\vb b(\frac12)=(2;1{,}875)$.
+\end{oppskrift}
+\begin{teorem}[sammensatte Bézierkurver]
+To kubiske kurver $\vb b(t;\vb p_0,\dots,\vb p_3)$ for $t\in[0,1)$ og $\vb b(t-1;\vb q_0,\dots,\vb q_3)$ for $t\in[1,2]$:
+\begin{itemize}
+  \item kontinuerlig hvis $\vb p_3=\vb q_0$,
+  \item deriverbar hvis i tillegg $\vb q_1-\vb q_0=\vb p_3-\vb p_2$, altså $\vb q_1=2\vb q_0-\vb p_2$ ($\vb p_2$, $\vb p_3=\vb q_0$ og $\vb q_1$ ligger med lik avstand på en linje).
+\end{itemize}
+\textbf{Hermite-data (øving 12, oppg.~3):} skal $\vb c$ på $[t_a,t_b]$ med $\Delta t=t_b-t_a$ ha gitte verdier og deriverte i endene, bruk $\vb c(t)=\vb b\bigl(\frac{t-t_a}{\Delta t}\bigr)$. Kjerneregelen gir
+\[
+\vb p_0=\vb y_a,\qquad \vb p_1=\vb y_a+\tfrac{\Delta t}3\vb y_a',\qquad \vb p_2=\vb y_b-\tfrac{\Delta t}3\vb y_b',\qquad \vb p_3=\vb y_b\qquad\text{(kontrollregnet)}.
+\]
+\end{teorem}
+\textbf{Bruk:} TrueType-fonter, SVG og CAD. Videre emner er NURBS, Bézierflater og B-spline-flater.
+
+\input{kapitler/oppgaver/splines}
+\input{kapitler/oppgaver/bezier}

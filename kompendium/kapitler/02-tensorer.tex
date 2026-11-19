@@ -1,0 +1,128 @@
+\section{F2 · Tensorer og tensordekomposisjoner}
+
+\textbf{Kjernen:} Data med flere enn to indekser (fargebilder, video) er tensorer. Vi vil finne en tensorversjon av lavrangs-tilnærmingen fra SVD. Det gir to generaliseringer: CP (sum av rang-1-tensorer) og Tucker (kjernetensor ganget med faktormatriser i hver modus).
+\textbf{På eksamen:} forståelse, definisjoner og små regneoperasjoner. Du blir ikke bedt om å regne ut en konkret dekomposisjon.
+
+\subsection{Definisjoner og indeksering}
+\begin{defn}[tensor]
+For $n_1,\dots,n_d\in\N$ er en tensor $\tn X\in\R^{n_1\times\dots\times n_d}$ en samling tall $x_{i_1,\dots,i_d}$ med $1\le i_k\le n_k$. Tallet $d$ er tensorens \emph{orden}. Orden 0 er et tall, orden 1 en vektor og orden 2 en matrise. Kurset ser mest på $d=3$: $\tn X\in\R^{m\times n\times p}$ med elementer $x_{ijk}$.
+\end{defn}
+
+\begin{defn}[fibre og snitt for $d=3$]
+\textbf{Fibre} får du ved å holde to indekser fast: kolonnefibre $\vb x_{:jk}\in\R^m$, radfibre $\vb x_{i:k}\in\R^n$ og rørfibre (tube) $\vb x_{ij:}\in\R^p$.\\
+\textbf{Snitt} får du ved å holde én indeks fast: frontale snitt $X_{::k}\in\R^{m\times n}$, laterale snitt $X_{:j:}\in\R^{m\times p}$ og horisontale snitt $X_{i::}\in\R^{n\times p}$.
+\end{defn}
+
+\begin{defn}[ytre produkt og rang]
+Det ytre produktet $\tn X=\vb a^{(1)}\outp\vb a^{(2)}\outp\dots\outp\vb a^{(d)}$ har elementer $x_{i_1\dots i_d}=a^{(1)}_{i_1}a^{(2)}_{i_2}\cdots a^{(d)}_{i_d}$. For $d=2$ er dette $\vb u\vb v^\T$, og for $d=3$ er $(\vb a\outp\vb b\outp\vb c)_{ijk}=a_ib_jc_k$. Slike tensorer har \emph{rang 1}.\\
+\textbf{Rangen} til $\tn X$ er det minste $r$ slik at $\tn X=\sum_{s=1}^r\lambda_s\,\vb a^{(1)}_s\outp\dots\outp\vb a^{(d)}_s$.
+\end{defn}
+
+\begin{defn}[Kruskal-notasjon]
+Samle vektorene for hver modus i matriser $A=(\vb a_1\cdots\vb a_r)\in\R^{m\times r}$, $B\in\R^{n\times r}$ og $C\in\R^{p\times r}$, og skriv
+\[
+\kr{\boldsymbol\lambda;A,B,C}=\sum_{s=1}^r\lambda_s\,\vb a_s\outp\vb b_s\outp\vb c_s,\qquad x_{ijk}=\sum_{s=1}^r\lambda_s a_{is}b_{js}c_{ks}.
+\]
+Uten $\boldsymbol\lambda$ er alle $\lambda_s=1$. SVD-en er $A=\kr{\boldsymbol\sigma;U,V}$.
+\end{defn}
+
+\subsection{Matriseoperasjoner}
+\begin{defn}[vektorisering, Kronecker, Khatri--Rao og Hadamard]
+\begin{itemize}
+  \item $\vect(A)\in\R^{mn}$: kolonnene i $A$ stablet oppå hverandre.
+  \item \textbf{Kronecker-produktet} av $A\in\R^{m\times n}$ og $B\in\R^{p\times q}$ er
+  $A\otimes B=\begin{psmallmatrix}a_{11}B&\cdots&a_{1n}B\\ \vdots&&\vdots\\ a_{m1}B&\cdots&a_{mn}B\end{psmallmatrix}\in\R^{mp\times nq}$.
+  For vektorer er $\vb a\otimes\vb b=(a_1\vb b;\dots;a_m\vb b)\in\R^{mp}$, og $A\otimes B=(\vb a_1\otimes\vb b_1\ \ \vb a_1\otimes\vb b_2\ \cdots\ \vb a_n\otimes\vb b_q)$. Produktet er alltid definert.
+  \item \textbf{Khatri--Rao-produktet} krever like mange kolonner: for $A\in\R^{m\times n}$ og $B\in\R^{p\times n}$ er
+  $A\odot B=(\vb a_1\otimes\vb b_1\ \ \vb a_2\otimes\vb b_2\ \cdots\ \vb a_n\otimes\vb b_n)\in\R^{mp\times n}$, altså kolonnevis Kronecker.
+  \item \textbf{Hadamard-produktet} krever lik størrelse: $(A\had B)_{ij}=a_{ij}b_{ij}$.
+\end{itemize}
+\end{defn}
+\begin{teorem}[nyttige identiteter (ikke på lysarkene, men brukt i oppgavebanken)]
+$(A\otimes B)(C\otimes D)=AC\otimes BD$ (når produktene er definert), $(A\otimes B)^\T=A^\T\otimes B^\T$, $\vect(AXB)=(B^\T\otimes A)\vect(X)$ og $(A\odot B)^\T(A\odot B)=A^\T A\had B^\T B$. Den siste gjør minste kvadrater-steget i ALS billig.
+\end{teorem}
+\begin{fallgruve}[når er produktene definert? (øving 2)]
+For $C\in\R^{m\times n}$: $CC$ krever $m=n$, mens $C^\T C\in\R^{n\times n}$ alltid er definert. $C\had C$ er alltid definert, men $C^\T\had C$ krever $m=n$. $A\odot B$ krever like mange kolonner, og $A\had B$ lik størrelse.
+\end{fallgruve}
+
+\subsection{Tensoroperasjoner}
+\begin{defn}[matrisering (modus-$k$-utfolding)]
+$X_{(k)}\in\R^{n_k\times\prod_{l\neq k}n_l}$: modus-$k$-fibrene blir kolonner. Elementet $x_{i_1\dots i_d}$ havner i rad $i_k$ og kolonne
+\[
+j=1+\sum_{l\neq k}(i_l-1)J_l,\qquad J_l=\prod_{\substack{q<l\\ q\neq k}}n_q,
+\]
+altså går de andre indeksene i rekkefølge med den \emph{første indeksen raskest}.
+\end{defn}
+\begin{eksempel}[$\tn X\in\R^{3\times4\times2}$ med tallene $1,\dots,24$ (fra forelesningen, kontrollregnet)]
+$X_{::1}=\begin{psmallmatrix}1&4&7&10\\2&5&8&11\\3&6&9&12\end{psmallmatrix}$ og $X_{::2}=\begin{psmallmatrix}13&16&19&22\\14&17&20&23\\15&18&21&24\end{psmallmatrix}$ gir
+\[
+X_{(1)}=\begin{psmallmatrix}1&4&7&10&13&16&19&22\\2&5&8&11&14&17&20&23\\3&6&9&12&15&18&21&24\end{psmallmatrix},\quad
+X_{(2)}=\begin{psmallmatrix}1&2&3&13&14&15\\4&5&6&16&17&18\\7&8&9&19&20&21\\10&11&12&22&23&24\end{psmallmatrix},\quad
+X_{(3)}=\begin{psmallmatrix}1&2&3&\cdots&12\\13&14&15&\cdots&24\end{psmallmatrix}.
+\]
+\end{eksempel}
+
+\begin{defn}[$k$-modusprodukt]
+For $\tn X\in\R^{n_1\times\dots\times n_d}$ og $A\in\R^{m\times n_k}$ er $\tn Y=\tn X\times_k A\in\R^{n_1\times\dots\times n_{k-1}\times m\times n_{k+1}\times\dots\times n_d}$ gitt ved
+\[
+y_{i_1\dots i_{k-1}\,j\,i_{k+1}\dots i_d}=\sum_{i_k=1}^{n_k}x_{i_1\dots i_d}\,a_{j\,i_k},\qquad\text{kort: }\ Y_{(k)}=A\,X_{(k)}.
+\]
+Hver modus-$k$-fiber ganges altså med $A$. For en matrise $B$ er $B\times_1A=AB$ og $B\times_2A=BA^\T$. Med en vektor $\vb a\in\R^{n_k}$ forsvinner modus $k$, så ordenen synker med én: $B\times_1\vb v=B^\T\vb v$ og $B\times_2\vb v=B\vb v$.
+\end{defn}
+
+\begin{defn}[multilineær transformasjon]
+For $\tn X=\kr{A,B,C}$ og $M\in\R^{m\times u}$, $N\in\R^{n\times v}$, $P\in\R^{p\times w}$ er $\tn X(M,N,P)=\sum_s(M^\T\vb a_s)\outp(N^\T\vb b_s)\outp(P^\T\vb c_s)=\kr{M^\T A,N^\T B,P^\T C}$. For matriser er $\kr{A,B}(M,N)=M^\T AB^\T N$. Hvis en ny dimensjon er 1 (for eksempel $w=1$), forsvinner den modusen.
+\end{defn}
+
+\begin{teorem}[matrisering av en CP-tensor]
+For $\tn X=\kr{A,B,C}$ er
+\[
+X_{(1)}=A(C\odot B)^\T,\qquad X_{(2)}=B(C\odot A)^\T,\qquad X_{(3)}=C(B\odot A)^\T .
+\]
+Rekkefølgen i Khatri--Rao-produktet er de to andre modusene \emph{baklengs}.
+\end{teorem}
+
+\subsection{CP-dekomposisjon og ALS}
+\begin{defn}[CP (CANDECOMP/PARAFAC)]
+Med Frobeniusnormen $\norm{\tn X}_F=\bigl(\sum_{i,j,k}x_{ijk}^2\bigr)^{1/2}$ er CP-dekomposisjonen med rang $r$ problemet
+\[
+\min_{A,B,C}\ \norm{\tn X-\kr{A,B,C}}_F^2,\qquad A\in\R^{m\times r},\ B\in\R^{n\times r},\ C\in\R^{p\times r}.
+\]
+\end{defn}
+\begin{oppskrift}[alternerende minste kvadrater (ALS)]
+Hvert delproblem er lineært minste kvadrater i én faktor, så Moore--Penrose (F1) gir løsningen direkte. Start med $A^{(0)},B^{(0)},C^{(0)}$ (for eksempel tilfeldige) og gjenta til et stoppkriterium er oppfylt:
+\begin{align*}
+A^{(k+1)}&=X_{(1)}\bigl((C^{(k)}\odot B^{(k)})^\T\bigr)^\dagger,\\
+B^{(k+1)}&=X_{(2)}\bigl((C^{(k)}\odot A^{(k+1)})^\T\bigr)^\dagger,\\
+C^{(k+1)}&=X_{(3)}\bigl((B^{(k+1)}\odot A^{(k+1)})^\T\bigr)^\dagger.
+\end{align*}
+Hver faktor oppdateres med de nyeste verdiene av de andre. Hvert steg løser $\min_{\tilde A}\norm{X_{(1)}-\tilde A(C\odot B)^\T}_F$.
+\end{oppskrift}
+
+\subsection{Tucker-dekomposisjon, HOSVD og HOOI}
+\begin{defn}[Tucker]
+For gitte ranger $(r_1,r_2,r_3)$:
+\[
+\min\ \norm{\tn X-\tn Y}_F,\qquad \tn Y=\tn G\times_1A\times_2B\times_3C=\sum_{i,j,k}g_{ijk}\,\vb a_i\outp\vb b_j\outp\vb c_k,
+\]
+med en \emph{kjernetensor} $\tn G\in\R^{r_1\times r_2\times r_3}$ og faktorer $A\in\R^{m\times r_1}$, $B\in\R^{n\times r_2}$ og $C\in\R^{p\times r_3}$. Matriseringene er $Y_{(1)}=AG_{(1)}(C\otimes B)^\T$, $Y_{(2)}=BG_{(2)}(C\otimes A)^\T$ og $Y_{(3)}=CG_{(3)}(B\otimes A)^\T$ (Kronecker, ikke Khatri--Rao).
+\end{defn}
+\begin{teorem}[hvordan henger CP, Tucker og SVD sammen?]
+\begin{itemize}
+  \item CP er et spesialtilfelle av Tucker med $r_1=r_2=r_3=r$ og en superdiagonal kjerne ($g_{ijk}=1$ hvis $i=j=k$, ellers $0$).
+  \item SVD-en kan skrives på begge måter: $U\Sigma V^\T=\sum_k\sigma_k\vb u_k\vb v_k^\T$ (CP-form, sum av rang-1) og $U\Sigma V^\T=\Sigma\times_1U\times_2V$ (Tucker-form med kjerne $\Sigma$). For matriser er formene like fordi $\Sigma$ er diagonal. For tensorer er kjernen $\tn G$ som regel ikke superdiagonal, så formene skiller seg.
+  \item Lagring: CP trenger $r(m+n+p)$ tall og Tucker $r_1r_2r_3+mr_1+nr_2+pr_3$, mot $mnp$ for hele tensoren.
+\end{itemize}
+\end{teorem}
+\begin{oppskrift}[HOSVD (higher-order SVD)]
+For gitte $\tn X$ og $(r_1,r_2,r_3)$:
+\begin{enumerate}
+  \item $A$ er de $r_1$ ledende venstre singulærvektorene til $X_{(1)}$.
+  \item $B$ er de $r_2$ ledende venstre singulærvektorene til $X_{(2)}$.
+  \item $C$ er de $r_3$ ledende venstre singulærvektorene til $X_{(3)}$.
+  \item $\tn G=\tn X\times_1A^\T\times_2B^\T\times_3C^\T$. Dette tilsvarer $\Sigma=U^\T AV=A\times_1U^\T\times_2V^\T$ for matriser.
+\end{enumerate}
+\textbf{HOOI} (videre): start fra HOSVD og gjenta. Beregn $\tn Y=\tn X\times_2B^\T\times_3C^\T$ og la $A$ være de $r_1$ ledende venstre singulærvektorene til $Y_{(1)}$. Gjør det samme for $B$ (projiser med $A$ og $C$) og $C$ (projiser med $A$ og $B$). Til slutt er $\tn G=\tn X\times_1A^\T\times_2B^\T\times_3C^\T$.
+\end{oppskrift}
+
+\input{kapitler/oppgaver/tensor}

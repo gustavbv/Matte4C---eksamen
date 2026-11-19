@@ -1,0 +1,88 @@
+\section{F9 · Partielle differensiallikninger og bølgelikningen}
+
+\textbf{Kjernen:} Klassifiser PDE-en, still opp rand- og initialbetingelser, prøv $u=F(x)G(t)$ (separasjon av variable), finn egenfunksjonene fra randbetingelsene og bruk superposisjon og Fourierrekker for å tilpasse initialbetingelsene.
+
+\subsection{Begreper og klassifisering}
+\begin{defn}
+En PDE er en likning med partiellderiverte av en ukjent funksjon $u$ av minst to variable, for eksempel $u(x,t)$ eller $u(x,y,t)$.
+\begin{itemize}
+  \item \textbf{Orden:} høyeste deriverte som forekommer.
+  \item \textbf{Lineær:} $u$ og de deriverte forekommer bare i første potens og ikke multiplisert med hverandre. Koeffisientene kan avhenge av $x$ og $t$. Ellers er den \textbf{ikke-lineær}, for eksempel med $u^2$, $uu_x$ eller $\sin u$.
+  \item \textbf{Homogen:} hvert ledd inneholder $u$ eller en derivert av $u$. Da er $u\equiv0$ en løsning. Et ledd uten $u$, som $f(x,t)$, en konstant $C\neq0$ eller $x$, gjør likningen \textbf{inhomogen}.
+\end{itemize}
+\end{defn}
+\begin{eksempel}[øving 9, oppg.~1]
+\begin{tabular}{@{}ll@{}}
+$u_x+u^2=x$ & ikke-lineær ($u^2$), inhomogen ($x$), 1.\ orden\\
+$u_t=u_{xx}$ & lineær, homogen, 2.\ orden (varmelikningen)\\
+$\frac1r\partial_r(r\partial_ru)+\partial_\theta^2u=0$ & lineær, homogen (Laplace i polarkoordinater)\\
+$u_{xx}+u_{yy}+C=0$ & lineær, inhomogen for $C\neq0$ (Poisson)\\
+$u_t+u_x+xu^n=0$ & lineær hvis $n=1$, ellers ikke-lineær, homogen\\
+$u_t+uu_x=u_{xx}$ & ikke-lineær ($uu_x$), homogen (Burgers)
+\end{tabular}
+\end{eksempel}
+
+\begin{defn}[viktige likninger]
+\begin{tabular}{@{}ll@{}}
+Varmelikningen & $u_t-\alpha u_{xx}=q(x,t)$\\
+Bølgelikningen & $u_{tt}=c^2u_{xx}$ ($c$ er bølgefarten), i 2D $u_{tt}=c^2(u_{xx}+u_{yy})$\\
+Bjelke eller stav & $u_{tt}+k\,u_{xxxx}=q(x,t)$ (4.\ orden)\\
+Laplace og Poisson & $\Delta u=u_{xx}+u_{yy}=0$ \ og \ $\Delta u=f$
+\end{tabular}
+\end{defn}
+
+\begin{defn}[løsning, randbetingelser og initialbetingelser]
+En løsning er en funksjon med de nødvendige deriverte som oppfyller likningen i området. For å få én bestemt løsning trengs \textbf{randbetingelser} (RB, verdier på randen av området) og \textbf{initialbetingelser} (IB, ved $t=0$). Med $\partial_t^k$ som høyeste tidsderiverte trengs $k$ initialbetingelser: én for varmelikningen og to (posisjon og hastighet) for bølgelikningen.
+\end{defn}
+\begin{teorem}[superposisjonsprinsippet]
+Er $u_1$ og $u_2$ løsninger av en \emph{lineær homogen} PDE, så er $au_1+bu_2$ også en løsning. For en inhomogen likning gjelder ikke dette, men løsningen er en partikulær løsning pluss en homogen løsning (øving 9, oppg.~2).
+\end{teorem}
+
+\subsection{Bølgelikningen}
+Modell: en streng på $[0,L]$ som er festet i endene. Strengen er homogen, tyngdekraften neglisjeres, og hvert punkt beveger seg bare loddrett. Bølgefarten er $c^2=\frac{\text{strekkraft}}{\text{masse per lengde}}$, så $c^2=\frac{FL}m$ i øving 9.
+
+\begin{formel}[{Bølgelikningen på $[0,L]$ og løsningen\fs}]
+\[
+\begin{cases}
+u_{tt}=c^2u_{xx}, & 0<x<L,\ t>0,\\
+u(0,t)=u(L,t)=0 & \text{(RB)},\\
+u(x,0)=f(x),\quad u_t(x,0)=g(x) & \text{(IB: posisjon og hastighet)},
+\end{cases}
+\]
+\begin{gather*}
+u(x,t)=\sum_{n=1}^\infty\Bigl(A_n\cos\frac{cn\pi t}{L}+B_n\sin\frac{cn\pi t}L\Bigr)\sin\frac{n\pi x}L,\\
+A_n=\frac2L\int_0^Lf(x)\sin\frac{n\pi x}L\dd x,\qquad B_n=\frac2{cn\pi}\int_0^Lg(x)\sin\frac{n\pi x}L\dd x.
+\end{gather*}
+\end{formel}
+
+\begin{oppskrift}[separasjon av variable (utledningen må kunnes)]
+\begin{enumerate}
+  \item \textbf{Ansats:} $u(x,t)=F(x)G(t)$. Innsatt gir det $FG''=c^2F''G$, altså
+  \[
+  \frac{F''(x)}{F(x)}=\frac{G''(t)}{c^2G(t)}=k .
+  \]
+  $k$ er en konstant, fordi venstre side bare avhenger av $x$ og høyre bare av $t$.
+  Det gir to ODE-er: $F''-kF=0$ og $G''-c^2kG=0$. Randbetingelsene gir $F(0)=F(L)=0$ (ellers er $G\equiv0$).
+  \item \textbf{Tilfellet $k=0$:} $F=Ax+B$, og RB gir $F\equiv0$.
+  \item \textbf{Tilfellet $k=p^2>0$:} $F=A\ee^{px}+B\ee^{-px}$, og RB gir $A=B=0$.
+  \item \textbf{Tilfellet $k=-p^2<0$:} $F=A\cos px+B\sin px$. $F(0)=0$ gir $A=0$, og $F(L)=0$ gir $\sin pL=0$, så $p=\frac{n\pi}L$. Altså er $F_n=\sin\frac{n\pi x}L$.
+  \item \textbf{Tidsdelen:} $G_n''+\lambda_n^2G_n=0$ med $\lambda_n=\frac{cn\pi}L$, så $G_n=A_n\cos\lambda_nt+B_n\sin\lambda_nt$.
+  \item \textbf{Superposisjon:} $u=\sum_nG_n(t)F_n(x)$. Sett $t=0$: $f(x)=\sum A_n\sin\frac{n\pi x}L$ er sinusrekken til $f$ (odde utvidelse). Deriver i $t$: $g(x)=\sum B_n\lambda_n\sin\frac{n\pi x}L$.
+\end{enumerate}
+\textbf{Begreper:} $u_n$ er egenfunksjonene, $\lambda_n=\frac{cn\pi}L$ egenverdiene, og $\{\lambda_n\}$ spekteret. Grunntonen har periode $\frac{2\pi}{\lambda_1}=\frac{2L}c$.
+\end{oppskrift}
+
+\begin{fallgruve}[effektive triks]
+\begin{itemize}
+  \item \textbf{Les av:} er $f$ en endelig sum av $\sin\frac{n\pi x}L$, er $A_n$ bare koeffisientene. For eksempel har $f=\sin(4\pi x)+3\sin(7\pi x)$ på $[0,1]$ $A_4=1$, $A_7=3$ og ellers $0$, så du slipper å integrere.
+  \item \textbf{Er $g\equiv0$,} er alle $B_n=0$.
+  \item \textbf{Et annet intervall,} for eksempel $[-L,L]$ med $u(\pm L,t)=0$ (prøveeksamen, oppg.~8): bruk $F=A\cos px+B\sin px$. Da gir $A\cos pL=0$ og $B\sin pL=0$ to familier: $\sin\frac{n\pi x}L$ og $\cos\frac{(2m-1)\pi x}{2L}$. Alternativt kan du forskyve til $[0,2L]$.
+  \item \textbf{Neumann-rand} ($u_x=0$ i endene) gir $\cos\frac{n\pi x}L$, inkludert en konstant mode for $n=0$.
+\end{itemize}
+\end{fallgruve}
+
+\begin{eksempel}[strengen løftes på midten (forelesningen)]
+$f(x)=H\bigl(1-\abs{\frac{2x}L-1}\bigr)$ (trekant med topp $H$ i $x=\frac L2$) og $g=0$. Da er $B_n=0$ og $A_n=\frac{8H}{n^2\pi^2}\sin\frac{n\pi}{2}$, så bare odde $n$ bidrar, med vekslende fortegn.
+\end{eksempel}
+
+\input{kapitler/oppgaver/pde}

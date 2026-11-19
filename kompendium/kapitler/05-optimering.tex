@@ -1,0 +1,114 @@
+\section{F5 · Kjerneregel, gradient og optimering}
+
+\textbf{Kjernen:} Gradienten peker dit funksjonen stiger raskest og står vinkelrett på nivåkurvene. I et minimum er gradienten null. Gradient descent går i retning $-\nabla f$, og Newton løser $\nabla f=\vb 0$ med Hessematrisen. Med bibetingelse må $\nabla f$ være parallell med $\nabla g$ (Lagrange).
+
+\subsection{Kjerneregelen}
+\begin{teorem}[kjerneregelen]
+$\vb F(\vb x)=\vb G(\vb U(\vb x))$ med $\vb U:\R^m\to\R^n$ deriverbar i $\vb a$ og $\vb G:\R^n\to\R^p$ deriverbar i $\vb U(\vb a)$. Da er
+\[
+\underbrace{\vb F'(\vb a)}_{p\times m}=\underbrace{\vb G'(\vb U(\vb a))}_{p\times n}\ \underbrace{\vb U'(\vb a)}_{n\times m}.
+\]
+\textbf{Med skalarer:} for $f(x,y,z)=g(u(x,y,z),v(x,y,z))$ er $\pd fx=\pd gu\pd ux+\pd gv\pd vx$.
+\textbf{Langs en kurve:} $h(t)=f(\vb c(t))$ gir $h'(t)=f'(\vb c(t))\,\vb c'(t)=\ip{\nabla f(\vb c(t))}{\vb c'(t)}$.
+\end{teorem}
+\begin{fallgruve}[øving 5]
+Regn ut $\vb U'$ og $\vb G'$ hver for seg, sett inn $\vb U(\vb a)$ i $\vb G'$ (ikke $\vb a$), og gang så sammen. I et bestemt punkt er dette ofte enklere enn å skrive ut $\vb F$ og derivere direkte.
+\end{fallgruve}
+
+\subsection{Optimering: begreper}
+\begin{defn}[minimerer]
+Problemet er $\vb x^*\in\argmin_{\vb x\in\R^n}f(\vb x)$ for en kostnadsfunksjon (skalarfelt) $f:\R^n\to\R$. For å maksimere $h$ minimerer du $f=-h$. $\vb x^*$ er en \emph{global} minimerer hvis $f(\vb x^*)\le f(\vb x)$ for alle $\vb x$, og en \emph{lokal} minimerer hvis det gjelder i en omegn, for eksempel $\{\vb x:\norm{\vb x-\vb x^*}_2\le R\}$.
+\end{defn}
+
+\begin{defn}[gradient, retningsderivert og Hessematrise]
+\[
+\nabla f(\vb y)=\Bigl(\pd f{x_1}(\vb y),\dots,\pd f{x_n}(\vb y)\Bigr)^\T\in\R^n,\qquad
+D_{\vb r}f(\vb y)=\lim_{h\to0}\frac{f(\vb y+h\vb r)-f(\vb y)}{h}\quad(\norm{\vb r}_2=1),
+\]
+\[
+\Hess f(\vb x)=\bigl(\nabla f\bigr)'(\vb x)=\Bigl(\frac{\partial^2f}{\partial x_i\partial x_j}(\vb x)\Bigr)_{i,j=1}^n.
+\]
+Gradienten er en kolonnevektor, mens Jacobimatrisen $f'(\vb y)=\nabla f(\vb y)^\T$ er en radvektor. For $f\in C^2$ er Hessematrisen symmetrisk.
+\end{defn}
+
+\begin{teorem}[gradientens egenskaper]
+\begin{enumerate}
+  \item Er $f$ deriverbar, så er $D_{\vb r}f(\vb y)=\ip{\nabla f(\vb y)}{\vb r}$.
+  \item Med Cauchy--Schwarz: $\nabla f$ peker i retningen med raskest stigning, og $-\nabla f$ i retningen med raskest nedgang. Største stigning er $\norm{\nabla f}_2$.
+  \item \textbf{Nivåmengder:} $\{\vb x:f(\vb x)=c\}$ (nivåkurve for $n=2$, nivåflate for $n=3$). Ligger kurven $\vb c(t)$ i en nivåmengde, er $\ip{\nabla f(\vb c(t))}{\vb c'(t)}=0$, så $\nabla f$ står vinkelrett på nivåmengden. Bevis: deriver $f(\vb c(t))=\alpha$ med kjerneregelen.
+  \item \textbf{Nødvendig betingelse:} er $\vb y$ et lokalt minimum (eller maksimum) i det indre av definisjonsmengden, så er $\nabla f(\vb y)=\vb 0$ (kritisk eller stasjonært punkt). Det omvendte gjelder ikke: et kritisk punkt kan også være et maksimum eller et sadelpunkt.
+\end{enumerate}
+\end{teorem}
+
+\begin{formel}[Nyttige gradienter (øving 5)]
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+$f(\vb x)$ & $\nabla f(\vb x)$ & $\Hess f(\vb x)$\\
+\midrule
+$\ip{\vb a}{\vb x}$ & $\vb a$ & $0$\\
+$\norm{\vb x}_2$ & $\vb x/\norm{\vb x}_2$ \ ($\vb x\neq\vb 0$) & \\
+$\norm{A\vb x}_2^2$ & $2A^\T A\vb x$ & $2A^\T A$\\
+$\vb x^\T A\vb x$ & $(A+A^\T)\vb x$ \ ($=2A\vb x$ hvis $A=A^\T$) & $A+A^\T$\\
+$\tfrac12\norm{A\vb x-\vb b}_2^2$ & $A^\T(A\vb x-\vb b)$ & $A^\T A$\\
+$\tfrac12\norm{A\vb x-\vb y}_2^2+\mu\norm{\vb x}_2^2$ & $A^\T(A\vb x-\vb y)+2\mu\vb x$ & $A^\T A+2\mu I$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Den siste er \textbf{Tikhonov-regularisering} (ridge-regresjon). Minimumet løser $(A^\T A+2\mu I)\vb x=A^\T\vb y$, som er entydig løsbart for alle $\mu>0$, også når $A$ ikke har full rang. Når $\mu\to0^+$, går løsningen mot $A^\dagger\vb y$.
+\end{formel}
+
+\begin{teorem}[klassifisering (nyttig, men ikke gjennomgått i F5)]
+Er $\nabla f(\vb x^*)=\vb 0$ og $\Hess f(\vb x^*)$ positivt definitt (alle egenverdier $>0$), er $\vb x^*$ et lokalt minimum. Negativt definitt gir lokalt maksimum, og egenverdier med begge fortegn gir et sadelpunkt. For $2\times2$: $\det>0$ og $f_{xx}>0$ gir minimum.
+\end{teorem}
+
+\subsection{Gradient descent}
+\begin{oppskrift}[gradient descent (bratteste nedstigning)]
+Gitt $f$, $\nabla f$, startpunkt $\vb x^{(0)}$ og steglengder $s_k$:
+\[
+\vb x^{(k+1)}=\vb x^{(k)}-s_k\nabla f(\vb x^{(k)}),\qquad k=0,1,2,\dots
+\]
+\begin{itemize}
+  \item \textbf{Steglengde:} konstant $s$ (enkelt). Eksakt linjesøk $\min_t f(\vb x-t\nabla f(\vb x))$ er et nytt optimeringsproblem og som regel for dyrt. I praksis brukes \textbf{backtracking}: prøv $\beta^\ell u$, $\ell=0,1,2,\dots$ (med $0<\beta<1$), og ta det første steget som gir nok nedgang (Armijo-betingelsen, ofte skrevet $f(\vb x-s\nabla f)\le f(\vb x)-c\,s\norm{\nabla f}_2^2$ med for eksempel $c=10^{-4}$).
+  \item \textbf{Stopp} når $\norm{\nabla f(\vb x^{(k)})}_2<\varepsilon$ eller etter et maksimalt antall steg.
+  \item For stor $s$: iteratene svinger eller divergerer, og $f$ kan øke. For liten $s$: konvergensen blir treg.
+  \item Starter du i et kritisk punkt, er $\nabla f=\vb 0$ og metoden står stille (prøveeksamen, oppg.~5c).
+\end{itemize}
+\end{oppskrift}
+
+\begin{oppskrift}[Newton for optimering]
+Bruk Newton (F4) på $\vb F=\nabla f$, slik at Jacobimatrisen blir Hessematrisen:
+\[
+\Hess f(\vb x^{(k)})\,\Delta^{(k)}=-\nabla f(\vb x^{(k)}),\qquad \vb x^{(k+1)}=\vb x^{(k)}+\Delta^{(k)}.
+\]
+Metoden trenger andrederiverte og at $\Hess f(\vb x^{(k)})$ er inverterbar. Den konvergerer kvadratisk mot et kritisk punkt, som også kan være et maksimum eller et sadelpunkt. For en kvadratisk $f$ er ett steg nok.
+\end{oppskrift}
+
+\input{kapitler/oppgaver/gradient}
+\input{kapitler/oppgaver/gd}
+
+\subsection{Optimering med bibetingelse: Lagrange-multiplikatorer}
+\begin{defn}
+Problemet er $\min f(\vb x)$ slik at $g(\vb x)=0$. Punkter med $g(\vb x)=0$ er \emph{tillatte} (feasible). Ved et optimum kan vi ikke kreve $\nabla f=\vb 0$, men ingen tillatt retning (tangent til $\{g=0\}$) kan gi forbedring. Derfor må $\nabla f$ stå vinkelrett på nivåmengden, altså være parallell med $\nabla g$.
+\end{defn}
+\begin{teorem}[Lagrange]
+La $f,g:\R^n\to\R$ ha kontinuerlige gradienter. Hvis $\vb x^*$ er et ekstremalpunkt for $f$ under bibetingelsen $g=0$ og $\nabla g(\vb x^*)\neq\vb 0$, finnes en $\lambda\in\R$ (Lagrange-multiplikator) slik at
+\[
+\nabla f(\vb x^*)=\lambda\nabla g(\vb x^*).
+\]
+Med \textbf{Lagrangefunksjonen} $\mathcal L(\vb x,\lambda)=f(\vb x)+\lambda g(\vb x)$ betyr $\nabla\mathcal L=\vb 0$ at $\nabla f+\lambda\nabla g=\vb 0$ og $g(\vb x)=0$. Fortegnet på $\lambda$ er bare en konvensjon. Er $\vb x^*$ også et ubetinget minimum, er $\lambda=0$. Kritiske punkter for $\mathcal L$ er som regel sadelpunkter for $\mathcal L$.
+\end{teorem}
+\begin{oppskrift}[Lagrange for hånd]
+\begin{enumerate}
+  \item Sett opp $\nabla f=\lambda\nabla g$ og $g=0$: $n+1$ likninger med $n+1$ ukjente.
+  \item Løs, ofte ved å eliminere $\lambda$, for eksempel ved å dele to likninger på hverandre eller dele opp i tilfeller.
+  \item Ta også med tillatte punkter der $\nabla g=\vb 0$. Der gjelder ikke teoremet.
+  \item Regn ut $f$ i alle kandidatene. Er mengden $\{g=0\}$ lukket og begrenset (for eksempel en sirkel), er den største verdien maksimum og den minste minimum.
+\end{enumerate}
+\end{oppskrift}
+\begin{eksempel}[øving 5, oppg.~3: $f=x^2+4y^2-4x$ på $x^2+y^2=1$]
+$\nabla f=(2x-4,\,8y)$ og $\nabla g=(2x,\,2y)$. Likningene $2x-4=2\lambda x$, $8y=2\lambda y$ og $x^2+y^2=1$ gir enten $y=0$, $x=\pm1$ eller $\lambda=4$, $x=-\tfrac23$, $y=\pm\tfrac{\sqrt5}3$. Verdiene er $f(1,0)=-3$ (minimum), $f(-1,0)=5$ og $f(-\tfrac23,\pm\tfrac{\sqrt5}{3})=\tfrac{16}3$ (maksimum). Kontrollregnet.
+\end{eksempel}
+\textbf{Videre (ikke eksamen):} flere bibetingelser $\vb H(\vb x)=\vb 0$, ulikheter $\vb G(\vb x)\le\vb 0$ (KKT), straffemetoder, utvidet Lagrange og indrepunktsmetoder.
+
+\input{kapitler/oppgaver/lagrange}

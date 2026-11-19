@@ -1,0 +1,136 @@
+\section{F1 · Singulærverdidekomposisjon og Moore--Penrose-inversen}
+
+\textbf{Kjernen:} Enhver matrise kan skrives som rotasjon/speiling, så skalering langs aksene, så en ny rotasjon/speiling. Fra dette følger rang, normer, den beste lavrangs-tilnærmingen og en generalisert invers som løser både overbestemte og underbestemte systemer.
+
+\subsection{Motivasjon og forkunnskaper}
+\begin{itemize}
+  \item \textbf{Lav rang sparer plass og regning:} Hvis $A\approx BC$ med $B\in\R^{n\times k}$, $C\in\R^{k\times n}$ og $k\ll n$, trengs $2nk$ tall i stedet for $n^2$, og $A\vb x=B(C\vb x)$ koster $2nk$ operasjoner i stedet for $n^2$.
+  \item \textbf{Egenverdier (repetisjon):} $A\vb v=\lambda\vb v$. Løs $\det(A-\lambda I)=0$ og deretter $(A-\lambda_i I)\vb v_i=\vb 0$. Hvis $A$ er diagonaliserbar, er $A=V\Lambda V^{-1}$. Dette krever en kvadratisk matrise, og noen kvadratiske matriser, for eksempel $\begin{psmallmatrix}1&c\\0&1\end{psmallmatrix}$ med $c\neq 0$, har bare én egenvektor. SVD finnes for alle matriser.
+\end{itemize}
+
+\begin{defn}[ortogonal matrise]
+$U\in\R^{n\times n}$ er ortogonal hvis $U^\T U=I_n$. Det betyr at kolonnene $\vb u_i$ er ortonormale: $\ip{\vb u_i}{\vb u_j}=1$ hvis $i=j$, ellers $0$. Geometrisk er $U$ en rotasjon og/eller speiling, og den bevarer lengder: $\norm{U\vb x}_2=\norm{\vb x}_2$.
+\end{defn}
+
+\subsection{Singulærverdidekomposisjonen}
+\begin{teorem}[SVD]
+For enhver $A\in\R^{m\times n}$ finnes ortogonale $U\in\R^{m\times m}$ og $V\in\R^{n\times n}$ og tall $\sigma_1\ge\sigma_2\ge\dots\ge\sigma_p\ge 0$, der $p=\min\{m,n\}$, slik at
+\[
+A=U\Sigma V^\T,\qquad \Sigma=\diag(\sigma_1,\dots,\sigma_p)\in\R^{m\times n}\ \text{(fylt ut med nuller)}.
+\]
+$\sigma_k$ er \emph{singulærverdiene}, kolonnene $\vb u_k$ i $U$ er de \emph{venstre} og kolonnene $\vb v_k$ i $V$ de \emph{høyre singulærvektorene}.
+\end{teorem}
+
+\begin{defn}[redusert SVD]
+Kast kolonnene som bare ganges med nuller i $\Sigma$:
+\begin{itemize}
+  \item $m>n$ (høy matrise): $A=\hat U\hat\Sigma V^\T$ med $\hat U\in\R^{m\times n}$ og $\hat\Sigma\in\R^{n\times n}$.
+  \item $m<n$ (bred matrise): $A=U\hat\Sigma\hat V^\T$ med $\hat V\in\R^{n\times m}$ og $\hat\Sigma\in\R^{m\times m}$.
+\end{itemize}
+Da er $\hat U^\T\hat U=I$ (eller $\hat V^\T\hat V=I$), men $\hat U\hat U^\T$ er bare en projeksjon. Forelesningene skriver ofte $U,\Sigma,V$ uten hatt også i redusert form.
+\end{defn}
+
+\begin{teorem}[egenskaper]
+\begin{enumerate}
+  \item $A^\T=V\Sigma^\T U^\T$, så $A$ og $A^\T$ har de samme singulærverdiene, og $\norm{A}_2=\norm{A^\T}_2=\sigma_1$.
+  \item $A^\T A=V\Sigma^\T\Sigma V^\T$ og $AA^\T=U\Sigma\Sigma^\T U^\T$. Begge er positivt semidefinite, $\sigma_k^2$ er egenverdiene deres, $\vb v_k$ er egenvektorer for $A^\T A$ og $\vb u_k$ egenvektorer for $AA^\T$.
+  \item Hvis $A=A^\T$, er $\sigma_i=\abs{\lambda_i}$. Hvis $A$ i tillegg er positivt definitt, er $\sigma_i=\lambda_i$.
+  \item \textbf{Geometri:} $A$ avbilder enhetssfæren på en ellipse(-oide) med halvakser $\sigma_k\vb u_k$. For $m>n$ ligger den $n$-dimensjonale ellipsoiden inne i $\R^m$, for $m<n$ projiserer $V^\T$ i tillegg.
+\end{enumerate}
+\end{teorem}
+
+\begin{oppskrift}[regn ut SVD for hånd]
+\begin{enumerate}
+  \item Velg den minste av $A^\T A$ ($n\times n$) og $AA^\T$ ($m\times m$). Hvis bare singulærverdiene spørres etter, er du ferdig etter steg 2.
+  \item Finn egenverdiene $\lambda_1\ge\lambda_2\ge\dots$ og sett $\sigma_k=\sqrt{\lambda_k}$.
+  \item Finn normerte egenvektorer. Med $A^\T A$ er de $\vb v_k$, med $AA^\T$ er de $\vb u_k$.
+  \item Finn de andre vektorene fra $AV=U\Sigma$ (eller $A^\T U=V\Sigma^\T$):
+  \[
+  \vb u_k=\frac{1}{\sigma_k}A\vb v_k\qquad\text{eller}\qquad \vb v_k=\frac{1}{\sigma_k}A^\T\vb u_k\qquad(\sigma_k>0).
+  \]
+  \item Trengs full $U$ (eller $V$)? Utvid med ortonormale vektorer, for eksempel fra $\kerop(A^\T)$ (eller $\kerop(A)$), slik at matrisen blir ortogonal.
+  \item Kontroller ved å gange ut $U\Sigma V^\T$ eller i det minste én kolonne.
+\end{enumerate}
+\end{oppskrift}
+
+\begin{fallgruve}
+Ikke regn ut $U$ og $V$ hver for seg som egenvektorer av $AA^\T$ og $A^\T A$. Egenvektorene er bare bestemt opp til fortegn, så $U\Sigma V^\T$ kan bli feil. Regn ut den ene og bruk $\vb u_k=A\vb v_k/\sigma_k$.
+\end{fallgruve}
+
+\begin{eksempel}[eksempel 2 fra forelesningen, med rettet matrise]
+$A=\begin{psmallmatrix}1&3\\2&2\\3&1\end{psmallmatrix}$. Da er $A^\T A=\begin{psmallmatrix}14&10\\10&14\end{psmallmatrix}$, med egenverdier $24$ og $4$ og egenvektorer $\vb v_1=\tfrac{1}{\sqrt2}(1,1)^\T$ og $\vb v_2=\tfrac1{\sqrt2}(1,-1)^\T$. Altså er $\sigma_1=2\sqrt6$ og $\sigma_2=2$, og
+\[
+\vb u_1=\tfrac{A\vb v_1}{\sigma_1}=\tfrac{1}{\sqrt3}(1,1,1)^\T,\qquad \vb u_2=\tfrac{A\vb v_2}{\sigma_2}=\tfrac1{\sqrt2}(-1,0,1)^\T,
+\]
+\[
+A=\begin{pmatrix}\frac1{\sqrt3}&-\frac1{\sqrt2}\\[2pt] \frac1{\sqrt3}&0\\[2pt] \frac1{\sqrt3}&\frac1{\sqrt2}\end{pmatrix}
+\begin{pmatrix}2\sqrt6&0\\0&2\end{pmatrix}\frac1{\sqrt2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}.
+\]
+Pseudoinversen blir $A^\dagger=\frac1{\sigma_1}\vb v_1\vb u_1^\T+\frac1{\sigma_2}\vb v_2\vb u_2^\T=\frac1{12}\begin{psmallmatrix}-2&1&4\\4&1&-2\end{psmallmatrix}$, og $A^\dagger A=I_2$ (kontrollregnet).
+\end{eksempel}
+
+\subsection{SVD som sum av rang-1-matriser}
+\begin{teorem}
+Med $r=\max\{k:\sigma_k>0\}$ er
+\[
+A=\sum_{k=1}^{r}\sigma_k\,\vb u_k\vb v_k^\T,\qquad A\vb x=\sum_{k=1}^{r}\sigma_k\ip{\vb v_k}{\vb x}\,\vb u_k .
+\]
+Hvert ledd $\vb u_k\vb v_k^\T$ har rang 1. Det følger at
+\begin{itemize}
+  \item $\rank A=r$ (antall singulærverdier som ikke er null),
+  \item $\ran A=\spn\{\vb u_1,\dots,\vb u_r\}$ og $\kerop A=\spn\{\vb v_1,\dots,\vb v_r\}^\perp=\spn\{\vb v_{r+1},\dots,\vb v_n\}$,
+  \item $\norm A_2=\sigma_1$ og $\norm A_F=\bigl(\sum_{i,j}a_{ij}^2\bigr)^{1/2}=\bigl(\sigma_1^2+\dots+\sigma_r^2\bigr)^{1/2}$.
+\end{itemize}
+\end{teorem}
+
+\begin{teorem}[beste tilnærming med lav rang (Eckart--Young)]
+Den \emph{avkortede SVD-en} $A_k=\sum_{j=1}^{k}\sigma_j\vb u_j\vb v_j^\T$ ($1\le k\le p$) løser både
+$\min_{\rank B\le k}\norm{A-B}_2$ og $\min_{\rank B\le k}\norm{A-B}_F$, og feilene er
+\[
+\norm{A-A_k}_2=\sigma_{k+1},\qquad \norm{A-A_k}_F=\Bigl(\sum_{j=k+1}^{r}\sigma_j^2\Bigr)^{1/2}.
+\]
+Å lagre $A_k$ krever $k(m+n+1)$ tall, mot $mn$ for hele $A$.
+\end{teorem}
+
+\subsection{Moore--Penrose-inversen (pseudoinversen)}
+\begin{defn}[pseudoinvers]
+Med SVD-en $A=\sum_{k=1}^r\sigma_k\vb u_k\vb v_k^\T$ er
+\[
+A^\dagger=\sum_{k=1}^{r}\frac{1}{\sigma_k}\vb v_k\vb u_k^\T=V\Sigma^{+}U^\T\in\R^{n\times m},
+\]
+der $\Sigma^+$ er $\Sigma^\T$ med hver $\sigma_k>0$ byttet ut med $1/\sigma_k$ (nuller beholdes). Hvis $A$ har full rang, er $A^\dagger=V\Sigma^{-1}U^\T$ i redusert form. Merk at $\vb u$ og $\vb v$ bytter plass.
+\end{defn}
+
+\begin{teorem}[de tre tilfellene]
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l X X@{}}
+\toprule
+& Høy, full rang ($m>n=r$) & Bred, full rang ($r=m<n$) \\
+\midrule
+Identitet & $A^\dagger A=I_n$, \ $AA^\dagger=UU^\T$ (projeksjon på $\ran A$) & $AA^\dagger=I_m$, \ $A^\dagger A=VV^\T$ (projeksjon på $(\kerop A)^\perp$) \\
+Formel & $A^\dagger=(A^\T A)^{-1}A^\T$ & $A^\dagger=A^\T(AA^\T)^{-1}$ \\
+$\vb x=A^\dagger\vb b$ løser & $\min_{\vb x}\norm{A\vb x-\vb b}_2^2$ (minste kvadrater) & $\min\norm{\vb x}_2^2$ slik at $A\vb x=\vb b$ (minst norm) \\
+\bottomrule
+\end{tabularx}
+\end{center}
+\textbf{Generelt} (vilkårlig rang) løser $\vb x^\dagger=A^\dagger\vb b$ et problem i to nivåer: blant alle $\vb x$ som minimerer $\norm{A\vb x-\vb b}_2$, har $\vb x^\dagger$ minst norm.
+\end{teorem}
+
+\begin{teorem}[Penrose-likningene]
+For alle $A$ gjelder $(A^\dagger)^\dagger=A$, \ $A^\dagger AA^\dagger=A^\dagger$ og \ $AA^\dagger A=A$. I tillegg er $AA^\dagger$ og $A^\dagger A$ symmetriske. Disse fire egenskapene bestemmer $A^\dagger$ entydig. Det brukes for å sjekke en oppgitt kandidat $Q$: vis $AQA=A$, $QAQ=Q$, $(AQ)^\T=AQ$ og $(QA)^\T=QA$. Videre er $(A^\T)^\dagger=(A^\dagger)^\T$.
+\end{teorem}
+
+\begin{oppskrift}[minste kvadrater og minst norm med SVD]
+\begin{enumerate}
+  \item Regn ut den reduserte SVD-en og $A^\dagger=\sum_k\sigma_k^{-1}\vb v_k\vb u_k^\T$.
+  \item $\vb x=A^\dagger\vb b$.
+  \item Feilen er $\norm{A\vb x-\vb b}_2$. Den er $0$ hvis $\vb b\in\ran A$, ellers er den lengden av komponenten av $\vb b$ som står vinkelrett på $\spn\{\vb u_1,\dots,\vb u_r\}$.
+  \item For et underbestemt system har $A^\dagger\vb b$ minst norm blant uendelig mange løsninger. Tolk og sammenlign gjerne med en annen løsning.
+\end{enumerate}
+\end{oppskrift}
+
+\subsection{Videre: støy og avkortet pseudoinvers}
+Hvis $\vb b$ har støy ($\vb b^\delta=\vb b+\vb n^\delta$), blåser små $\sigma_j$ opp støyen gjennom $1/\sigma_j$. Med $\vb x^{(k)}_\delta=A_k^\dagger\vb b^\delta$ blir datatilpasningen $\norm{A\vb x^{(k)}-\vb b^\delta}$ først mye bedre etter hvert som $k$ øker, så flater den ut, og deretter vokser stort sett bare $\norm{\vb x^{(k)}_\delta}$. Å finne balansepunktet kalles L-kurve-metoden.
+
+\input{kapitler/oppgaver/svd}

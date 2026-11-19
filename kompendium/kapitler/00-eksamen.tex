@@ -1,0 +1,77 @@
+\section{Før du begynner: eksamen, formelark og konvensjoner}
+
+\subsection{Eksamen}
+\begin{itemize}
+  \item \textbf{Tid:} tirsdag 24.\,11.\,2026 kl.\ 15.00--19.00 (4 timer). Oppgavene er på engelsk, men du kan svare på norsk.
+  \item \textbf{Hjelpemidler (kode D):} ingen trykte eller håndskrevne hjelpemidler, bare enkel kalkulator. Formelarket ligger ved oppgavesettet.
+  \item \textbf{Hva kan komme:} alt fra forelesningene og øvingene. Det som ble gjennomgått mye, er mer sannsynlig. Prøveeksamenen har 10 oppgaver, én per hovedtema, på til sammen rundt 100 poeng.
+  \item \textbf{Ingen programmering,} men du kan få spørsmål om algoritmer og om å forstå kode. Om tensorer kommer det ikke oppgaver der du regner ut en konkret dekomposisjon.
+  \item \textbf{Alle svar skal begrunnes.} Utregningen teller mer enn svaret. Bruk matematiske uttrykk når du forklarer noe.
+\end{itemize}
+
+\subsection{Øvingsoppgaver med lenker}
+Etter hvert tema står en boks med oppgaver fra oppgavebanken i repoet. Oppgavenavnet lenker til oppgaven og «LF» til løsningsforslaget, begge som PDF på GitHub. Oppgavene er sortert etter vanskelighetsgrad. Gradene er mine vurderinger ut fra hvor mange steg oppgaven har, hvor mye regning den krever, og om den ber om bevis eller kombinerer flere temaer:
+\begin{itemize}[leftmargin=5.6em,labelwidth=5em,labelsep=0.6em,align=left]
+  \item[\lett] Én metode brukt direkte, få steg. Bra for å komme i gang.
+  \item[\middels] Vanlig eksamensoppgave med flere deloppgaver. Prøveeksamenen ligger stort sett her.
+  \item[\vanskelig] Lang regning, et bevis eller flere temaer kombinert, ofte fra mer avanserte emner. Lurt hvis du vil ha god margin.
+\end{itemize}
+Noen av Bergmanns eksamensoppgaver fra Matte 4N vår 2025 er gjenbrukt nesten ordrett på prøveeksamenen. Da lenker kompendiet bare til prøveeksamen-versjonen.
+
+\subsection{Dette står på formelarket}
+Formler merket \colorbox{white}{\sffamily\scriptsize\color{fsfarge}\textbf{på formelarket}} i kompendiet får du utdelt. Alt annet må du kunne selv. Formelarket inneholder:
+\begin{enumerate}
+  \item Jacobimatrisen $\vb F'(\vb a)=\bigl(\pd{F_i}{x_j}(\vb a)\bigr)_{i,j}$ og lineariseringen $\vb L(\vb x)=\vb F(\vb a)+\vb F'(\vb a)(\vb x-\vb a)$.
+  \item Newtons metode for systemer: $\vb F'(\vb x^{(k)})\Delta^{(k)}=-\vb F(\vb x^{(k)})$, $\vb x^{(k+1)}=\vb x^{(k)}+\Delta^{(k)}$.
+  \item Fourierrekker for $2\pi$-periodiske funksjoner: formlene for $a_0,a_n,b_n$ og $c_k$.
+  \item DFT og IDFT med faktoren $\tfrac1N$ i DFT-en, og Fouriermatrisen $\FN$.
+  \item Fouriertransformen og den inverse transformen med faktoren $\tfrac{1}{\sqrt{2\pi}}$, og en tabell over fire transformpar: $\ee^{-ax^2}$, $\ee^{-a\abs x}$, indikatorfunksjonen for $\abs x<a$ og $\sqrt{2/\pi}\,\sin(ax)/x$.
+  \item Trigonometriske identiteter: addisjonsformlene, $\cos 2\alpha$, Eulers formel og produkt-til-sum-formlene.
+  \item Bølgelikningen på $[0,L]$ med løsningen fra separasjon av variable, inkludert formlene for $A_n$ og $B_n$.
+\end{enumerate}
+\textbf{Ikke} på formelarket (må kunnes): Fourierrekker med periode $2L$, like og odde utvidelser, Parseval, konvolusjon, varmelikningens løsning, d'Alemberts formel, alle differanseskjemaer, SVD og Moore--Penrose, tensoroperasjoner, kurver og flater, gradient og Lagrange, splines og Bézier, og minste kvadrater.
+
+\subsection{Konvensjoner som brukes i kurset}
+\begin{fallgruve}[Normeringer varierer mellom bøker. Kurset bruker disse:]
+\begin{itemize}
+  \item \textbf{Fourierkoeffisienter:} $c_k=\frac{1}{2\pi}\int_{-\pi}^{\pi}f(x)\ee^{-\ii kx}\dd x$ og $a_0=\frac{1}{2\pi}\int_{-\pi}^{\pi}f$ (altså middelverdien, ikke $\frac{a_0}{2}$).
+  \item \textbf{Periodisk konvolusjon} uten faktor: $(f*g)(x)=\int_{-\pi}^{\pi}f(y)g(x-y)\dd y$. Da er $c_k(f*g)=2\pi\,c_k(f)c_k(g)$.
+  \item \textbf{DFT med $\frac1N$ foran:} $\hat f_k=\frac1N\sum_j f_j\ee^{-2\pi\ii jk/N}$, så $\hat f_k\approx c_k(f)$. Oppsummeringsforelesningen og prøveeksamenen skriver $\hat{\vb f}=\FN\vb f$ uten $\frac1N$, men regner som om faktoren er med. Bruk formelarket.
+  \item \textbf{Fouriertransform:} $\hat f(\omega)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty f(x)\ee^{-\ii\omega x}\dd x$, med samme faktor i den inverse transformen. Da er $\Four(f*g)=\sqrt{2\pi}\,\Four(f)\Four(g)$.
+\end{itemize}
+\end{fallgruve}
+
+\subsection{Notasjon}
+\begin{itemize}
+  \item Tall skrives med små bokstaver ($x$, $\lambda$), vektorer med små fete ($\vb x\in\R^n$, alltid kolonnevektorer), matriser med store ($A\in\R^{m\times n}$) og tensorer med store fete ($\tn X\in\R^{m\times n\times p}$). For hånd markeres fet skrift ofte med strek under: $\underline{x}$.
+  \item $A^\T$ er den transponerte, $\bar z$ den komplekskonjugerte, og $I_n$ identitetsmatrisen. $\ip{\vb x}{\vb y}=\vb x^\T\vb y$ er indreproduktet, og $\norm{\vb x}_2=\sqrt{\ip{\vb x}{\vb x}}$.
+  \item $\norm{A}_2=\sigma_1$ er spektralnormen (største singulærverdi), og $\norm{A}_F=\bigl(\sum_{i,j}a_{ij}^2\bigr)^{1/2}$ er Frobeniusnormen.
+  \item $\vb F'(\vb a)$ er Jacobimatrisen og $\nabla f$ gradienten (en kolonnevektor). $\Hess f$ (eller $\nabla^2 f$) er Hessematrisen.
+  \item $U_i^n$ er en numerisk tilnærming til $u(x_i,t_n)$. Her er $n$ en tidsindeks, ikke en potens.
+  \item $\mathcal P_k$ er polynomene av grad høyst $k$, $C^k$ er de $k$ ganger kontinuerlig deriverbare funksjonene, og $\mathcal S_{k,\Delta}$ er splinene av grad $k$ med knutevektor $\Delta$.
+\end{itemize}
+
+\subsection{Rettelser til lysarkene}\label{sec:rettelser}
+Disse feilene i lysarkene er rettet i kompendiet. Alle er kontrollert med regning eller kode.
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l X X@{}}
+\toprule
+Hvor & På lysarket & Riktig \\
+\midrule
+F1, eksempel 2 & $A=\begin{psmallmatrix}1&3\\2&2\\3&3\end{psmallmatrix}$ & $A=\begin{psmallmatrix}1&3\\2&2\\3&1\end{psmallmatrix}$ (først da stemmer den oppgitte SVD-en) \\
+F1, oppsummering & «$m>n$: minst norm blant alle løsninger» & gjelder $m<n$ \\
+F6, translasjon & $c_k(f(\cdot-x_0))=\ee^{+\ii kx_0}c_k(f)$ & $c_k(f(\cdot-x_0))=\ee^{-\ii kx_0}c_k(f)$ \\
+F7, aliasing & $f(x)=\sum c_k\ee^{2\pi\ii kx}$ & $f(x)=\sum c_k\ee^{\ii kx}$ ($2\pi$-periodisk) \\
+F8, gaussisk & $\Four(\ee^{-ax^2})=\frac{1}{\sqrt{2a}}\ee^{-\omega^2/(2a)}$ & $\frac{1}{\sqrt{2a}}\ee^{-\omega^2/(4a)}$ (som på formelarket) \\
+F10, Robin-rand, venstre & $U_0^{n+1}=U_0^n+2\alpha\bigl(U_1^n-U_0^n-\tfrac{hb_0}{a_0}U_0^n-\tfrac h{a_0}g_0\bigr)$ & $+\tfrac{hb_0}{a_0}U_0^n$ (resten er likt) \\
+F10, implisitt Euler, Neumann & $\vb a^{n+1}=(g_0,0,\dots,0,-g_L)^\T$ & $\vb a^{n+1}=(-g_0,0,\dots,0,g_L)^\T$ \\
+F10, implisitt Euler, Dirichlet & $\vb b^{n+1}$ med $g_0(t_{n-1})$, $g_L(t_{n-1})$ & $g_0(t_{n+1})$, $g_L(t_{n+1})$ \\
+F11, kvadratisk B-spline & på $[x_{i+1},x_{i+2})$ står bare det første leddet & to ledd, se F11 \\
+F11, Bézier & $\vb b'(1)=-n(\vb p_{n-1}-\vb p_n)\vb p_n$, $\vb b''(1)=n(n-1)(\vb p_n-2\vb p_{n-1}+\vb p_{n-1})$ & $\vb b'(1)=n(\vb p_n-\vb p_{n-1})$, $\vb b''(1)=n(n-1)(\vb p_n-2\vb p_{n-1}+\vb p_{n-2})$ \\
+\bottomrule
+\end{tabularx}
+\end{center}
+De to F10-rettelsene er testet med en løsning vi kjenner eksakt. Med lysarkenes fortegn konvergerer ikke skjemaet (feilen holder seg på 0,28 og 1,24 når $h$ halveres), med de rettede fortegnene får feilen orden $O(h^2)$.
+
+\clearpage

@@ -1,0 +1,150 @@
+% Kompendium TMA4432 Matematikk 4C, høst 2026
+% Kompiler med:  latexmk -pdf kompendium.tex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+\babelprovide[import, main]{norsk}
+\usepackage{mathpazo}
+\usepackage[scaled=0.92]{helvet}
+\usepackage{microtype}
+\usepackage[a4paper,margin=2.3cm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{booktabs,array,tabularx}
+\usepackage{etoolbox}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{ragged2e}
+\usepackage{multicol}
+\usepackage[colorlinks=true,linkcolor=black,urlcolor=fsfarge]{hyperref}
+
+% ---------- Utseende ----------
+\definecolor{blaa}{RGB}{20,60,120}
+\definecolor{groenn}{RGB}{25,105,70}
+\definecolor{oransje}{RGB}{185,95,15}
+\definecolor{roed}{RGB}{165,30,35}
+\definecolor{fsfarge}{RGB}{0,110,120}
+\definecolor{graa}{RGB}{90,90,90}
+
+\RaggedRight
+\setlength{\RaggedRightParindent}{0pt}
+\setlength{\parskip}{4pt plus 1pt}
+\emergencystretch=2em
+\setlist{itemsep=1pt,topsep=3pt,parsep=1pt}
+\setlist[itemize]{leftmargin=1.4em}
+\setlist[enumerate]{leftmargin=1.6em}
+
+\titleformat{\section}{\Large\sffamily\bfseries\color{blaa}}{\thesection}{0.6em}{}[{\color{blaa}\titlerule[0.8pt]}]
+\titleformat{\subsection}{\large\sffamily\bfseries\color{blaa}}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}{\normalsize\sffamily\bfseries}{}{0em}{}
+\titlespacing*{\section}{0pt}{10pt}{8pt}
+\titlespacing*{\subsection}{0pt}{9pt}{4pt}
+\titlespacing*{\subsubsection}{0pt}{7pt}{2pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{graa}TMA4432 Matematikk 4C -- kompendium}
+\fancyhead[R]{\small\sffamily\color{graa}\leftmark}
+\fancyfoot[C]{\small\sffamily\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+
+% ---------- Bokser ----------
+\tcbset{
+  felles/.style={enhanced, breakable, boxrule=0.6pt, arc=2pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+    fonttitle=\sffamily\bfseries\small, before skip=6pt, after skip=6pt, parbox=false, halign=left},
+}
+\newcommand{\fs}{\hfill{\normalfont\sffamily\scriptsize\colorbox{white}{\color{fsfarge}\textbf{på formelarket}}}}
+\newcommand{\boksnavn}[2]{#1\ifstrempty{#2}{}{: #2}}
+\newenvironment{defn}[1][]{\begin{tcolorbox}[felles, colback=blaa!4, colframe=blaa!70, title={\boksnavn{Definisjon}{#1}}]}{\end{tcolorbox}}
+\newenvironment{teorem}[1][]{\begin{tcolorbox}[felles, colback=groenn!4, colframe=groenn!75, title={\boksnavn{Resultat}{#1}}]}{\end{tcolorbox}}
+\newenvironment{formel}[1][]{\begin{tcolorbox}[felles, colback=fsfarge!5, colframe=fsfarge!80, title={#1}]}{\end{tcolorbox}}
+\newenvironment{oppskrift}[1][]{\begin{tcolorbox}[felles, colback=oransje!5, colframe=oransje!80, title={\boksnavn{Oppskrift}{#1}}]}{\end{tcolorbox}}
+\newenvironment{fallgruve}[1][]{\begin{tcolorbox}[felles, colback=roed!4, colframe=roed!75, title={\boksnavn{Pass på}{#1}}]}{\end{tcolorbox}}
+\newenvironment{eksempel}[1][]{\begin{tcolorbox}[felles, colback=graa!4, colframe=graa!70, title={\boksnavn{Eksempel}{#1}}]}{\end{tcolorbox}}
+\newenvironment{oving}{\begin{tcolorbox}[felles, colback=white, colframe=graa!50, boxrule=0.4pt, title={Øv på dette (klikk for oppgave og løsningsforslag)}]\small}{\end{tcolorbox}}
+\newcommand{\lett}{\textcolor{groenn}{\sffamily\bfseries Lett}}
+\newcommand{\middels}{\textcolor{oransje}{\sffamily\bfseries Middels}}
+\newcommand{\vanskelig}{\textcolor{roed}{\sffamily\bfseries Vanskelig}}
+
+% ---------- Matematikk ----------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\T}{\mathsf{T}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\vb}[1]{\mathbf{#1}}
+\newcommand{\tn}[1]{\bm{\mathsf{#1}}}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\abs}[1]{\lvert #1\rvert}
+\newcommand{\ip}[2]{\langle #1,#2\rangle}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\Four}{\mathcal{F}}
+\newcommand{\FN}{\mathcal{F}_N}
+\newcommand{\kr}[1]{[\![ #1 ]\!]}
+\newcommand{\had}{\circledast}
+\newcommand{\outp}{\circ}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\ran}{range}
+\DeclareMathOperator{\kerop}{ker}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\vect}{vec}
+\DeclareMathOperator{\Hess}{Hess}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\sgn}{\operatorname{sign}}
+
+\hypersetup{pdftitle={Kompendium TMA4432 Matematikk 4C},pdfauthor={Studiehjelp}}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{3cm}
+{\sffamily\Huge\bfseries\color{blaa} Kompendium\par}
+\vspace{0.6cm}
+{\sffamily\LARGE TMA4432 Matematikk 4C\par}
+\vspace{0.3cm}
+{\sffamily\large NTNU, høst 2026\par}
+\vspace{1.2cm}
+{\large Alle temaer, begreper, formler og metoder fra forelesningene,\\ øvingene og prøveeksamenen\par}
+\vspace{2cm}
+\begin{minipage}{0.82\textwidth}
+\small
+Bygget på materialet på \texttt{wiki.math.ntnu.no/tma4432/2026h}: forelesningsnotatene 01--13 (Ronny Bergmann), notatene om SVD og tensordekomposisjoner, øvingene 1--12 med løsningsforslag, prøveeksamenen og formelarket. Rekkefølgen følger forelesningene. Formlene er sjekket mot kildene, og regneeksemplene er kontrollregnet med kode. Der lysarkene har feil, står det riktige her, med en merknad.
+
+\medskip
+Studiehjelp, ikke offisielt kursmateriell. Ved tvil gjelder forelesningene og formelarket.
+\end{minipage}
+\vfill
+{\small Sist oppdatert 19.\,11.\,2026 \quad·\quad Eksamen 24.\,11.\,2026 kl.\ 15--19\par}
+\end{titlepage}
+
+\tableofcontents
+\clearpage
+
+\input{kapitler/00-eksamen}
+\input{kapitler/01-svd}
+\input{kapitler/02-tensorer}
+\input{kapitler/03-kurver-flater}
+\input{kapitler/04-jacobi-newton}
+\input{kapitler/05-optimering}
+\input{kapitler/06-fourierrekker}
+\input{kapitler/07-dft}
+\input{kapitler/08-fouriertransform}
+\input{kapitler/09-pde}
+\input{kapitler/10-pde-numerikk}
+\input{kapitler/11-splines}
+\input{kapitler/12-minste-kvadrater}
+\input{kapitler/13-oversikt}
+
+\end{document}

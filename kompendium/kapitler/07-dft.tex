@@ -1,0 +1,81 @@
+\section{F7 · Den diskrete Fouriertransformen (DFT) og FFT}
+
+\textbf{Kjernen:} DFT-en er Fourierkoeffisientene regnet ut fra $N$ punktverdier med trapesregelen, altså en matrise-vektor-multiplikasjon. Frekvenser som skiller seg med $N$, kan ikke skilles på gitteret (aliasing). FFT regner ut det samme på $O(N\log N)$ operasjoner.
+
+\subsection{Fra Fourierkoeffisienter til DFT}
+Trapesregelen på $[0,2\pi)$ med $N$ punkter $x_j=\frac{2\pi j}N$ gir
+\[
+c_k(f)=\frac1{2\pi}\int_0^{2\pi}f(x)\ee^{-\ii kx}\dd x\approx\frac1N\sum_{j=0}^{N-1}f\Bigl(\frac{2\pi j}{N}\Bigr)\ee^{-2\pi\ii jk/N}.
+\]
+Vi ser derfor på et signal $\vb f=(f_0,\dots,f_{N-1})^\T\in\C^N$ med $f_j=f(2\pi j/N)$.
+
+\begin{formel}[DFT og IDFT\fs]
+\[
+\hat f_k=\frac1N\sum_{j=0}^{N-1}f_j\,\ee^{-2\pi\ii jk/N},\quad k=0,\dots,N-1,\qquad
+f_j=\sum_{k=0}^{N-1}\hat f_k\,\ee^{2\pi\ii jk/N},\quad j=0,\dots,N-1.
+\]
+Med $w_N=\ee^{-2\pi\ii/N}$ og Fouriermatrisen $\FN=\bigl(w_N^{jk}\bigr)_{j,k=0}^{N-1}$:
+\[
+\hat{\vb f}=\tfrac1N\FN\vb f,\qquad \vb f=\overline{\FN}\,\hat{\vb f},\qquad \FN^{-1}=\tfrac1N\overline{\FN},\qquad \FN=\FN^\T.
+\]
+\end{formel}
+\begin{teorem}[den sentrale summen (øving 8, oppg.~6)]
+$\displaystyle\sum_{k=0}^{N-1}w_N^{jk}=\begin{cases}N,& j\equiv0\pmod N,\\0,&\text{ellers}\end{cases}$ \quad (geometrisk rekke med $q=w_N^j$, der $q^N=1$).
+Det gir $\frac1N\overline{\FN}\FN=I$, altså at IDFT inverterer DFT.
+\end{teorem}
+\begin{eksempel}[små Fouriermatriser (kontrollregnet)]
+\[
+\mathcal F_2=\begin{pmatrix}1&1\\1&-1\end{pmatrix},\qquad
+\mathcal F_4=\begin{pmatrix}1&1&1&1\\1&-\ii&-1&\ii\\1&-1&1&-1\\1&\ii&-1&-\ii\end{pmatrix}\quad(w_4=-\ii).
+\]
+For $N=5$ (Matte 4N vår 2023) skriver du $w_5^{jk}$ og reduserer eksponenten modulo 5: $(\mathcal F_5)_{jk}=w_5^{(jk\bmod 5)}$.
+\end{eksempel}
+
+\subsection{Egenskaper}
+\begin{teorem}
+\begin{itemize}
+  \item \textbf{$N$-periodisk:} $\hat f_{k+N}=\hat f_k$ for alle $k\in\Z$, siden $w_N^N=1$. Indeksene $k=0,\dots,N-1$ (eller $-\frac N2,\dots,\frac N2-1$) er derfor nok.
+  \item \textbf{Reelt signal:} $\hat f_{-k}=\overline{\hat f_k}$, altså $\hat f_{N-k}=\overline{\hat f_k}$. Spekteret er speilet, så bare halvparten trengs.
+  \item \textbf{Aliasing-formelen:} er $f$ kontinuerlig med $\sum_k\abs{c_k(f)}<\infty$, så er
+  \[
+  \hat f_k=\sum_{\ell\in\Z}c_{k+\ell N}(f).
+  \]
+  På gitteret kan ikke frekvensene $k$ og $k+N$ skilles fra hverandre, fordi $\ee^{\ii(k+N)x_j}=\ee^{\ii kx_j}$.
+\end{itemize}
+\end{teorem}
+
+\begin{teorem}[båndbegrensning, rekonstruksjon og Nyquist]
+$f$ er \emph{båndbegrenset} med $B$ hvis $c_k(f)=0$ for $\abs k>B$. Hvis $N\ge2B+1$, er det høyst ett ledd i aliasing-summen for hver $k$, og
+\[
+c_k(f)=\hat f_k\ \ (0\le k\le B),\qquad c_{-k}(f)=\hat f_{N-k}\ \ (1\le k\le B),\qquad c_k(f)=0\ \text{ellers}.
+\]
+Da kan $f$ rekonstrueres eksakt fra prøvene (trigonometrisk interpolasjon). $2m+1$ prøver for høyeste frekvens $m$ kalles Nyquist-raten. Er $N\le 2B$, finnes det flere båndbegrensede funksjoner med de samme prøvene, og rekonstruksjonen er ikke entydig.
+\end{teorem}
+\begin{eksempel}[prøveeksamen, oppg.~7, kort]
+$N=6$ og $\hat{\vb f}=(2,1,0,0,0,1)$. Med $B=2\le\frac{N-1}2$ blir $c_0=2$, $c_1=\hat f_1=1$ og $c_{-1}=\hat f_5=1$, så $f(x)=2+2\cos x$. Med $B=4$ er $N=6<2\cdot4+1$, og $f$ er ikke entydig.
+\end{eksempel}
+
+\begin{oppskrift}[tolke og filtrere et spekter (øving 8, oppg.~3)]
+\begin{itemize}
+  \item Indeks $k>\frac N2$ svarer til negativ frekvens $k-N$. \emph{fftshift} flytter dem slik at rekkefølgen blir $-\frac N2,\dots,\frac N2-1$.
+  \item Med prøveavstand $\Delta t$ svarer indeks $k$ til frekvensen $\frac{k}{N\Delta t}$ Hz. Plott $\abs{\hat f_k}$ for $k=0,\dots,\lfloor N/2\rfloor$.
+  \item \textbf{Filtrering eller støyfjerning:} sett $\hat f_k=0$ for uønskede frekvenser (eller der $\abs{\hat f_k}$ er liten) og ta IDFT. For et reelt signal må både $k$ og $N-k$ fjernes, ellers blir resultatet komplekst.
+\end{itemize}
+\end{oppskrift}
+
+\subsection{Fast Fourier Transform (FFT)}
+\begin{itemize}
+  \item DFT som matrise-vektor-produkt koster $O(N^2)$. Med lyd i 44,1\,kHz er $N=44\,100$ per sekund, og det blir for dyrt.
+  \item \textbf{Radix-2 (Cooley--Tukey, $N=2^n$, $M=N/2$):} del summen i første og andre halvdel, og se på like og odde $k$ hver for seg (uten faktoren $\frac1N$):
+  \[
+  \hat f_{2\kappa}=\sum_{j=0}^{M-1}\bigl(f_j+f_{j+M}\bigr)w_M^{j\kappa},\qquad
+  \hat f_{2\kappa+1}=\sum_{j=0}^{M-1}\bigl(f_j-f_{j+M}\bigr)w_N^{j}\,w_M^{j\kappa}.
+  \]
+  Det gir to DFT-er av lengde $N/2$, $N$ addisjoner og $N/2$ multiplikasjoner. Gjentatt $n=\log_2N$ ganger gir det totalt $O(N\log N)$ operasjoner. Formlene er kontrollregnet.
+  \item \textbf{Historie:} Gauss (ca.\ 1801, banen til Ceres, $N=12=4\cdot3$), Runge (1905) og Cooley--Tukey (1965). Andre faktoriseringer $N=N_1N_2$ fungerer også.
+\end{itemize}
+
+\subsection{Diskret sinus- og cosinustransform (DST og DCT)}
+Samme idé som like og odde utvidelser. Et reelt signal gir reelle koeffisienter. Det finnes fire varianter av hver (I--IV), avhengig av hvordan signalet utvides. DCT-II er mest brukt, blant annet i bildekomprimering (JPEG). Å kaste små koeffisienter gir sterk komprimering, som i Barbara-eksempelet fra forelesningen (172\,kB ned til 3\,kB).
+
+\input{kapitler/oppgaver/dft}

@@ -1,0 +1,160 @@
+\section{F6 · Fourierrekker}
+
+\textbf{Kjernen:} En periodisk funksjon er en sum av sinus- og cosinusbølger (eller $\ee^{\ii kx}$). Koeffisientene er projeksjoner på et ortogonalt system, som koordinater i en ortogonal basis. Delsummene er den beste tilnærmingen i $L^2$-normen.
+
+\subsection{Periodiske funksjoner og trigonometriske polynomer}
+\begin{defn}[periode]
+$f:\R\to\C$ er $T$-periodisk hvis $f(x+T)=f(x)$ for alle $x$. Den minste slike $T>0$ er \emph{fundamentalperioden}. Er $g$ $\tfrac Tn$-periodisk, kalles $n$ frekvensen (på $[0,T]$). For eksempel har $\sin(nx)$ fundamentalperiode $2\pi/n$, og en lineærkombinasjon av $T$-periodiske funksjoner er $T$-periodisk. Kurset bruker stort sett $T=2\pi$.
+\end{defn}
+\begin{teorem}[Euler]
+$\ee^{\ii x}=\cos x+\ii\sin x$, \quad $\cos x=\dfrac{\ee^{\ii x}+\ee^{-\ii x}}{2}$, \quad $\sin x=\dfrac{\ee^{\ii x}-\ee^{-\ii x}}{2\ii}$, \quad $\ee^{\pm\ii n\pi}=\cos(n\pi)=(-1)^n$, \quad $\sin(n\pi)=0$.
+\end{teorem}
+\begin{defn}[trigonometriske polynomer av grad $\le N$]
+$V_N=\bigl\{a_0+\sum_{n=1}^N a_n\cos(nx)+b_n\sin(nx)\bigr\}=\bigl\{\sum_{k=-N}^{N}c_k\ee^{\ii kx}\bigr\}$. Den reelle og den komplekse formen beskriver samme rom.
+\end{defn}
+
+\subsection{Indreprodukt, ortogonale systemer og beste tilnærming}
+\begin{defn}[indreprodukt og norm for $2\pi$-periodiske funksjoner]
+\[
+\ip fg=\int_{-\pi}^{\pi}f(x)\overline{g(x)}\dd x,\qquad \norm f=\sqrt{\ip ff},\qquad \abs{\ip fg}\le\norm f\norm g\ \text{(Cauchy--Schwarz)}.
+\]
+Rommet er $L^2$: funksjoner med $\int_{-\pi}^\pi\abs f^2<\infty$. Indreproduktet er lineært i første argument og konjugert symmetrisk.
+\end{defn}
+\begin{defn}[ortogonalt og ortonormalt system]
+$\{\varphi_k\}$ er ortogonalt hvis $\ip{\varphi_k}{\varphi_n}=0$ for $k\neq n$ og $=d_n\neq0$ for $k=n$, og ortonormalt hvis i tillegg $d_n=1$. Del på $\sqrt{d_k}$ for å normere.
+\end{defn}
+\begin{teorem}[det trigonometriske systemet er ortogonalt]
+\begin{gather*}
+\int_{-\pi}^{\pi}\ee^{\ii kx}\overline{\ee^{\ii nx}}\dd x=2\pi\,\delta_{kn},\\
+\int_{-\pi}^{\pi}\cos(kx)\cos(nx)\dd x=\int_{-\pi}^{\pi}\sin(kx)\sin(nx)\dd x=\pi\,\delta_{kn}\quad(k,n\ge1),
+\end{gather*}
+\[
+\int_{-\pi}^{\pi}\cos(kx)\sin(nx)\dd x=0,\qquad \int_{-\pi}^{\pi}1\dd x=2\pi.
+\]
+\end{teorem}
+\begin{teorem}[generelle Fourierkoeffisienter og projeksjon]
+For et ortogonalt system er $\hat f(k)=c_k=\dfrac{\ip f{\varphi_k}}{\norm{\varphi_k}^2}$, og $\Pi_Nf=\sum_{k}c_k\varphi_k$ (summert over de første $N$) er den ortogonale projeksjonen på $V_N$:
+\begin{itemize}
+  \item $\ip{f-\Pi_Nf}g=0$ for alle $g\in V_N$, og $\norm{f-\Pi_Nf}=\min_{g\in V_N}\norm{f-g}$ (beste tilnærming).
+  \item $\norm{\Pi_Nf}\le\norm f$. For et ortonormalt system gjelder \textbf{Bessels ulikhet} $\sum_k\abs{\hat f(k)}^2\le\norm f^2$ og \textbf{Riemann--Lebesgue}: $\hat f(k)\to0$.
+  \item Delsummen $S_Nf=\Pi_Nf$. Fourierrekken er den formelle rekken $\sum_k\hat f(k)\varphi_k$.
+\end{itemize}
+\end{teorem}
+
+\subsection{Reelle og komplekse Fourierrekker}
+\begin{formel}[Fourierrekke for $2\pi$-periodisk $f$\fs]
+\[
+f\sim\sum_{k=-\infty}^{\infty}c_k\ee^{\ii kx}=a_0+\sum_{n=1}^\infty a_n\cos(nx)+b_n\sin(nx),
+\]
+\begin{gather*}
+c_k=\frac1{2\pi}\int_{-\pi}^{\pi}f(x)\ee^{-\ii kx}\dd x,\qquad a_0=\frac1{2\pi}\int_{-\pi}^{\pi}f(x)\dd x,\\
+a_n=\frac1\pi\int_{-\pi}^{\pi}f(x)\cos(nx)\dd x,\qquad b_n=\frac1\pi\int_{-\pi}^{\pi}f(x)\sin(nx)\dd x.
+\end{gather*}
+$a_0$ er middelverdien av $f$. Hvis $f$ er reell, er alle $a_n$ og $b_n$ reelle. Integrasjonsintervallet kan være en hvilken som helst periode, for eksempel $[0,2\pi]$.
+\end{formel}
+
+\begin{teorem}[omregning mellom reell og kompleks form]
+\begin{gather*}
+a_0=c_0,\qquad a_n=c_n+c_{-n},\qquad b_n=\ii(c_n-c_{-n}),\\ c_n=\frac{a_n-\ii b_n}{2},\qquad c_{-n}=\frac{a_n+\ii b_n}{2}\qquad(n\ge1).
+\end{gather*}
+Delsummene er like: $S_Nf=\sum_{k=-N}^N c_k\ee^{\ii kx}=a_0+\sum_{n=1}^N(a_n\cos nx+b_n\sin nx)$. For reell $f$ er $c_{-k}=\overline{c_k}$.
+\end{teorem}
+
+\begin{oppskrift}[finn koeffisientene]
+\begin{enumerate}
+  \item \textbf{Er $f$ allerede et trigonometrisk polynom?} Les av koeffisientene uten å integrere. Bruk Euler og identitetene for å skrive om, for eksempel $\sin^2x=\tfrac{1-\cos2x}2$, $\cos^2x=\tfrac{1+\cos2x}2$ og $2\cos(4x)=\ee^{4\ii x}+\ee^{-4\ii x}$. For eksempel gir $f=2\cos4x+3\ee^{6\ii x}$ at $c_{\pm4}=1$, $c_6=3$ og ellers $0$.
+  \item \textbf{Bruk symmetri.} Er $f$ like, er $b_n=0$ og $a_n=\frac2\pi\int_0^\pi f\cos(nx)\dd x$ (cosinusrekke). Er $f$ odde, er $a_0=a_n=0$ og $b_n=\frac2\pi\int_0^\pi f\sin(nx)\dd x$ (sinusrekke).
+  \item \textbf{Integrer}, ofte med delvis integrasjon: $\int x\cos(nx)\dd x=\frac{x\sin(nx)}n+\frac{\cos(nx)}{n^2}$ og $\int x\sin(nx)\dd x=-\frac{x\cos(nx)}n+\frac{\sin(nx)}{n^2}$. Del opp stykkevise funksjoner.
+  \item \textbf{Forenkle} med $\cos(n\pi)=(-1)^n$, og skill gjerne mellom like og odde $n$.
+\end{enumerate}
+\end{oppskrift}
+
+\begin{defn}[like og odde funksjoner]
+$f$ er like hvis $f(-x)=f(x)$ og odde hvis $f(-x)=-f(x)$. Like$\cdot$like og odde$\cdot$odde er like, og like$\cdot$odde er odde. Er $f$ odde, er $\int_{-L}^Lf=0$. Er $f$ like, er $\int_{-L}^Lf=2\int_0^Lf$.
+\end{defn}
+
+\begin{eksempel}[{standardrekker på $[-\pi,\pi)$, kontrollregnet}]
+\begin{itemize}
+  \item $f(x)=x$: $a_n=0$, $b_n=\dfrac{2(-1)^{n+1}}{n}$, $c_0=0$, $c_k=\dfrac{\ii(-1)^k}{k}$.
+  \item $f(x)=\abs x$: $a_0=\dfrac\pi2$, $a_n=\dfrac{2((-1)^n-1)}{\pi n^2}$ ($=-\frac{4}{\pi n^2}$ for odde $n$, $0$ for like $n$), $b_n=0$.
+  \item $f(x)=x^2$: $a_0=\dfrac{\pi^2}{3}$, $a_n=\dfrac{4(-1)^n}{n^2}$, $b_n=0$.
+  \item Heaviside $u(x)=1$ for $x\ge0$ og $0$ for $x<0$: $u\sim\frac12+\frac2\pi\sum_{n\ge1}\frac{\sin((2n-1)x)}{2n-1}$.
+\end{itemize}
+\end{eksempel}
+
+\subsection{Konvergens}
+\begin{teorem}[punktvis konvergens]
+La $f$ være $2\pi$-periodisk og stykkevis $C^1$, med ensidige grenser $f(x^\pm)$ og ensidige deriverte i hoppene. Da er
+\[
+\lim_{N\to\infty}S_Nf(x)=\tfrac12\bigl(f(x^-)+f(x^+)\bigr).
+\]
+Der $f$ er kontinuerlig, konvergerer rekken altså mot $f(x)$, og i et hopp mot midtpunktet. Husk å sjekke endepunktene $\pm\pi$ til den \emph{periodiske} utvidelsen.
+\end{teorem}
+\begin{itemize}
+  \item \textbf{Gibbs-fenomenet:} nær et hopp skyter $S_Nf$ over med omtrent 9\,\% av hoppet, og oversvingen forsvinner ikke når $N\to\infty$. Den blir bare smalere.
+  \item \textbf{Hvor fort koeffisientene avtar:} har $f$ et hopp, avtar de som $1/k$. Er $f$ kontinuerlig med knekk, avtar de som $1/k^2$. Glattere $f$ gir raskere avtakende koeffisienter.
+\end{itemize}
+
+\begin{defn}[Dirichlet-kjernen]
+\begin{gather*}
+D_N(x)=\sum_{k=-N}^{N}\ee^{\ii kx}=1+2\sum_{n=1}^N\cos(nx)=\frac{\sin\bigl((N+\frac12)x\bigr)}{\sin(x/2)},\\
+\int_{-\pi}^\pi D_N(x)\dd x=2\pi,\qquad D_N(0)=2N+1.
+\end{gather*}
+Den normerte kjernen $\tilde D_N=D_N/(2\pi)$ har integral 1, og $S_Nf=\tilde D_N*f$. Den lukkede formen kommer fra den geometriske rekken.
+\end{defn}
+
+\subsection{Konvolusjon}
+\begin{defn}[periodisk konvolusjon]
+$(f*g)(x)=\displaystyle\int_{-\pi}^{\pi}f(y)g(x-y)\dd y$, og $f*g=g*f$.
+\textbf{Tolkning:} med $h_\varepsilon=\frac1{2\varepsilon}$ på $[-\varepsilon,\varepsilon]$ (og $0$ ellers) er $(f*h_\varepsilon)(0)=\frac1{2\varepsilon}\int_{-\varepsilon}^{\varepsilon}f$, en middelverdi som går mot $f(0)$ når $\varepsilon\to0$ hvis $f$ er kontinuerlig.
+\end{defn}
+\begin{teorem}[konvolusjon gir produkt av koeffisientene]
+$c_k(f*g)=2\pi\,c_k(f)\,c_k(g)$. (Noen bøker har en faktor $\frac1{2\pi}$ i definisjonen av $*$, og da forsvinner $2\pi$.)
+\end{teorem}
+\begin{oppskrift}[regn ut $h=f*g$ (prøveeksamen 6c, øving 7)]
+Finn $c_k(f)$ og $c_k(g)$, gang dem sammen med faktoren $2\pi$, og sett sammen $h=\sum_k c_k(h)\ee^{\ii kx}$. Bare frekvenser som finnes i \emph{både} $f$ og $g$, overlever. Gjør om til reell form til slutt.
+For eksempel gir $f=\sin3x+5\cos2x$ og $g=x^2$ på $[-\pi,\pi]$ (med $c_k(g)=\frac{2(-1)^k}{k^2}$ for $k\neq0$) at $h=-\frac{4\pi}9\sin3x+5\pi\cos2x$.
+\end{oppskrift}
+
+\subsection{Periode $2L$, utvidelser og Parseval}
+\begin{formel}[Fourierrekke med periode $2L$ (ikke på formelarket)]
+Bytt $x$ med $\frac{\pi x}{L}$:
+\[
+f\sim\sum_{k\in\Z}c_k\ee^{\ii k\pi x/L}=a_0+\sum_{n=1}^\infty a_n\cos\frac{n\pi x}L+b_n\sin\frac{n\pi x}L,
+\]
+\begin{gather*}
+c_k=\frac1{2L}\int_{-L}^{L}f(x)\ee^{-\ii k\pi x/L}\dd x,\qquad a_0=\frac1{2L}\int_{-L}^Lf(x)\dd x,\\
+a_n=\frac1L\int_{-L}^Lf(x)\cos\frac{n\pi x}L\dd x,\qquad b_n=\frac1L\int_{-L}^Lf(x)\sin\frac{n\pi x}L\dd x.
+\end{gather*}
+\end{formel}
+\begin{defn}[like og odde utvidelse (halvperiodeutvidelse)]
+For $f$ på $[0,L]$: den \emph{odde} utvidelsen er $f_o(x)=-f(-x)$ for $x<0$, og den \emph{like} er $f_e(x)=f(-x)$ for $x<0$. Utvid deretter $2L$-periodisk.
+\begin{align*}
+&\text{odde (sinusrekke):} && b_n=\frac2L\int_0^Lf(x)\sin\frac{n\pi x}L\dd x,\\
+&\text{like (cosinusrekke):} && a_0=\frac1L\int_0^Lf(x)\dd x,\qquad a_n=\frac2L\int_0^Lf(x)\cos\frac{n\pi x}L\dd x.
+\end{align*}
+Dette brukes direkte når initialbetingelser i PDE-er skal utvikles (F9 og F10).
+\end{defn}
+\begin{teorem}[Parsevals identitet]
+For $f\in L^2(-L,L)$:
+\[
+\frac1{2L}\int_{-L}^{L}\abs{f(x)}^2\dd x=\sum_{k=-\infty}^{\infty}\abs{c_k}^2=a_0^2+\frac12\sum_{n=1}^{\infty}\bigl(a_n^2+b_n^2\bigr).
+\]
+\textbf{Rekkesummer:} sett inn kjente koeffisienter. For $f(x)=x$ på $[-\pi,\pi)$ gir Parseval $\frac{\pi^2}3=\frac12\sum\frac{4}{n^2}$, altså $\sum\frac1{n^2}=\frac{\pi^2}6$. Punktvis konvergens for Heaviside i $x=\frac\pi2$ gir $1-\frac13+\frac15-\dots=\frac\pi4$.
+\end{teorem}
+
+\subsection{Spekter og regneregler}
+\begin{defn}[spekter, amplitude og fase]
+For en $2L$-periodisk $f$ er spekteret paret $\bigl(\hat f(k),\frac k{2L}\bigr)_{k\in\Z}$. Skriv $c_k=\abs{c_k}\ee^{\ii\theta_k}$: $\abs{c_k}$ er amplituden, $\theta_k$ fasen og $\frac k{2L}$ frekvensen.
+\end{defn}
+\begin{teorem}[regneregler ($2\pi$-periodisk)]
+\begin{itemize}
+  \item \textbf{Reell $f$:} $c_{-k}(f)=\overline{c_k(f)}$.
+  \item \textbf{Linearitet:} $c_k(\alpha f+\beta g)=\alpha c_k(f)+\beta c_k(g)$, og tilsvarende for $a_n$ og $b_n$.
+  \item \textbf{Forskyvning:} $h(x)=f(x-x_0)$ gir $c_k(h)=\ee^{-\ii kx_0}c_k(f)$. Lysarket har feil fortegn (se rettelsene i avsnitt~\ref{sec:rettelser}).
+  \item \textbf{Modulasjon:} $h(x)=\ee^{-\ii k_0x}f(x)$ gir $c_k(h)=c_{k+k_0}(f)$.
+  \item \textbf{Derivasjon:} $c_k(f')=\ii k\,c_k(f)$. Reelt er $a_0(f')=0$, $a_n(f')=n\,b_n(f)$ og $b_n(f')=-n\,a_n(f)$, forutsatt at $f$ er periodisk og kontinuerlig. Har den periodiske utvidelsen et hopp, gjelder ikke formelen.
+\end{itemize}
+\end{teorem}
+
+\input{kapitler/oppgaver/fourierrekker}

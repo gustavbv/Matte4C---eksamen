@@ -1,0 +1,94 @@
+\section{Oversikt: øvinger, prøveeksamen og sjekkliste}
+
+\subsection{Øvingene}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}l l X l@{}}
+\toprule
+Øving & Tema & Oppgaver (ekstraoppgaver i \emph{kursiv}) & Forelesning\\
+\midrule
+1 & SVD & SVD av $2\times2$ og $3\times2$, pseudoinvers med rangfeil, lineær regresjon & F1, F12\\
+2 & Tensorer & Moore--Penrose (overbestemt), Kronecker/Khatri--Rao/Hadamard, ALS i Python & F1, F2\\
+3 & Kurver og flater & ellipse, skisser, sykloide, partiellderiverte, kule, ellipsoide, graf & F3\\
+4 & Jacobi og Newton & linearisering, singulær Jacobimatrise, Lotka--Volterra, stav og fjær & F4\\
+5 & Optimering & kjerneregel, gradienter og Hessematriser, Tikhonov, gradient descent, Lagrange & F5\\
+6 & Fourierrekker & periode $2L$, reell og kompleks form, stykkevise funksjoner, \emph{$\cos^2$, $\abs{\sin}$, egenskaper} & F6\\
+7 & Fourierrekker II & halvperiodeutvidelse, konvolusjon, $c_k(f')$, \emph{komplekse rekker, $\ee^{-x^2}*\ee^{-2x^2}$, $f*f$} & F6, F8\\
+8 & Fouriertransform & FT av $x^2\chi$, $f*f=g$, DFT i Python og filtrering, \emph{sinc$*$sinc, gaussintegral, DFT-bevis} & F7, F8\\
+9 & PDE & klassifisering, superposisjon, streng med trapesprofil, \emph{4.\ orden, bølge på $\R$, demping} & F9\\
+10 & PDE II & d'Alembert, differanseskjema for bølgen, varmelikning (Dirichlet og Neumann), \emph{d'Alembert, stiv stav} & F10\\
+11 & PDE III & bølge og varme på $\R$ med FT, Robin og Neumann numerisk, \emph{1.\ orden, telegraflikningen} & F10\\
+12 & Splines & hatter og B-splines, kubisk splinerom, sammensatt Bézier og B-spline-system & F11\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Prøveeksamenen (10 oppgaver, 100 poeng)}
+\begin{center}
+\small
+\begin{tabular}{@{}rlll@{}}
+\toprule
+Nr. & Tema & Poeng & Forelesning\\
+\midrule
+1 & Moore--Penrose: SVD, $A^\dagger$, minste feil, $(A^\T)^\dagger$ & 10 & F1\\
+2 & Tucker vs.\ CP vs.\ SVD (forståelse) & 8 & F2\\
+3 & Tangentplan til en flate gitt implisitt & 8 & F3, F5\\
+4 & Ett Newton-steg for et $2\times2$-system & 7 & F4\\
+5 & Gradient descent, steglengde og startpunkt, Newton & 10 & F5\\
+6 & Fourierkoeffisienter ved avlesning og konvolusjon & 12 & F6\\
+7 & DFT: båndbegrensning og rekonstruksjon & 10 & F7\\
+8 & Bølgelikning på $[-1,1]$ med separasjon & 14 & F9\\
+9 & 5- og 7-punktsformelen for Laplace & 10 & F10\\
+10 & Hvilke funksjoner ligger i $\mathcal S_{3,\Delta}$? Dimensjon, naturlig & 11 & F11\\
+\bottomrule
+\end{tabular}
+\end{center}
+Poengene summerer til 100.
+
+\subsection{Sjekkliste: dette må du kunne uten formelarket}
+\begin{multicols}{2}
+\small
+\begin{itemize}
+  \item Regne ut SVD for hånd, $\vb u_k=A\vb v_k/\sigma_k$
+  \item $A^\dagger=\sum\sigma_k^{-1}\vb v_k\vb u_k^\T$, minste kvadrater og minst norm
+  \item Eckart--Young: feilen er $\sigma_{k+1}$ (eller roten av halesummen)
+  \item rang, bilde og kjerne fra SVD
+  \item Kronecker, Khatri--Rao og Hadamard: definisjon og størrelse
+  \item matrisering og $\times_k$, $X_{(1)}=A(C\odot B)^\T$
+  \item ALS og HOSVD i ord, CP som spesialtilfelle av Tucker
+  \item glatthet for kurver og flater, tangentlinje og -plan, normal
+  \item buelengde, fart og akselerasjon
+  \item deriverbarhet og linearisering
+  \item Newton-steg for hånd, når metoden feiler
+  \item kjerneregelen med matrisestørrelser
+  \item $D_{\vb r}f=\ip{\nabla f}{\vb r}$, $\nabla f\perp$ nivåmengder
+  \item gradient descent og Newton med Hessematrisen
+  \item Lagrange: $\nabla f=\lambda\nabla g$, $g=0$
+  \item Fourierrekker med periode $2L$, like og odde utvidelser
+  \item reell $\leftrightarrow$ kompleks: $c_n=\frac{a_n-\ii b_n}2$
+  \item konvergens i hopp (midtpunktet), Gibbs
+  \item Parseval og rekkesummer
+  \item $c_k(f*g)=2\pi c_kc_k$, $c_k(f')=\ii kc_k$, forskyvning $\ee^{-\ii kx_0}$
+  \item Dirichlet-kjernen
+  \item DFT-egenskaper, aliasing, $\FN^{-1}=\frac1N\overline{\FN}$, $\mathcal F_4$
+  \item FFT: idé og $O(N\log N)$
+  \item $\Four(f')=\ii\omega\hat f$, $\Four(f*g)=\sqrt{2\pi}\hat f\hat g$
+  \item klassifisering av PDE-er, superposisjon
+  \item utledning med separasjon av variable (tre tilfeller av $k$)
+  \item løsningen av varmelikningen (sinus og cosinus)
+  \item d'Alemberts formel
+  \item Laplace på et rektangel (sinh)
+  \item varmekjernen på $\R$
+  \item differanseformler med orden
+  \item bølgeskjemaet med første steg, CFL
+  \item eksplisitt Euler, implisitt Euler, Crank--Nicolson, $\alpha\le\frac12$
+  \item spøkelsespunkt for Neumann og Robin
+  \item 5-punktsformelen
+  \item splinedefinisjonen, $\dim=n+k$, randbetingelser
+  \item Cox--de Boor og egenskapene til B-splines
+  \item Bernstein, Bézier og de Casteljau
+  \item $C^1$-skjøting av Bézierkurver
+  \item normallikningene, QR og $A^\dagger$
+  \item Gauss--Newton og Levenberg--Marquardt
+\end{itemize}
+\end{multicols}

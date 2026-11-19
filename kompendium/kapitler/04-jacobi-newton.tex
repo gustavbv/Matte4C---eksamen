@@ -1,0 +1,74 @@
+\section{F4 · Jacobimatrisen og Newtons metode for systemer}
+
+\textbf{Kjernen:} Den deriverte av $\vb F:\R^n\to\R^m$ er en matrise, Jacobimatrisen, og den gir den beste lineære tilnærmingen. For å løse $\vb F(\vb x)=\vb 0$ setter vi lineariseringen lik null og løser et lineært system, og så gjentar vi. Det er Newtons metode.
+
+\subsection{Vektorfunksjoner og Jacobimatrisen}
+\begin{defn}[vektorfunksjon og kontinuitet]
+$\vb F:D\to\R^m$, $D\subseteq\R^n$, med komponenter $F_1,\dots,F_m:D\to\R$. $\vb F$ er kontinuerlig i $\vb y$ hvis $\lim_{\vb x\to\vb y}\vb F(\vb x)=\vb F(\vb y)$ (med $\norm\cdot_2$). Dette er det samme som at hver komponent er kontinuerlig.
+\end{defn}
+
+\begin{formel}[Jacobimatrise og linearisering\fs]
+\[
+\vb F'(\vb a)=\begin{pmatrix}\pd{F_1}{x_1}(\vb a)&\cdots&\pd{F_1}{x_n}(\vb a)\\ \vdots&&\vdots\\ \pd{F_m}{x_1}(\vb a)&\cdots&\pd{F_m}{x_n}(\vb a)\end{pmatrix}\in\R^{m\times n},\qquad
+\vb L(\vb x)=\vb F(\vb a)+\vb F'(\vb a)(\vb x-\vb a).
+\]
+Rad $i$ er $\nabla F_i(\vb a)^\T$ (gradienten til komponent $i$), og kolonne $j$ er $\pd{\vb F}{x_j}$. Størrelsen er alltid (antall komponenter) $\times$ (antall variable).
+\end{formel}
+
+\begin{defn}[deriverbarhet]
+$\vb F$ er deriverbar i $\vb a$ hvis $\vb F(\vb x)=\vb F(\vb a)+\vb F'(\vb a)(\vb x-\vb a)+\vb E(\vb x)$ med $\displaystyle\lim_{\vb x\to\vb a}\frac{\vb E(\vb x)}{\norm{\vb x-\vb a}}=\vb 0$. Lineariseringsfeilen går altså fortere mot null enn $\norm{\vb x-\vb a}$.
+\end{defn}
+\begin{teorem}
+(1) Er $\vb F$ deriverbar i $\vb a$, så er den kontinuerlig i $\vb a$. (2) Finnes alle $\pd{F_i}{x_j}$ i en omegn av $\vb a$, og er de kontinuerlige i $\vb a$, så er $\vb F$ deriverbar i $\vb a$. At de partiellderiverte bare finnes, er ikke nok.
+\end{teorem}
+Lineariseringen generaliserer $f(a)+f'(a)(x-a)$ ($m=n=1$), tangentlinjen ($n=1$) og tangentplanet ($n=2$).
+
+\subsection{Newtons metode}
+\textbf{I én variabel (repetisjon):} $x^{(k+1)}=x^{(k)}-\dfrac{f(x^{(k)})}{f'(x^{(k)})}$. Hvis $f\in C^2$, $f'(x^*)\neq0$ og startpunktet er nær nok, er konvergensen kvadratisk: $\abs{e^{(k+1)}}\le M\abs{e^{(k)}}^2$.
+
+\begin{formel}[Newtons metode for systemer\fs]
+For $\vb F:\R^n\to\R^n$ og startpunkt $\vb x^{(0)}$, gjenta for $k=0,1,2,\dots$:
+\[
+\vb F'(\vb x^{(k)})\,\Delta^{(k)}=-\vb F(\vb x^{(k)}),\qquad \vb x^{(k+1)}=\vb x^{(k)}+\Delta^{(k)}.
+\]
+\textbf{Utledning:} sett lineariseringen rundt $\hat{\vb x}$ lik null, $\vb F(\hat{\vb x})+\vb F'(\hat{\vb x})(\vb x-\hat{\vb x})=\vb 0$, og løs for oppdateringen $\Delta=\vb x-\hat{\vb x}$.
+\end{formel}
+
+\begin{oppskrift}[ett Newton-steg for hånd]
+\begin{enumerate}
+  \item Skriv systemet på formen $\vb F(\vb x)=\vb 0$ ved å flytte alt over på én side. For eksempel blir $\begin{psmallmatrix}x^2+\cos y\\ \sin x+y^3\end{psmallmatrix}=\begin{psmallmatrix}x\\y\end{psmallmatrix}$ til $\vb F=\begin{psmallmatrix}x^2-x+\cos y\\ \sin x+y^3-y\end{psmallmatrix}$.
+  \item Regn ut Jacobimatrisen $\vb F'(\vb x)$ generelt, og sett inn $\vb x^{(k)}$.
+  \item Løs $\vb F'\Delta=-\vb F$ med Gauss-eliminasjon. For $2\times2$ kan du bruke $\begin{psmallmatrix}a&b\\c&d\end{psmallmatrix}^{-1}=\frac{1}{ad-bc}\begin{psmallmatrix}d&-b\\-c&a\end{psmallmatrix}$.
+  \item $\vb x^{(k+1)}=\vb x^{(k)}+\Delta^{(k)}$. Sett gjerne inn i $\vb F$ for å se at verdien har blitt mindre.
+\end{enumerate}
+\end{oppskrift}
+
+\begin{eksempel}[forelesningen: $x^3-y+\tfrac14=0$, $x^2+y^2-1=0$, start i $(1,1)$]
+$\vb F(1,1)=(\tfrac14,\,1)^\T$ og $\vb F'(x,y)=\begin{psmallmatrix}3x^2&-1\\2x&2y\end{psmallmatrix}$, så $\vb F'(1,1)=\begin{psmallmatrix}3&-1\\2&2\end{psmallmatrix}$ med determinant $8$. Da er
+\[
+\Delta^{(0)}=\tfrac18\begin{pmatrix}2&1\\-2&3\end{pmatrix}\begin{pmatrix}-\tfrac14\\-1\end{pmatrix}=\begin{pmatrix}-0{,}1875\\-0{,}3125\end{pmatrix},\qquad \vb x^{(1)}=(0{,}8125,\ 0{,}6875)^\T.
+\]
+Iterasjonene konvergerer mot $(0{,}7463,\ 0{,}6656)$ (kontrollregnet).
+\end{eksempel}
+
+\begin{teorem}[konvergens (QSS teorem 7.1)]
+La $\vb F\in C^1$ ha et nullpunkt $\vb x^*$, og anta at det finnes $C,R,L>0$ slik at
+(1) $\vb F'(\vb x^*)^{-1}$ finnes og $\norm{\vb F'(\vb x^*)^{-1}}_2\le C$, og
+(2) $\norm{\vb F'(\vb x)-\vb F'(\vb y)}_2\le L\norm{\vb x-\vb y}_2$ for alle $\vb x,\vb y$ i kulen med radius $R$ om $\vb x^*$ (Lipschitz).
+Da er Newton entydig definert for startpunkter i kulen og konvergerer med
+\[
+\norm{\vb x^{(k+1)}-\vb x^*}_2\le CL\,\norm{\vb x^{(k)}-\vb x^*}_2^2\qquad\text{(kvadratisk konvergens).}
+\]
+Kort sagt: er $\vb F$ glatt nok og $\vb F'(\vb x^*)$ ikke-singulær, konvergerer metoden kvadratisk for startpunkter nær nok. Konvergensen er bare lokal.
+\end{teorem}
+
+\begin{fallgruve}
+\begin{itemize}
+  \item Newton krever at $\vb F'(\vb x^{(k)})$ er inverterbar (full rang). Kan du starte i et punkt, sjekker du med $\det\vb F'(\vb x^{(0)})\neq0$. I øving 4 er $\vb F=(x_1^2+x_2,\ x_1+x_2^2)$ med $\det\vb F'=4x_1x_2-1$, som er null i $(\tfrac12,\tfrac12)$.
+  \item Ikke inverter Jacobimatrisen numerisk. Løs det lineære systemet.
+  \item Stoppkriterier: $\norm{\Delta^{(k)}}$ liten, $\norm{\vb F(\vb x^{(k)})}$ liten eller et maksimalt antall iterasjoner.
+  \item Hvilket nullpunkt metoden finner, avhenger av startpunktet.
+\end{itemize}
+\end{fallgruve}
+
+\input{kapitler/oppgaver/newton}

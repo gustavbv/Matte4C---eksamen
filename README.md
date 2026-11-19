@@ -4,6 +4,8 @@ Oppgaver fra gamle eksamener på wiki.math.ntnu.no, sortert etter forelesningene
 
 Totalt 938 oppgaver: 672 **Ja** (hele oppgaven er pensum), 155 **Delvis** (bare noen deloppgaver) og 111 **Grense** (bare repetert eller like utenfor).
 
+**Kompendium:** [kompendium/kompendium-tma4432.pdf](kompendium/kompendium-tma4432.pdf) (44 sider) dekker alle temaer, begreper og formler fra forelesningene og øvingene, med oppskrifter, kontrollregnede eksempler, rettelser til lysarkene og lenker til oppgaver i banken sortert etter vanskelighetsgrad.
+
 Hele prøveeksamener med løsningsforslag ligger i [proveeksamener/](proveeksamener/), og seks sett satt sammen av gamle eksamensoppgaver ligger i [proveeksamener/fra-gamle-eksamener/](proveeksamener/fra-gamle-eksamener/).
 
 ## Slik er det organisert

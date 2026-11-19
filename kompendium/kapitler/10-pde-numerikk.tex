@@ -1,0 +1,204 @@
+\section{F10 · d'Alembert, varmelikningen og differansemetoder}
+
+\textbf{Kjernen:} To analytiske metoder til (d'Alembert og Fouriertransform på hele $\R$), varmelikningen løst med separasjon, og numerikk. Vi bytter deriverte med differanser på et gitter og får et skjema som går fremover i tid. Stabilitet krever små nok tidssteg (CFL, $\alpha\le\frac12$), med mindre skjemaet er implisitt.
+
+\subsection{d'Alemberts løsning av bølgelikningen}
+\begin{teorem}[d'Alembert]
+Alle $u(x,t)=\varphi(x+ct)+\psi(x-ct)$ med $\varphi,\psi\in C^2$ løser $u_{tt}=c^2u_{xx}$: to bølger som går mot venstre og mot høyre med fart $c$. Initialbetingelsene $u(x,0)=f$ og $u_t(x,0)=g$ gir $\varphi(x)=\frac12\bigl(f(x)+\frac1c\int_{x_0}^xg\bigr)$ og $\psi(x)=\frac12\bigl(f(x)-\frac1c\int_{x_0}^xg\bigr)$, og dermed
+\[
+u(x,t)=\frac12\bigl(f(x+ct)+f(x-ct)\bigr)+\frac1{2c}\int_{x-ct}^{x+ct}g(s)\dd s .
+\]
+Integralleddet forsvinner hvis $g=0$. På $[0,L]$ med faste ender bruker du den odde $2L$-periodiske utvidelsen av $f$ og $g$. Da stemmer svaret med sinusrekkeløsningen.
+\end{teorem}
+\begin{eksempel}[øving 10, oppg.~1: $c=2$, $f=\sin x$, $g=\ee^{-x/4}$ (kontrollregnet)]
+$u=\frac12\bigl(\sin(x+2t)+\sin(x-2t)\bigr)+\frac14\int_{x-2t}^{x+2t}\ee^{-s/4}\dd s=\sin x\cos2t+\ee^{-(x-2t)/4}-\ee^{-(x+2t)/4}$.
+\end{eksempel}
+
+\input{kapitler/oppgaver/dalembert}
+
+\subsection{Varmelikningen}
+\textbf{Utledning (i korte trekk):} energibevaring for et område $\Omega$ pluss divergensteoremet gir $\partial_te+\nabla\cdot\vb F=p$. Bruk to konstitutive lover: $e=e_0+\sigma u$ (varmekapasitet $\sigma$, relativ temperatur $u$) og Fouriers lov $\vb F=-\lambda\nabla u$ (varmeledningsevne $\lambda$). Da blir $\sigma u_t-\nabla\cdot(\lambda\nabla u)=p$. Med konstant $\lambda$ og $c^2=\lambda/\sigma$ får vi $u_t=c^2\Delta u+p$, som regel med $p=0$.
+
+\begin{defn}[randbetingelser]
+\begin{tabular}{@{}lll@{}}
+Robin & $\lambda\partial_nu+\kappa(u-u_a)=0$ & varmeovergang til omgivelsestemperatur $u_a$\\
+Neumann & $\partial_nu=0$ (homogen) eller $u_x=g$ & $\kappa=0$: perfekt isolert\\
+Dirichlet & $u=u_a$ (eller $u=g(t)$) & $\kappa\to\infty$: temperaturen er gitt
+\end{tabular}
+\end{defn}
+
+\begin{formel}[{Varmelikningen på $[0,L]$ (ikke på formelarket)}]
+\textbf{Dirichlet} $u(0,t)=u(L,t)=0$ og $u(x,0)=f(x)$:
+\[
+u(x,t)=\sum_{n=1}^\infty B_n\,\ee^{-(cn\pi/L)^2t}\sin\frac{n\pi x}L,\qquad B_n=\frac2L\int_0^Lf(x)\sin\frac{n\pi x}L\dd x .
+\]
+\textbf{Neumann} $u_x(0,t)=u_x(L,t)=0$:
+\begin{gather*}
+u(x,t)=A_0+\sum_{n=1}^\infty A_n\,\ee^{-(cn\pi/L)^2t}\cos\frac{n\pi x}L,\\
+A_0=\frac1L\int_0^Lf(x)\dd x,\qquad A_n=\frac2L\int_0^Lf(x)\cos\frac{n\pi x}L\dd x .
+\end{gather*}
+Utledningen er som for bølgelikningen, men med $G'=-c^2p^2G$, som gir $G=\ee^{-c^2p^2t}$. Når $t\to\infty$, går Dirichlet-løsningen mot $0$ og Neumann-løsningen mot middelverdien $A_0$. Høye frekvenser dempes raskest.
+\end{formel}
+\begin{oppskrift}[konstante temperaturer $u(0,t)=T_1$, $u(L,t)=T_2$ (Kreyszig, ekstra)]
+Skriv $u=u_s+w$ med den stasjonære løsningen $u_s(x)=T_1+(T_2-T_1)\frac xL$. Da løser $w$ varmelikningen med null-RB og startverdi $f-u_s$. Tilsvarende kan du løse inhomogene likninger ved å finne en partikulær løsning og legge til en homogen.
+\end{oppskrift}
+
+\begin{formel}[Stasjonær varme: Laplace-likningen på et rektangel (Kreyszig 12.6)]
+$u_{xx}+u_{yy}=0$ på $0<x<a$, $0<y<b$, med $u=0$ på tre sider og $u(x,b)=f(x)$:
+\[
+u(x,y)=\sum_{n=1}^\infty A_n\sin\frac{n\pi x}a\,\sinh\frac{n\pi y}a,\qquad A_n=\frac{2}{a\sinh(n\pi b/a)}\int_0^af(x)\sin\frac{n\pi x}a\dd x .
+\]
+Separasjonen $u=F(x)G(y)$ gir $F''=-p^2F$ (sinus) og $G''=p^2G$ (sinh, fordi $G(0)=0$). Er flere sider ulik null, løs ett problem per side og legg sammen (superposisjon). Kontrollregnet.
+\end{formel}
+
+\input{kapitler/oppgaver/varme}
+
+\subsection{Differanser}
+\begin{formel}[Differanseformler (fra Taylorrekker)]
+\begin{align*}
+f'(x)&=\frac{f(x+h)-f(x)}h+O(h) && \text{(forover)},\\
+f'(x)&=\frac{f(x)-f(x-h)}h+O(h) && \text{(bakover)},\\
+f'(x)&=\frac{f(x+h)-f(x-h)}{2h}+O(h^2) && \text{(sentral)},\\
+f''(x)&=\frac{f(x-h)-2f(x)+f(x+h)}{h^2}+O(h^2) && \text{(andre ordens sentral)}.
+\end{align*}
+\textbf{Feilorden} betyr hvor fort feilen går mot null: med $O(h^2)$ gir halv $h$ en fjerdedel av feilen. Begrunnelse: Taylor gir $f(x\pm h)=f\pm hf'+\frac{h^2}2f''\pm\frac{h^3}6f'''+\dots$, og leddene med odde potens kansellerer i de sentrale formlene.
+\end{formel}
+
+\begin{oppskrift}[differansemetoden generelt]
+\begin{enumerate}
+  \item \textbf{Gitter:} $x_i=x_0+ih$ ($i=0,\dots,M$, $h=L/M$) og $t_n=nk$. $U_i^n\approx u(x_i,t_n)$.
+  \item Bytt hver deriverte med en differanse i de \emph{indre} punktene.
+  \item Bruk \textbf{randbetingelsene} for $i=0$ og $i=M$. Dirichlet gir verdien direkte. Neumann og Robin: innfør et spøkelsespunkt $U_{-1}$ (eller $U_{M+1}$), uttrykk det med en sentral differanse for $u_x$, og sett inn.
+  \item Bruk \textbf{initialbetingelsene}: $U_i^0=f(x_i)$, og eventuelt en ekstra betingelse for første tidssteg.
+  \item Skriv skjemaet på formen $U_i^{n+1}=\dots$ (eksplisitt) eller $C\,\vb U^{n+1}=D\,\vb U^n+\dots$ (implisitt).
+\end{enumerate}
+\end{oppskrift}
+
+\begin{formel}[Randverdiproblem i to punkter (fra oppsummeringen, F10a)]
+Generelt: $u''+p(x)u'+q(x)u=r(x)$ på $[a,b]$. Innsatt i indre punkter:
+\[
+\frac{U_{i-1}-2U_i+U_{i+1}}{h^2}+p_i\frac{U_{i+1}-U_{i-1}}{2h}+q_iU_i=r_i,\qquad i=1,\dots,M-1,
+\]
+som gir et tridiagonalt lineært system. Dirichlet $u(a)=\alpha$: sett $U_0=\alpha$ og flytt det over til høyre side. Neumann $u'(a)=\sigma$: $\frac{U_1-U_{-1}}{2h}=\sigma$ gir $U_{-1}=U_1-2h\sigma$, og likningen i $i=0$ tas med. Robin $u'(a)+\beta u(a)=\gamma$ gir $U_{-1}=U_1-2h(\gamma-\beta U_0)$. Feilen er $O(h^2)$. Se Matte 4N vår 2024, oppg.~7, i oppgaveboksen under.
+\end{formel}
+
+\begin{formel}[5-punktsformelen for Laplace (prøveeksamen, oppg.~9)]
+På et kvadratisk gitter med steglengde $h$:
+\[
+\Delta u(x_i,y_j)\approx\frac{U_{i-1,j}+U_{i+1,j}+U_{i,j-1}+U_{i,j+1}-4U_{i,j}}{h^2},\qquad i,j=1,\dots,N-1,
+\]
+med feil $O(h^2)$. I 3D får du 7-punktsformelen med $-6U_{i,j,k}$ og de seks naboene. Med Dirichlet-randverdier gir $\Delta u=f$ ett lineært system for de indre ukjente.
+\end{formel}
+
+\subsection{Numerikk for bølgelikningen}
+\begin{formel}[Eksplisitt skjema for $u_{tt}=c^2u_{xx}$ med $u=0$ i endene]
+Med $r=\frac{ck}h$ (Courant-tallet):
+\begin{align*}
+U_i^0&=f(x_i),\\
+U_i^1&=U_i^0+k\,g(x_i)+\frac{r^2}2\bigl(U_{i+1}^0-2U_i^0+U_{i-1}^0\bigr),\\
+U_i^{n+1}&=2U_i^n-U_i^{n-1}+r^2\bigl(U_{i+1}^n-2U_i^n+U_{i-1}^n\bigr),\qquad n\ge1,
+\end{align*}
+for $i=1,\dots,M-1$, og $U_0^n=U_M^n=0$. Feilen er $O(h^2+k^2)$.\\
+\textbf{Første steg:} den sentrale differansen $\frac{U_i^1-U_i^{-1}}{2k}=g(x_i)$ gir $U_i^{-1}=U_i^1-2kg(x_i)$. Sett inn i det vanlige skjemaet med $n=0$ og løs for $U_i^1$.
+\end{formel}
+\begin{teorem}[CFL-betingelsen]
+Det eksplisitte skjemaet er stabilt hvis og bare hvis $c\,\frac kh\le1$. En bølge får ikke bevege seg mer enn én gitteravstand $h$ per tidssteg $k$. Fast $h$ gir et største tillatte $k$, og omvendt.
+\end{teorem}
+\begin{eksempel}[$r=1$]
+Med $c=2$, $h=1$ og $k=0{,}5$ er $r=1$. Er $g=0$, blir første steg $U_i^1=\frac12\bigl(U_{i-1}^0+U_{i+1}^0\bigr)$, en ren middelverdi av naboene. Det passer med øving 10, oppg.~2b.
+\end{eksempel}
+
+\subsection{Numerikk for varmelikningen}
+La $\alpha=\dfrac{c^2k}{h^2}$ og $u_t=c^2u_{xx}$.
+\begin{formel}[Eksplisitt Euler (forover Euler)]
+\[
+U_i^{n+1}=U_i^n+\alpha\bigl(U_{i-1}^n-2U_i^n+U_{i+1}^n\bigr),\qquad i=1,\dots,M-1,
+\]
+med $U_i^0=f(x_i)$. Feilen er $O(k+h^2)$.
+\begin{itemize}
+  \item \textbf{Dirichlet} $u(0,t)=g_0(t)$, $u(L,t)=g_L(t)$: $U_0^{n+1}=g_0(t_{n+1})$ og $U_M^{n+1}=g_L(t_{n+1})$.
+  \item \textbf{Neumann} $u_x(0,t)=g_0$, $u_x(L,t)=g_L$, via spøkelsespunkt:
+  \begin{gather*}
+  U_0^{n+1}=U_0^n+2\alpha\bigl(U_1^n-U_0^n-hg_0(t_n)\bigr),\\ U_M^{n+1}=U_M^n+2\alpha\bigl(U_{M-1}^n-U_M^n+hg_L(t_n)\bigr).
+  \end{gather*}
+  \item \textbf{Robin} $a_0u_x(0,t)+b_0u(0,t)=g_0$ og $a_Lu_x(L,t)+b_Lu(L,t)=g_L$:
+  \begin{gather*}
+  U_0^{n+1}=U_0^n+2\alpha\Bigl(U_1^n-U_0^n+\tfrac{hb_0}{a_0}U_0^n-\tfrac h{a_0}g_0(t_n)\Bigr),\\
+  U_M^{n+1}=U_M^n+2\alpha\Bigl(U_{M-1}^n-U_M^n-\tfrac{hb_L}{a_L}U_M^n+\tfrac h{a_L}g_L(t_n)\Bigr).
+  \end{gather*}
+  Fortegnet foran $\frac{hb_0}{a_0}$ er rettet fra lysarket og kontrollert mot øving 11 og numerisk.
+  \item \textbf{Matriseform} (Neumann): $\vb U^{n+1}=(I+\alpha A)\vb U^n+2\alpha h\,\vb a^n$ med $\vb a^n=(-g_0(t_n),0,\dots,0,g_L(t_n))^\T$ og
+  \[
+  A=\begin{psmallmatrix}-2&2&&&\\1&-2&1&&\\&\ddots&\ddots&\ddots&\\&&1&-2&1\\&&&2&-2\end{psmallmatrix}\in\R^{(M+1)\times(M+1)}.
+  \]
+  For Dirichlet bruker du $B=\mathrm{tridiag}(1,-2,1)\in\R^{(M-1)\times(M-1)}$ for de indre punktene.
+\end{itemize}
+\end{formel}
+\begin{teorem}[stabilitet for eksplisitt Euler]
+Skjemaet er stabilt hvis og bare hvis $\alpha=\dfrac{c^2k}{h^2}\le\dfrac12$. (Iterasjonsmatrisen $Q=I+\alpha A$ må ikke forsterke noen egenvektor.) Halveres $h$, må $k$ deles på 4. Tidobbel romlig oppløsning krever et hundre ganger kortere tidssteg.
+\end{teorem}
+
+\begin{formel}[Implisitt Euler (bakover Euler)]
+Bakoverdifferanse i tid:
+\[
+U_i^{n+1}-\alpha\bigl(U_{i-1}^{n+1}-2U_i^{n+1}+U_{i+1}^{n+1}\bigr)=U_i^n .
+\]
+\textbf{Dirichlet} (ukjente $U_1,\dots,U_{M-1}$):
+\[
+(I-\alpha B)\vb U^{n+1}=\vb U^n+\alpha\vb b^{n+1},\qquad \vb b^{n+1}=\bigl(g_0(t_{n+1}),0,\dots,0,g_L(t_{n+1})\bigr)^\T.
+\]
+\textbf{Neumann} (ukjente $U_0,\dots,U_M$):
+\[
+(I-\alpha A)\vb U^{n+1}=\vb U^n+2\alpha h\,\vb a^{n+1},\qquad \vb a^{n+1}=\bigl(-g_0(t_{n+1}),0,\dots,0,g_L(t_{n+1})\bigr)^\T.
+\]
+Fortegnene i $\vb a$ er rettet fra lysarket og testet numerisk.\\
+Hvert tidssteg krever løsning av et tridiagonalt system, som koster $O(M)$. Skjemaet er \textbf{ubetinget stabilt}. Feilen er $O(k+h^2)$, så for nøyaktighet bør $k\sim h^2$.
+\end{formel}
+
+\begin{formel}[Crank--Nicolson]
+Gjennomsnittet av eksplisitt og implisitt Euler:
+\[
+\Bigl(I-\tfrac\alpha2B\Bigr)\vb U^{n+1}=\Bigl(I+\tfrac\alpha2B\Bigr)\vb U^n+\tfrac\alpha2\bigl(\vb b^n+\vb b^{n+1}\bigr)\quad\text{(Dirichlet)},
+\]
+\[
+\Bigl(I-\tfrac\alpha2A\Bigr)\vb U^{n+1}=\Bigl(I+\tfrac\alpha2A\Bigr)\vb U^n+\alpha h\bigl(\vb a^n+\vb a^{n+1}\bigr)\quad\text{(Neumann)}.
+\]
+Feilen er $O(h^2+k^2)$ og prisen omtrent som for implisitt Euler. Skjemaet er også ubetinget stabilt (standardresultat).
+\end{formel}
+\begin{center}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Skjema & Feil & Stabilitet & Pris per tidssteg\\
+\midrule
+Eksplisitt Euler & $O(k+h^2)$ & $\alpha\le\frac12$ & billig (bare oppdatering)\\
+Implisitt Euler & $O(k+h^2)$ & alltid & tridiagonalt system\\
+Crank--Nicolson & $O(k^2+h^2)$ & alltid & tridiagonalt system\\
+Bølge, eksplisitt & $O(k^2+h^2)$ & $ck/h\le1$ (CFL) & billig\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\input{kapitler/oppgaver/differanser}
+
+\subsection{PDE-er på hele \texorpdfstring{$\R$}{R} med Fouriertransform}
+\begin{oppskrift}[varmelikningen på $\R$: $u_t=c^2u_{xx}$, $u(x,0)=f(x)$, $u\to0$ når $\abs x\to\infty$]
+\begin{enumerate}
+  \item Transformer i $x$: $\hat u_t(\omega,t)=-c^2\omega^2\hat u(\omega,t)$, en ODE i $t$ for hver $\omega$.
+  \item Løs og bruk initialbetingelsen: $\hat u(\omega,t)=\hat f(\omega)\,\ee^{-c^2\omega^2t}$.
+  \item Et produkt i frekvens er en konvolusjon i rom. Med $\ee^{-c^2\omega^2t}=\sqrt{2\pi}\,\hat g$ og tabellen for gaussfunksjoner får vi
+  \[
+  u(x,t)=\frac1{2c\sqrt{\pi t}}\int_{-\infty}^{\infty}f(y)\,\ee^{-\frac{(x-y)^2}{4c^2t}}\dd y\qquad\text{(varmekjernen, kontrollregnet)}.
+  \]
+\end{enumerate}
+Er $f$ gaussisk (øving 11, oppg.~2), kan du regne $\Four^{-1}(\hat f\ee^{-c^2\omega^2t})$ direkte med tabellen.
+\end{oppskrift}
+\begin{oppskrift}[andre PDE-er på $\R$ (øving 11)]
+\begin{itemize}
+  \item \textbf{Bølgelikningen:} $\hat u_{tt}=-c^2\omega^2\hat u$ gir $\hat u=\hat f\cos(c\omega t)+\hat g\frac{\sin(c\omega t)}{c\omega}$. Transformert tilbake gir det d'Alemberts formel.
+  \item \textbf{Første orden} $u_t=cu_x$: $\hat u_t=\ii c\omega\hat u$ gir $\hat u=\hat f\ee^{\ii c\omega t}$, og forskyvningsregelen gir $u(x,t)=f(x+ct)$.
+  \item Generelt: transformer i $x$, løs ODE-en i $t$, og transformer tilbake med tabell, regneregler og konvolusjon.
+\end{itemize}
+\end{oppskrift}
+
+\input{kapitler/oppgaver/fourierpde}

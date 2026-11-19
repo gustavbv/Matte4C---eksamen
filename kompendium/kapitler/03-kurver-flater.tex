@@ -1,0 +1,96 @@
+\section{F3 · Parametriserte kurver og flater}
+
+\textbf{Kjernen:} En kurve er bildet av en funksjon $\vb c:I\to\R^n$ av én variabel, og en flate bildet av $\vb s:D\to\R^n$ av to variable. Derivasjon gir hastighet, tangentlinje og tangentplan. Glatthet betyr at det ikke finnes noe sted der vi «står stille».
+
+\subsection{Kurver}
+\begin{defn}[kurve og parametrisering]
+En \emph{parametrisering} er en kontinuerlig $\vb c:I\to\R^n$, $I\subseteq\R$ et intervall, med koordinatfunksjoner $c_1(t),\dots,c_n(t)$. \emph{Kurven} er bildemengden (verdimengden) $C=\{\vb c(t):t\in I\}$. En kurve har mange parametriseringer, og et punkt kan besøkes flere ganger. Kontinuitet kan sjekkes komponentvis.
+\end{defn}
+\begin{itemize}
+  \item \textbf{Rett linje:} $\vb c(t)=\vb p_0+t\vb v$ med $\vb v\neq\vb 0$, eller gjennom $\vb a$ og $\vb b$: $\vb p_0=\vb a$ og $\vb v=\vb b-\vb a$.
+  \item \textbf{Standardkurver:} sirkel $(r\cos t,r\sin t)$, ellipse $\tfrac{x^2}{a^2}+\tfrac{y^2}{b^2}=1$ gir $(a\cos t,b\sin t)$, $t\in[0,2\pi]$, og spiral (heliks) $(\cos t,\sin t,t)$.
+  \item \textbf{Skisse:} eliminer $t$. For eksempel gir $(t^2,4t^4)$ at $y=4x^2$ med $x\ge0$.
+\end{itemize}
+
+\begin{defn}[hastighet, fart, akselerasjon og enhetstangent]
+\[
+\vb v(t)=\vb c'(t)=\bigl(c_1'(t),\dots,c_n'(t)\bigr)^\T,\quad v(t)=\norm{\vb c'(t)}_2,\quad \vb a(t)=\vb v'(t)=\vb c''(t),\quad \vb T(t)=\frac{\vb v(t)}{\norm{\vb v(t)}_2}.
+\]
+Hastigheten er en vektor, mens farten er et tall (lengden av hastigheten).
+\end{defn}
+
+\begin{defn}[glatt kurve]
+$\vb c$ er \emph{glatt i $t$} hvis (i) den er $C^1$ nær $t$, (ii) den er injektiv på et intervall rundt $t$ og (iii) $\vb c'(t)\neq\vb 0$.
+Kurven $C$ er glatt i et punkt $\vb p$ hvis det finnes en parametrisering som er glatt i en $t$ med $\vb c(t)=\vb p$. $C$ er glatt hvis den er glatt i alle punkter.\\
+\textbf{Stykkevis glatt:} glatt og injektiv bortsett fra i endelig mange punkter, og alle $c_i'$ er begrenset (ingen poler).
+\end{defn}
+\begin{eksempel}[en spiss (forelesningen)]
+$\vb c(t)=(2t-t^2,\,3t-t^3)$ gir $\vb c'(t)=(2-2t,\,3-3t^2)$ og $\vb c'(1)=\vb 0$. Vi «kjører», stopper og snur, og kurven får et knekkpunkt der. Parametriseringen er ikke glatt i $t=1$. Om \emph{kurven} er glatt der, må avgjøres separat (her er den ikke det).
+\end{eksempel}
+
+\begin{defn}[tangentlinje og buelengde]
+\textbf{Tangentlinjen} i $t_0$ er $\vb L(t)=\vb c(t_0)+\vb c'(t_0)(t-t_0)$. En vektor parallell med $\vb c'(t_0)$ er en tangentvektor, og med lengde 1 er den en enhetstangentvektor.\\
+\textbf{Buelengden} fra $\vb c(t_0)$ til $\vb c(t)$ er $s(t)=\displaystyle\int_{t_0}^{t}\norm{\vb c'(\tau)}_2\dd\tau$.
+En kurve er \emph{parametrisert ved buelengde} hvis $\norm{\vb c'(s)}_2=1$ for alle $s$ (enhetsfart). En glatt kurve kan alltid parametriseres slik.
+\end{defn}
+\begin{fallgruve}[buelengde i praksis]
+Integranden er en kvadratrot. Eksamensoppgaver er nesten alltid laget slik at uttrykket under roten blir et kvadrat, for eksempel $1+4t^2+4t^4=(1+2t^2)^2$. Se etter et slikt kvadrat.
+\end{fallgruve}
+
+\input{kapitler/oppgaver/kurver}
+
+\subsection{Partiellderiverte}
+\begin{defn}
+$\pd F{x_i}(\vb y)=\displaystyle\lim_{h\to0}\frac{F(y_1,\dots,y_i+h,\dots,y_m)-F(\vb y)}{h}$: deriver med hensyn på $x_i$ og hold de andre variablene konstante.
+\end{defn}
+
+\subsection{Flater}
+\begin{defn}[flate og parametrisering]
+En parametrisering er en kontinuerlig $\vb s:D\to\R^n$, $D\subseteq\R^2$, og flaten er $S=\{\vb s(u,v):(u,v)\in D\}$.
+\end{defn}
+\begin{itemize}
+  \item \textbf{Plan:} $\vb r(u,v)=\vb p_0+u\vb a+v\vb b$ med $\vb a,\vb b$ lineært uavhengige. Dette kan skrives om til $Ax_1+Bx_2+Cx_3+D=0$.
+  \item \textbf{Sylinder:} $(\cos u,\sin u,v)$. \textbf{Kule} med radius $r$: $(r\cos u\sin v,\ r\sin u\sin v,\ r\cos v)$, $u\in[0,2\pi]$, $v\in[0,\pi]$. \textbf{Ellipsoide} $\tfrac{x^2}{a^2}+\tfrac{y^2}{b^2}+\tfrac{z^2}{c^2}=1$: $(a\cos u\sin v,\ b\sin u\sin v,\ c\cos v)$.
+  \item \textbf{Graf} av $F:\R^2\to\R$: $\vb h(u,v)=(u,v,F(u,v))$.
+\end{itemize}
+
+\begin{defn}[hastighetsvektorer, totalderivert og glatthet]
+\[
+\pd{\vb s}u=\Bigl(\pd{s_1}u,\dots,\pd{s_n}u\Bigr)^\T,\qquad \pd{\vb s}v=\Bigl(\pd{s_1}v,\dots,\pd{s_n}v\Bigr)^\T,\qquad
+\vb s'(u,v)=\Bigl(\pd{\vb s}u\ \ \pd{\vb s}v\Bigr)\in\R^{n\times2}.
+\]
+$\vb s'$ er \emph{totalderivert} (et spesialtilfelle av Jacobimatrisen i F4). $\vb s$ er \emph{glatt i $(u,v)$} hvis $\pd{\vb s}u$ og $\pd{\vb s}v$ er lineært uavhengige, altså $\rank\vb s'(u,v)=2$. I $\R^3$ er det det samme som at $\pd{\vb s}u\times\pd{\vb s}v\neq\vb 0$.\\
+\textbf{Stykkevis glatt flate:} glatt med begrensede partiellderiverte utenfor endelig mange stykkevis glatte kurver i $D$, og injektiv bortsett fra i endelig mange punkter.
+\end{defn}
+
+\begin{teorem}[tangentplan og normalvektor]
+I et glatt punkt $(u_0,v_0)$:
+\[
+\vb t(u,v)=\vb s(u_0,v_0)+\pd{\vb s}u(u_0,v_0)(u-u_0)+\pd{\vb s}v(u_0,v_0)(v-v_0)=\vb s(u_0,v_0)+\vb s'(u_0,v_0)\begin{pmatrix}u-u_0\\v-v_0\end{pmatrix}.
+\]
+I $\R^3$ står $\vb n=\pd{\vb s}u\times\pd{\vb s}v$ vinkelrett på tangentplanet, og $\vb n/\norm{\vb n}_2$ er enhetsnormalen. Kryssproduktet er
+$\vb a\times\vb b=(a_2b_3-a_3b_2,\ a_3b_1-a_1b_3,\ a_1b_2-a_2b_1)^\T$.
+\end{teorem}
+
+\begin{teorem}[flate gitt ved en likning $g(x,y,z)=c$ (prøveeksamen, oppg.~3)]
+Gradienten $\nabla g(\vb p)$ står vinkelrett på nivåflaten (se F5). Tangentplanet i $\vb p$ er derfor
+\[
+\ip{\nabla g(\vb p)}{\vb x-\vb p}=0.
+\]
+\textbf{Graf} $z=F(x,y)$: $\vb h_u=(1,0,F_u)$, $\vb h_v=(0,1,F_v)$ og $\vb n=(-F_u,-F_v,1)$. Tangentplanet er $z=F(u_0,v_0)+F_u(u_0,v_0)(x-u_0)+F_v(u_0,v_0)(y-v_0)$. En graf av en deriverbar $F$ er alltid glatt.
+\end{teorem}
+
+\begin{fallgruve}[polene på en kule]
+Med kuleparametriseringen er $\pd{\vb s}u=\vb 0$ når $v=0$ eller $v=\pi$, så parametriseringen er ikke glatt der. \emph{Flaten} er likevel glatt: bruk en annen parametrisering eller gradienten til likningen. Skill mellom at parametriseringen ikke er glatt og at flaten ikke er glatt.
+\end{fallgruve}
+
+\begin{oppskrift}[typiske oppgaver]
+\begin{enumerate}
+  \item \emph{Parametriser:} ellipse, kule eller ellipsoide som over. For skjæringskurver, løs den ene likningen for én variabel og sett inn.
+  \item \emph{Hastighet, fart og akselerasjon:} deriver komponentvis.
+  \item \emph{Glatthet:} finn $t$ der $\vb c'(t)=\vb 0$, eller $(u,v)$ der kolonnene i $\vb s'$ er avhengige.
+  \item \emph{Tangentlinje eller -plan:} bruk formlene over. For en flate gitt implisitt, bruk gradienten.
+\end{enumerate}
+\end{oppskrift}
+
+\input{kapitler/oppgaver/flater}

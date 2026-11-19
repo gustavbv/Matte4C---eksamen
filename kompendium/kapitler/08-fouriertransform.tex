@@ -1,0 +1,70 @@
+\section{F8 · Fouriertransformen}
+
+\textbf{Kjernen:} Fourierrekker for funksjoner som ikke er periodiske, ved å la $L\to\infty$. Summen over $k$ blir et integral over frekvensen $\omega$. Derivasjon blir multiplikasjon med $\ii\omega$, og konvolusjon blir produkt. Det gjør PDE-er på hele $\R$ om til ODE-er (F10).
+
+\begin{formel}[Fouriertransform og invers\fs]
+For $f\in L^1(\R)$ (det vil si $\int_{-\infty}^\infty\abs f<\infty$):
+\begin{gather*}
+\hat f(\omega)=\Four(f)(\omega)=\frac1{\sqrt{2\pi}}\int_{-\infty}^{\infty}f(x)\ee^{-\ii\omega x}\dd x,\\
+f(x)=\Four^{-1}(\hat f)(x)=\frac1{\sqrt{2\pi}}\int_{-\infty}^{\infty}\hat f(\omega)\ee^{\ii\omega x}\dd\omega .
+\end{gather*}
+Inversjonen gjelder når både $f$ og $\hat f$ er absolutt integrerbare. $f$ kalles tidsdomenet og $\hat f$ frekvensdomenet.
+\end{formel}
+\begin{fallgruve}[konvensjoner]
+Andre bøker plasserer $2\pi$ annerledes: $\int f\ee^{-\ii\omega x}$ (med $\frac1{2\pi}$ i inversen), $\frac1{2\pi}\int\dots$ eller $\int f\ee^{-2\pi\ii\omega x}$ (frekvens i Hz), og noen har minuset i inversen. Sjekk alltid hvilken definisjon en tabell eller en gammel eksamen bruker. Kurset bruker $\frac1{\sqrt{2\pi}}$ begge veier.
+\end{fallgruve}
+
+\begin{defn}[cosinus- og sinustransform]
+For like $f$: $\hat f_c(\omega)=\sqrt{\frac2\pi}\int_0^\infty f(x)\cos(\omega x)\dd x$, med invers $\check g_c(x)=\sqrt{\frac2\pi}\int_0^\infty g(\omega)\cos(\omega x)\dd\omega$.\\
+For odde $f$: $\hat f_s(\omega)=\sqrt{\frac2\pi}\int_0^\infty f(x)\sin(\omega x)\dd x$, med invers på samme form.\\
+En reell funksjon gir en reell transform. Sammenhengen er $\hat f=\hat f_c$ for like $f$ og $\hat f=-\ii\hat f_s$ for odde $f$.
+\end{defn}
+
+\begin{formel}[Transformtabellen\fs]
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+$f(x)$ & $\hat f(\omega)$\\
+\midrule
+$\ee^{-ax^2}$ \ ($a>0$) & $\dfrac1{\sqrt{2a}}\ee^{-\omega^2/(4a)}$ \quad (gaussisk gir gaussisk)\\[6pt]
+$\ee^{-a\abs x}$ \ ($a>0$) & $\sqrt{\dfrac2\pi}\,\dfrac{a}{\omega^2+a^2}$\\[6pt]
+$1$ for $\abs x<a$, ellers $0$ & $\sqrt{\dfrac2\pi}\,\dfrac{\sin(a\omega)}{\omega}$\\[6pt]
+$\sqrt{\dfrac2\pi}\,\dfrac{\sin(ax)}x$ & $1$ for $\abs\omega<a$, ellers $0$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Ikke på arket, men nyttig: $\chi_{[a,b]}$ (1 på $[a,b]$, ellers 0) har $\hat f(\omega)=\dfrac{\ee^{-\ii\omega a}-\ee^{-\ii\omega b}}{\ii\omega\sqrt{2\pi}}$ for $\omega\neq0$ og $\hat f(0)=\dfrac{b-a}{\sqrt{2\pi}}$.
+\end{formel}
+
+\begin{teorem}[regneregler (de tre første er fra forelesningen)]
+\begin{itemize}
+  \item \textbf{Linearitet:} $\Four(af+bg)=a\Four(f)+b\Four(g)$.
+  \item \textbf{Derivasjon:} hvis $f,f'\in L^1$ og $f\to0$ for $x\to\pm\infty$, er $\Four(f')=\ii\omega\,\Four(f)$, og dermed $\Four(f'')=-\omega^2\Four(f)$.
+  \item \textbf{Konvolusjon:} $(f*g)(x)=\displaystyle\int_{-\infty}^{\infty}f(y)g(x-y)\dd y$, med $f*g=g*f$ og
+  \[
+  \Four(f*g)=\sqrt{2\pi}\;\Four(f)\,\Four(g).
+  \]
+  Konvolusjon i tid blir multiplikasjon i frekvens.
+\end{itemize}
+\textbf{Ekstra (ikke på lysarkene, kontrollregnet):} forskyvning $\Four(f(x-a))=\ee^{-\ii\omega a}\hat f(\omega)$, modulasjon $\Four(\ee^{\ii ax}f)=\hat f(\omega-a)$, skalering $\Four(f(bx))=\frac1{\abs b}\hat f(\omega/b)$ og $\Four(xf(x))=\ii\,\frac{\dd}{\dd\omega}\hat f(\omega)$.
+\end{teorem}
+
+\begin{teorem}[gaussiske integraler (øving 8, oppg.~5)]
+$\displaystyle\int_{-\infty}^\infty\ee^{-x^2}\dd x=\sqrt\pi$ (kvadrer og bytt til polarkoordinater), og
+$\displaystyle\int_{-\infty}^\infty\ee^{-ax^2+bx}\dd x=\sqrt{\frac\pi a}\,\ee^{b^2/(4a)}$ for $a>0$. $\ee^{-x^2/2}$ er sin egen transform.
+\end{teorem}
+
+\begin{oppskrift}[typiske oppgaver]
+\begin{enumerate}
+  \item \textbf{FT fra definisjonen:} for stykkevise funksjoner, integrer over intervallene der $f\neq0$ og bruk delvis integrasjon for $x^n$-ledd. Behandle $\omega=0$ for seg. Sjekk med symmetri: like $f$ gir reell og like $\hat f$, og odde $f$ gir rent imaginær og odde $\hat f$.
+  \item \textbf{Med tabell og regler:} skriv $f$ som en kombinasjon av tabellfunksjoner. For eksempel gir $t^2\ee^{-t^2}$ at du deriverer $\ee^{-t^2}$ to ganger, eller bruker $\Four(x^2f)=-\hat f''$.
+  \item \textbf{Konvolusjon:} $f*g=\Four^{-1}\bigl(\sqrt{2\pi}\hat f\hat g\bigr)$. For eksempel:
+  \begin{itemize}
+    \item $\ee^{-x^2}*\ee^{-2x^2}=\sqrt{\pi/3}\,\ee^{-2x^2/3}$ (øving 7, oppg.~5, kontrollregnet).
+    \item $\operatorname{sinc}*\operatorname{sinc}=\pi\operatorname{sinc}$ med $\operatorname{sinc}x=\frac{\sin x}x$ (øving 8, oppg.~4).
+    \item $\chi_{(0,2)}*\chi_{(0,2)}$ er en trekantfunksjon (øving 8, oppg.~2).
+  \end{itemize}
+\end{enumerate}
+\end{oppskrift}
+
+\input{kapitler/oppgaver/ft}
